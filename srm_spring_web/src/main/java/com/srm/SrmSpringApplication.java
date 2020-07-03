@@ -1,4 +1,4 @@
-package com.srm.srm_spring;
+package com.srm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
