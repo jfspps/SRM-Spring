@@ -1,8 +1,10 @@
 package com.srm.model.academic;
 
+import com.srm.model.BaseEntity;
+
 import java.util.List;
 
-public class ThresholdList {
+public class ThresholdList extends BaseEntity {
 
     private List<Threshold> thresholdList;
 

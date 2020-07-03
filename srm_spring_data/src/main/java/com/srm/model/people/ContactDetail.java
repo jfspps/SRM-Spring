@@ -1,6 +1,8 @@
 package com.srm.model.people;
 
-public class ContactDetail {
+import com.srm.model.BaseEntity;
+
+public class ContactDetail extends BaseEntity {
 
     private String email;
     private String phoneNumber;

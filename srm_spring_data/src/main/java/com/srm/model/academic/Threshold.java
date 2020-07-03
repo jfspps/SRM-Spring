@@ -1,6 +1,8 @@
 package com.srm.model.academic;
 
-public class Threshold {
+import com.srm.model.BaseEntity;
+
+public class Threshold extends BaseEntity {
     //maps a numerical score with a A*/B-/D+/MERIT/DISTINCTION etc...
 
     private int numerical;

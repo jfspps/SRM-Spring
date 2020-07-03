@@ -1,10 +1,10 @@
 package com.srm.model.academic;
 
+import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
 
-public class StudentWork {
+public class StudentWork extends BaseEntity {
 
-    private Long id;
     private String title;
     private Integer maxScore;               //boxed Integer can be null; allows for letter grades or no score at all
     private boolean contributor = true;     //does this contribute to an overall end-of-term/semester/year score?
@@ -12,14 +12,6 @@ public class StudentWork {
     private Teacher uploader;
     private Subject subject;
     private AssignmentType assignmentType;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
