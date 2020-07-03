@@ -1,6 +1,8 @@
 package com.srm.model.academic;
 
-public class AssignmentType {
+import com.srm.model.BaseEntity;
+
+public class AssignmentType extends BaseEntity {
     //this would be uniformly set by the school admin
 
     private String assignmentType;

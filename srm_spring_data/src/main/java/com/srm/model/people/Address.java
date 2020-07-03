@@ -1,6 +1,8 @@
 package com.srm.model.people;
 
-public class Address {
+import com.srm.model.BaseEntity;
+
+public class Address extends BaseEntity {
 
     private String firstLine;
     private String secondLine;

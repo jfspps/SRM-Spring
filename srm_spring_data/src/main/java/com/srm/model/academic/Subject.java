@@ -1,6 +1,8 @@
 package com.srm.model.academic;
 
-public class Subject {
+import com.srm.model.BaseEntity;
+
+public class Subject extends BaseEntity {
 
     private String subjectName;
 

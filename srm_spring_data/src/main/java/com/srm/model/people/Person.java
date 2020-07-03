@@ -1,11 +1,13 @@
 package com.srm.model.people;
 
-public class Person {
+import com.srm.model.BaseEntity;
 
-    //use dependency inversion, so no private variables (eventually)
+public class Person extends BaseEntity {
+
+    //DB id's are handled by BaseEntity
+
     private String firstName;
     private String lastName;
-    private Long id;
     private ContactDetail contactDetail;
 
     public String getFirstName() {
@@ -24,11 +26,4 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

@@ -1,9 +1,10 @@
 package com.srm.model.academic;
 
+import com.srm.model.BaseEntity;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 
-public class Report {
+public class Report extends BaseEntity {
 
     private Student student;
     private Teacher teacher;

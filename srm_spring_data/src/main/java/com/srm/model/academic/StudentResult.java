@@ -3,7 +3,7 @@ package com.srm.model.academic;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 
-public class StudentResult extends StudentWork{
+public class StudentResult extends StudentWork {
 
     private Student student;
     private Teacher teacher;        //allow for different teachers to share the same assignment
