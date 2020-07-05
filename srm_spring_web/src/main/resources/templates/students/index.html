@@ -5,9 +5,26 @@
     <title>Student Record Management SRM - Students</title>
 </head>
 <body>
-
+<!--the following is for IntelliJ-->
+<!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
 <!--Note that text is held in single quotes and this expression lies in double quotes-->
 <h1 th:text="'Student list'">Heading placeholder</h1>
 
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student: ${students}">
+        <th th:text="${student.id}"></th>
+        <th th:text="${student.firstName}"></th>
+        <th th:text="${student.lastName}"></th>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
