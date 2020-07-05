@@ -26,4 +26,11 @@ public class Person extends BaseEntity {
         this.lastName = lastName;
     }
 
+    public ContactDetail getContactDetail() {
+        return contactDetail;
+    }
+
+    public void setContactDetail(ContactDetail contactDetail) {
+        this.contactDetail = contactDetail;
+    }
 }
