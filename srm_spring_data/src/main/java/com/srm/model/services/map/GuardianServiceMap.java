@@ -15,7 +15,7 @@ public class GuardianServiceMap extends AbstractMapService<Guardian, Long> imple
 
     @Override
     public Guardian save(Guardian guardian) {
-        return super.save(guardian.getId(), guardian);
+        return super.save(guardian);
     }
 
     @Override
