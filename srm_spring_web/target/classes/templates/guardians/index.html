@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Record Management SRM - Guardians</title>
+</head>
+<body>
+<!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
+<!--Note that text is held in single quotes and this expression lies in double quotes-->
+<h1 th:text="'Guardian list'">Heading placeholder</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="guardian: ${guardians}">
+        <th th:text="${guardian.id}"></th>
+        <th th:text="${guardian.firstName}"></th>
+        <th th:text="${guardian.lastName}"></th>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Student.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/FormGroupList.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Person.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Guardian.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/SubjectClassList.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/StudentResult.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/Subject.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/Report.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Teacher.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/Threshold.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/ContactDetail.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/StudentWork.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/ThresholdList.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/AssignmentType.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Address.java
