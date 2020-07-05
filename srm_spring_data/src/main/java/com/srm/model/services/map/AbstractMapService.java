@@ -1,19 +1,27 @@
 package com.srm.model.services.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import com.srm.model.BaseEntity;
 
-public abstract class AbstractMapService<T, ID> {
+import java.util.*;
+
+//set generic types T and ID to extend known classes
+
+public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {
 
     //this class provides a map-based (Python dictionary) service (an alternative to JPA and JDBC models)
     //maps are located by a key (in this case ID) and contain a value (in this case T)
 
-    protected Map<ID, T> map = new HashMap<>();
+    protected Map<Long, T> map = new HashMap<>();
 
-    T save(ID id, T object) {
-        map.put(id, object);
+    T save(T object) {
+        if (object != null) {
+            if (object.getId() == null) {
+                object.setId(getNextId());
+            } else {
+                throw new RuntimeException("Cannot build from null object");
+            }
+            map.put(object.getId(), object);
+        }
         return object;
     }
 
@@ -33,5 +41,14 @@ public abstract class AbstractMapService<T, ID> {
 
     void deleteById(ID id) {
         map.remove(id);
+    }
+
+    //get Spring to generate an ID starting from 1 if the map is empty or 1+ current ID if map is allocated
+    private Long getNextId() {
+        if (map.isEmpty())
+            return 1L;
+        else
+            //identify the current highest key and use it to assign the next
+            return Collections.max(map.keySet()) + 1;
     }
 }
