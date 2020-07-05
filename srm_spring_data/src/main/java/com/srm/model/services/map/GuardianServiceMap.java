@@ -2,9 +2,12 @@ package com.srm.model.services.map;
 
 import com.srm.model.people.Guardian;
 import com.srm.model.services.GuardianService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+//instruct Spring to inject the CRUD GuardianService into the application context as a bean
+@Service
 public class GuardianServiceMap extends AbstractMapService<Guardian, Long> implements GuardianService {
 
     //map service which links the BaseService CRUD ops (via GuardianService) with AbstractMapService

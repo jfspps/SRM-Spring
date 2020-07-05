@@ -6,9 +6,6 @@ import com.srm.model.people.Teacher;
 import com.srm.model.services.GuardianService;
 import com.srm.model.services.StudentService;
 import com.srm.model.services.TeacherService;
-import com.srm.model.services.map.GuardianServiceMap;
-import com.srm.model.services.map.StudentServiceMap;
-import com.srm.model.services.map.TeacherMapService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +18,11 @@ public class DataLoader implements CommandLineRunner {
     private final StudentService studentService;
     private final TeacherService teacherService;
 
-    public DataLoader() {
-        //build instances of each service map, each of which implement their respective services (interfaces)
-        guardianService = new GuardianServiceMap();
-        studentService = new StudentServiceMap();
-        teacherService = new TeacherMapService();
+    //implement dependency inversion (@Autowired annotation not required) offered since each service is annotated
+    public DataLoader(GuardianService guardianService, StudentService studentService, TeacherService teacherService) {
+        this.guardianService = guardianService;
+        this.studentService = studentService;
+        this.teacherService = teacherService;
     }
 
     @Override

@@ -2,9 +2,12 @@ package com.srm.model.services.map;
 
 import com.srm.model.people.Teacher;
 import com.srm.model.services.TeacherService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+//instruct Spring to inject the CRUD TeacherService into the application context as a bean
+@Service
 public class TeacherMapService extends AbstractMapService<Teacher, Long> implements TeacherService {
 
     //map service which links the BaseService CRUD ops (via TeacherService) with AbstractMapService
