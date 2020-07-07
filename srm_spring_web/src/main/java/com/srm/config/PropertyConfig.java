@@ -12,7 +12,8 @@ import org.springframework.core.env.Environment;
 
 //informs Spring to link the properties file (normally found in /resources) with the new bean below
 // For multiple properties files, one could also use
-// @PropertySource({"classpath:database.properties", "classpath:jmsdatabase.properties"})
+// @PropertySource({"classpath:database.properties", "classpath:jmsdatabase.properties"}) or delete this annotation
+// entirely and list all custom properties in application.properties, along with all other Spring Boot properties
 @Configuration
 @PropertySources({
         @PropertySource("classpath:database.properties"),
@@ -65,11 +66,4 @@ public class PropertyConfig {
         exampleJMSLogin.setUrl(jmsurl);
         return exampleJMSLogin;
     }
-
-    // this is an alternative implementation to @PropertySource annotation
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer properties(){
-//        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-//        return propertySourcesPlaceholderConfigurer;
-//    }
 }
