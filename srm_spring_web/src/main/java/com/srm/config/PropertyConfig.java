@@ -46,6 +46,9 @@ public class PropertyConfig {
     @Value("${srmdatabase.jms.url}")
     String jmsurl;
 
+    @Value("${srmdatabase.customMessage}")
+    String msg;
+
     //return a bean with the wired strings from database.properties (see SrmSpringApplication)
     @Bean
     public ExampleDBlogin exampleDBlogin() {
@@ -54,6 +57,7 @@ public class PropertyConfig {
         exampleDBlogin.setUsername(username);
         exampleDBlogin.setPassword(password);
         exampleDBlogin.setUrl(url);
+        System.out.println(msg);
         return exampleDBlogin;
     }
 
@@ -64,6 +68,7 @@ public class PropertyConfig {
         exampleJMSLogin.setUsername(jmsusername);
         exampleJMSLogin.setPassword(jmspassword);
         exampleJMSLogin.setUrl(jmsurl);
+        System.out.println(msg);
         return exampleJMSLogin;
     }
 }
