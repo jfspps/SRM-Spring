@@ -2,9 +2,17 @@
 # Spring looks for application.properties and application.yaml (or application.yml) for Spring Boot properties
 # YAML tends to be easier to read regarding data structures and used widely
 
-# equivalent to srmdatabase.customMessage
+# Enable a profiles (instead of spring.profiles.active=EN); change EN to/from DE to allow -EN or -DE to override
+spring:
+  profiles:
+    active: EN
+
+# equivalent to srmdatabase.customMessage=All credentials successfully loaded (this is the default if profiles
+# are commented out)
 srmdatabase:
-  customMessage: All credentials successfully loaded
+  customMessage: "All good!"
+
+---
 
 # note that strings with special characters are best enclosed in " "
 # for more info, go to https://yaml.org/
