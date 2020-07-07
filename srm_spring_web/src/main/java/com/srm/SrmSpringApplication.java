@@ -1,6 +1,7 @@
 package com.srm;
 
 import com.srm.DBlogin.ExampleDBlogin;
+import com.srm.DBlogin.ExampleJMSLogin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -25,6 +26,10 @@ public class SrmSpringApplication {
         ExampleDBlogin exampleDBlogin = context.getBean(ExampleDBlogin.class);
         System.out.println("Loading database credentials for " + exampleDBlogin.getUsername());
         //add other methods to establish DB connection??
+
+        ExampleJMSLogin exampleJMSLogin = context.getBean(ExampleJMSLogin.class);
+        System.out.println("Loading database credentials for " + exampleJMSLogin.getUsername());
+
     }
 
 }
