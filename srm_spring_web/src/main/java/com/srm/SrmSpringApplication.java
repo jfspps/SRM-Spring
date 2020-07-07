@@ -1,7 +1,10 @@
 package com.srm;
 
+import com.srm.DBlogin.ExampleDBlogin;
+import com.srm.DBlogin.ExampleJMSLogin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * +@SpringBootApplication annotation directs Spring to scan all code and resources under the com.srm package
@@ -16,7 +19,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SrmSpringApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SrmSpringApplication.class, args);
+        //ConfigurableApplicationContext extends ApplicationContext and adds configuration methods
+        ConfigurableApplicationContext context = SpringApplication.run(SrmSpringApplication.class, args);
+
+        //load database login credentials
+        ExampleDBlogin exampleDBlogin = context.getBean(ExampleDBlogin.class);
+        System.out.println("Loading database credentials for " + exampleDBlogin.getUsername());
+        //add other methods to establish DB connection??
+
+        ExampleJMSLogin exampleJMSLogin = context.getBean(ExampleJMSLogin.class);
+        System.out.println("Loading database credentials for " + exampleJMSLogin.getUsername());
+
     }
 
 }
