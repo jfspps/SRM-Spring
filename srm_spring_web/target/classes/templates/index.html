@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Record Management SRM</title>
-</head>
+
+<head th:replace="fragments/header :: head"></head>
 <body>
 
-<!--Note that text is held in single quotes and this expression lies in double quotes-->
-<h1 th:text="'General index page'">Heading placeholder</h1>
+<nav th:replace="fragments/header :: nav"></nav>
+
+<div class="container-fluid">
+    <!--Note that text is held in single quotes and this expression lies in double quotes-->
+    <p th:text="'General index page'">Paragraph placeholder</p>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
 
 </body>
 </html>
