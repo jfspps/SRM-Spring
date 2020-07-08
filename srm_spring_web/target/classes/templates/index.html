@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>SRM | Login page</title>
+</head>
 <body>
-
 <nav th:replace="fragments/header :: nav"></nav>
 
-<div class="container-fluid">
-    <!--Note that text is held in single quotes and this expression lies in double quotes-->
-    <p th:text="'General index page'">Paragraph placeholder</p>
-</div>
+<form class="form-signin">
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 font-weight-normal">Please enter your login details</h1>
+    </div>
+
+    <div class="form-label-group">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputEmail">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p>
+</form>
 
 <footer th:replace="fragments/footer :: footer"></footer>
 

@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Student Record Management SRM - Teachers</title>
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>SRM | Teachers</title>
 </head>
 <body>
+<nav th:replace="fragments/header :: nav"></nav>
 <!--the following is for IntelliJ-->
 <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
-<!--Note that text is held in single quotes and this expression lies in double quotes-->
-<h1 th:text="'Teacher list'">Heading placeholder</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>First name</th>
-        <th>Last name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="teacher: ${teachers}">
-        <th th:text="${teacher.id}"></th>
-        <th th:text="${teacher.firstName}"></th>
-        <th th:text="${teacher.lastName}"></th>
-    </tr>
-    </tbody>
-</table>
+<div class="container-fluid">
+    <!--Note that text is held in single quotes and this expression lies in double quotes-->
+    <h1 th:text="'Teacher list'">Heading placeholder</h1>
+
+    <table class="table table-hover table-sm table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="teacher: ${teachers}">
+            <th th:text="${teacher.id}"></th>
+            <th th:text="${teacher.firstName}"></th>
+            <th th:text="${teacher.lastName}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>
