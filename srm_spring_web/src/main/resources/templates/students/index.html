@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
-<title>SRM - Students</title>
+<head th:replace="fragments/header :: baseHead(~{::title})">
+    <title>SRM | Students</title>
+</head>
 <body>
 <nav th:replace="fragments/header :: nav"></nav>
 <!--the following is for IntelliJ-->
@@ -28,5 +29,8 @@
         </tbody>
     </table>
 </div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
 </body>
 </html>
