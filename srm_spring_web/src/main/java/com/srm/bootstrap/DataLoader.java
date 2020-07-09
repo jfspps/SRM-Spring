@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    //interfaces
+    //this block and the constructor below ensure that the services persist
     private final GuardianService guardianService;
     private final StudentService studentService;
     private final TeacherService teacherService;
@@ -27,6 +27,14 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //check if there is anything on the DB before reloading (teacherService seems a good candidate...)
+
+        if (teacherService.findAll().size() == 0) {
+            loadData();
+        }
+    }
+
+    private void loadData() {
         //build a temporary POJO from Student, Teacher and Guardian classes and add (inject) to each respective service
 
         Student student1 = new Student();
