@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 //instruct Spring to inject the CRUD StudentService into the application context as a bean
+//note that neither AbstractService nor any of the services (StudentService) is declared with @Service; the wiring is
+//done through the map service
 @Service
 public class StudentServiceMap extends AbstractMapService<Student, Long> implements StudentService {
 

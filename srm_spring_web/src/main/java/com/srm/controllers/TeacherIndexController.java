@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+//all routings below proceed /teachers, not the root (see indexController)
 @RequestMapping({"/teachers"})
 @Controller
 public class TeacherIndexController {
