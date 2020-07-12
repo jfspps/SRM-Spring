@@ -42,7 +42,7 @@ public class StudentServiceMap extends AbstractMapService<Student, Long> impleme
 
     //unique to the StudentService interface
     @Override
-    public Student findByName(String name) {
+    public Student findByLastName(String lastName) {
         return null;
     }
 }

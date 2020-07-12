@@ -6,5 +6,5 @@ public interface StudentService extends BaseService<Student, Long> {
 
     //other methods not declared in BaseService
 
-    Student findByName(String name);
+    Student findByLastName(String lastName);
 }

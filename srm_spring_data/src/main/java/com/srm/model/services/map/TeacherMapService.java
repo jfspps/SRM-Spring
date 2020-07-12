@@ -42,7 +42,7 @@ public class TeacherMapService extends AbstractMapService<Teacher, Long> impleme
 
     //unique to the TeacherService interface
     @Override
-    public Teacher findByName(String name) {
+    public Teacher findByLastName(String lastName) {
         return null;
     }
 }

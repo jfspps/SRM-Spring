@@ -6,5 +6,5 @@ public interface TeacherService extends BaseService<Teacher, Long> {
 
     //other methods not declared in BaseService
 
-    Teacher findByName(String name);
+    Teacher findByLastName(String lastName);
 }
