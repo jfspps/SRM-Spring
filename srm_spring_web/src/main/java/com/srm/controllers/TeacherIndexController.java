@@ -1,6 +1,6 @@
 package com.srm.controllers;
 
-import com.srm.model.services.TeacherService;
+import com.srm.services.TeacherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

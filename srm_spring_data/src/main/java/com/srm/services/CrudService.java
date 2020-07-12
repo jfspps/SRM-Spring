@@ -1,4 +1,4 @@
-package com.srm.model.services;
+package com.srm.services;
 
 import java.util.Set;
 

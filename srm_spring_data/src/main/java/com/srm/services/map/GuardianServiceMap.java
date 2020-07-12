@@ -1,7 +1,8 @@
-package com.srm.model.services.map;
+package com.srm.services.map;
 
 import com.srm.model.people.Guardian;
-import com.srm.model.services.GuardianService;
+import com.srm.services.GuardianService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (GuardianService) is declared with @Service; the wiring is
 //done through the map service
 @Service
-//@Profile({"default", "map"})
+@Profile("map")
 public class GuardianServiceMap extends AbstractMapService<Guardian, Long> implements GuardianService {
 
     //map service which links the BaseService CRUD ops (via GuardianService) with AbstractMapService

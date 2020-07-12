@@ -1,13 +1,14 @@
-package com.srm.model.services.map;
+package com.srm.services.map;
 
 import com.srm.model.academic.Subject;
-import com.srm.model.services.SubjectService;
+import com.srm.services.SubjectService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-//@Profile({"default", "map"})
+@Profile("map")
 public class SubjectMapService extends AbstractMapService<Subject, Long> implements SubjectService {
 
     @Override

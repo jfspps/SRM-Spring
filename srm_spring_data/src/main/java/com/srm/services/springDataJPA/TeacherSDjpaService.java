@@ -1,8 +1,8 @@
-package com.srm.model.services.springDataJPA;
+package com.srm.services.springDataJPA;
 
 import com.srm.model.people.Teacher;
-import com.srm.model.repositories.TeacherRepository;
-import com.srm.model.services.TeacherService;
+import com.srm.repositories.TeacherRepository;
+import com.srm.services.TeacherService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

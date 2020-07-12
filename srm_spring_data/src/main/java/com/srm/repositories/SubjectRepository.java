@@ -1,4 +1,4 @@
-package com.srm.model.repositories;
+package com.srm.repositories;
 
 import com.srm.model.academic.Subject;
 import org.springframework.data.repository.CrudRepository;

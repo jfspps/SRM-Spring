@@ -1,6 +1,6 @@
 package com.srm.controllers;
 
-import com.srm.model.services.StudentService;
+import com.srm.services.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
