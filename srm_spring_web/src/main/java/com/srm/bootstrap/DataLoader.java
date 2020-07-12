@@ -1,10 +1,12 @@
 package com.srm.bootstrap;
 
+import com.srm.model.academic.Subject;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 import com.srm.model.services.GuardianService;
 import com.srm.model.services.StudentService;
+import com.srm.model.services.SubjectService;
 import com.srm.model.services.TeacherService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,15 @@ public class DataLoader implements CommandLineRunner {
     private final GuardianService guardianService;
     private final StudentService studentService;
     private final TeacherService teacherService;
+    private final SubjectService subjectService;
 
     //implement dependency inversion (@Autowired annotation not required) offered since each service is annotated
-    public DataLoader(GuardianService guardianService, StudentService studentService, TeacherService teacherService) {
+    public DataLoader(GuardianService guardianService, StudentService studentService, TeacherService teacherService,
+                      SubjectService subjectService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.teacherService = teacherService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -72,6 +77,16 @@ public class DataLoader implements CommandLineRunner {
         guardianService.save(guardian2);
 
         System.out.println("Guardians loaded to DB...");
+
+        Subject subject1 = new Subject();
+        subject1.setSubjectName("Math");
+        subjectService.save(subject1);
+
+        Subject subject2 = new Subject();
+        subject2.setSubjectName("English");
+        subjectService.save(subject2);
+
+        System.out.println("Subjects loaded to DB...");
         System.out.println("Finished uploading to DB");
     }
 }
