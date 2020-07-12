@@ -10,6 +10,7 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (TeacherService) is declared with @Service; the wiring is
 //done through the map service
 @Service
+//@Profile({"default", "map"})
 public class TeacherMapService extends AbstractMapService<Teacher, Long> implements TeacherService {
 
     //map service which links the BaseService CRUD ops (via TeacherService) with AbstractMapService
