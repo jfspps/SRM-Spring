@@ -1,10 +1,11 @@
 package com.srm.model.people;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FormGroupList extends StudentList {
 
-    private List<Student> studentList;
+    private Set<Student> studentList = new HashSet<>();
     private Teacher teacher;
 
     public Teacher getTeacher() {
@@ -15,11 +16,11 @@ public class FormGroupList extends StudentList {
         this.teacher = teacher;
     }
 
-    public List<Student> getStudentList() {
+    public Set<Student> getStudentList() {
         return studentList;
     }
 
-    public void setStudentList(List<Student> studentList) {
+    public void setStudentList(Set<Student> studentList) {
         this.studentList = studentList;
     }
 }

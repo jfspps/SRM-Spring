@@ -3,6 +3,7 @@ package com.srm.model.people;
 import com.srm.model.academic.Subject;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,7 @@ public class Teacher extends Person {
     @JoinTable(name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @ManyToMany
-    private Set<Subject> subject;
+    private Set<Subject> subject = new HashSet<>();
 
     public Set<Subject> getSubject() {
         return subject;
