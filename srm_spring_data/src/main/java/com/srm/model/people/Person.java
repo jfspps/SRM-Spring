@@ -4,6 +4,7 @@ import com.srm.model.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
 @MappedSuperclass
 public class Person extends BaseEntity {
@@ -17,7 +18,8 @@ public class Person extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "contact_detail")
+    //transferred to Student, Teacher and Guardian??? wait and see
+    @OneToOne
     private ContactDetail contactDetail;
 
     public String getFirstName() {

@@ -1,26 +1,20 @@
 package com.srm.model.people;
 
-public class Student extends Person{
+import javax.persistence.*;
+import java.util.Set;
 
-    private Guardian guardian1;
-    private Guardian guardian2;
+@Entity
+@Table(name = "students")
+public class Student extends Person {
+
+    @JoinTable(name = "student_guardian",
+            joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "guardian_id"))
+    @ManyToMany
+    private Set<Guardian> guardian;
+
+    //no need for cascading
+    @OneToOne
     private Teacher personalTutor;
-
-    public Guardian getGuardian1() {
-        return guardian1;
-    }
-
-    public void setGuardian1(Guardian guardian1) {
-        this.guardian1 = guardian1;
-    }
-
-    public Guardian getGuardian2() {
-        return guardian2;
-    }
-
-    public void setGuardian2(Guardian guardian2) {
-        this.guardian2 = guardian2;
-    }
 
     public Teacher getPersonalTutor() {
         return personalTutor;
@@ -28,5 +22,13 @@ public class Student extends Person{
 
     public void setPersonalTutor(Teacher personalTutor) {
         this.personalTutor = personalTutor;
+    }
+
+    public Set<Guardian> getGuardian() {
+        return guardian;
+    }
+
+    public void setGuardian(Set<Guardian> guardian) {
+        this.guardian = guardian;
     }
 }
