@@ -1,8 +1,8 @@
-package com.srm.model.services.springDataJPA;
+package com.srm.services.springDataJPA;
 
 import com.srm.model.people.Guardian;
-import com.srm.model.repositories.GuardianRepository;
-import com.srm.model.services.GuardianService;
+import com.srm.repositories.GuardianRepository;
+import com.srm.services.GuardianService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

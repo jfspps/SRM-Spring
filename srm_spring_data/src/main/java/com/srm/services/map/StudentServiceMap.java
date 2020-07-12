@@ -1,7 +1,8 @@
-package com.srm.model.services.map;
+package com.srm.services.map;
 
 import com.srm.model.people.Student;
-import com.srm.model.services.StudentService;
+import com.srm.services.StudentService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (StudentService) is declared with @Service; the wiring is
 //done through the map service
 @Service
-//@Profile({"default", "map"})
+@Profile("map")
 public class StudentServiceMap extends AbstractMapService<Student, Long> implements StudentService {
 
     //map service which links the BaseService CRUD ops (via StudentService) with AbstractMapService

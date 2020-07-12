@@ -1,4 +1,4 @@
-package com.srm.model.services;
+package com.srm.services;
 
 import com.srm.model.academic.Subject;
 

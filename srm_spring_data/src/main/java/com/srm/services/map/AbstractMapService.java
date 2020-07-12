@@ -1,4 +1,4 @@
-package com.srm.model.services.map;
+package com.srm.services.map;
 
 import com.srm.model.BaseEntity;
 
