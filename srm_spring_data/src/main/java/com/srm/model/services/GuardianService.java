@@ -6,5 +6,5 @@ public interface GuardianService extends BaseService<Guardian, Long> {
 
     //other methods not declared in BaseService
 
-    Guardian findByName(String name);
+    Guardian findByLastName(String lastName);
 }

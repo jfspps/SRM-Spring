@@ -42,7 +42,7 @@ public class GuardianServiceMap extends AbstractMapService<Guardian, Long> imple
 
     //unique to the Guardian interface
     @Override
-    public Guardian findByName(String name) {
+    public Guardian findByLastName(String lastName) {
         return null;
     }
 }

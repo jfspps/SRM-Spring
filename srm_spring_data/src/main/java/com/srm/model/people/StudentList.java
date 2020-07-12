@@ -2,20 +2,14 @@ package com.srm.model.people;
 
 import com.srm.model.BaseEntity;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public class StudentList extends BaseEntity {
 
-    private List<Student> studentList;
+    @Column(name = "group_name")
     private String groupName;
-
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
 
     public String getGroupName() {
         return groupName;
