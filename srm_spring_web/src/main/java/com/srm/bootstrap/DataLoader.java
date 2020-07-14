@@ -42,6 +42,8 @@ public class DataLoader implements CommandLineRunner {
     private void loadData() {
         //build a temporary POJO from Student, Teacher and Guardian classes and add (inject) to each respective service
 
+        //future work: implement Lombok Builder Pattern to clean initialisations below...
+
         Student student1 = new Student();
         student1.setFirstName("John");
         student1.setLastName("Smith");

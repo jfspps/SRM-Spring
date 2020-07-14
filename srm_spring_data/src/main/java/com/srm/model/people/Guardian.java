@@ -1,9 +1,15 @@
 package com.srm.model.people;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+@Setter
+@Getter
 @Entity
 @Table(name = "guardians")
 public class Guardian extends Person {
@@ -14,11 +20,4 @@ public class Guardian extends Person {
     @OneToOne
     private Address address;
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 }

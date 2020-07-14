@@ -1,11 +1,16 @@
 package com.srm.model.people;
 
 import com.srm.model.academic.Subject;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Setter
+@Getter
 @Entity
 @Table(name = "teachers")
 public class Teacher extends Person {
@@ -15,11 +20,4 @@ public class Teacher extends Person {
     @ManyToMany
     private Set<Subject> subject = new HashSet<>();
 
-    public Set<Subject> getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Set<Subject> subject) {
-        this.subject = subject;
-    }
 }

@@ -1,9 +1,15 @@
 package com.srm.model.people;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Setter
+@Getter
 @Entity
 @Table(name = "students")
 public class Student extends Person {
@@ -17,19 +23,4 @@ public class Student extends Person {
     @OneToOne
     private Teacher personalTutor;
 
-    public Teacher getPersonalTutor() {
-        return personalTutor;
-    }
-
-    public void setPersonalTutor(Teacher personalTutor) {
-        this.personalTutor = personalTutor;
-    }
-
-    public Set<Guardian> getGuardian() {
-        return guardian;
-    }
-
-    public void setGuardian(Set<Guardian> guardian) {
-        this.guardian = guardian;
-    }
 }
