@@ -45,6 +45,10 @@ public class StudentServiceMap extends AbstractMapService<Student, Long> impleme
     //unique to the StudentService interface
     @Override
     public Student findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(student -> student.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }

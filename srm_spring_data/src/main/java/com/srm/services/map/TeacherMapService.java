@@ -45,6 +45,10 @@ public class TeacherMapService extends AbstractMapService<Teacher, Long> impleme
     //unique to the TeacherService interface
     @Override
     public Teacher findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(teacher -> teacher.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }

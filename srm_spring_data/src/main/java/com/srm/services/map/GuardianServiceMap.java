@@ -45,6 +45,10 @@ public class GuardianServiceMap extends AbstractMapService<Guardian, Long> imple
     //unique to the Guardian interface
     @Override
     public Guardian findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(guardian -> guardian.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 @Setter
 @Getter
 @Entity
@@ -19,5 +18,4 @@ public class Guardian extends Person {
 
     @OneToOne
     private Address address;
-
 }

@@ -14,8 +14,6 @@ import javax.persistence.Table;
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
 
-    //future: if there is a need to query which teachers teach a given subject then this POJO may need Set<Teacher>
-
     @Column(name = "subject_name")
     private String subjectName;
 }
