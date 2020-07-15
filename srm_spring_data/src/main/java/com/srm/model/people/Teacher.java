@@ -18,6 +18,6 @@ public class Teacher extends Person {
     @JoinTable(name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @ManyToMany
-    private Set<Subject> subject = new HashSet<>();
+    private Set<Subject> subjects = new HashSet<>();
 
 }

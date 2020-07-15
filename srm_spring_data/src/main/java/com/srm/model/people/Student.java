@@ -17,10 +17,9 @@ public class Student extends Person {
     @JoinTable(name = "student_guardian",
             joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "guardian_id"))
     @ManyToMany
-    private Set<Guardian> guardian = new HashSet<>();
+    private Set<Guardian> guardians = new HashSet<>();
 
     //no need for cascading
     @OneToOne
     private Teacher personalTutor;
-
 }
