@@ -2,8 +2,7 @@ package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,10 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
 

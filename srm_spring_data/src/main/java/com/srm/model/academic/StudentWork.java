@@ -2,7 +2,18 @@ package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.MappedSuperclass;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
 public class StudentWork extends BaseEntity {
 
     private String title;
@@ -12,52 +23,4 @@ public class StudentWork extends BaseEntity {
     private Teacher uploader;
     private Subject subject;
     private AssignmentType assignmentType;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getMaxScore() {
-        return maxScore;
-    }
-
-    public void setMaxScore(Integer maxScore) {
-        this.maxScore = maxScore;
-    }
-
-    public boolean isContributor() {
-        return contributor;
-    }
-
-    public void setContributor(boolean contributor) {
-        this.contributor = contributor;
-    }
-
-    public Teacher getUploader() {
-        return uploader;
-    }
-
-    public void setUploader(Teacher uploader) {
-        this.uploader = uploader;
-    }
-
-    public AssignmentType getAssignmentType() {
-        return assignmentType;
-    }
-
-    public void setAssignmentType(AssignmentType assignmentType) {
-        this.assignmentType = assignmentType;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
 }

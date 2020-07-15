@@ -1,7 +1,6 @@
 package com.srm.model.people;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -12,6 +11,9 @@ import java.util.Set;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "guardians")
 public class Guardian extends Person {

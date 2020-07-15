@@ -1,8 +1,7 @@
 package com.srm.model.people;
 
 import com.srm.model.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,9 @@ import javax.persistence.Table;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "addresses")
 public class Address extends BaseEntity {
