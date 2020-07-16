@@ -12,7 +12,7 @@ import java.util.Set;
 //done through the map service
 @Service
 //this service-map is also the default
-@Profile({"default", "map"})
+@Profile(value = {"default", "map"})
 public class TeacherMapService extends AbstractMapService<Teacher, Long> implements TeacherService {
 
     //map service which links the BaseService CRUD ops (via TeacherService) with AbstractMapService

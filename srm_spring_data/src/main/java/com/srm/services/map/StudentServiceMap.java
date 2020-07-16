@@ -12,7 +12,7 @@ import java.util.Set;
 //done through the map service
 @Service
 //this service-map is also the default
-@Profile({"default", "map"})
+@Profile(value = {"default", "map"})
 public class StudentServiceMap extends AbstractMapService<Student, Long> implements StudentService {
 
     //map service which links the BaseService CRUD ops (via StudentService) with AbstractMapService
@@ -20,6 +20,7 @@ public class StudentServiceMap extends AbstractMapService<Student, Long> impleme
 
     @Override
     public Student save(Student student) {
+        System.out.println("Currently using HashMap services");
         return super.save(student);
     }
 
