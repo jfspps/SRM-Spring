@@ -35,5 +35,4 @@ public class Person extends BaseEntity {
     //transferred to Student, Teacher and Guardian??? wait and see
     @OneToOne
     private ContactDetail contactDetail;
-
 }
