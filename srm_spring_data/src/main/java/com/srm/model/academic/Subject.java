@@ -2,7 +2,7 @@ package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +17,16 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
+
+    @Builder
+    public Subject(Long id, String subjectName, Set<Teacher> teachers) {
+        super(id);
+        this.subjectName = subjectName;
+        this.teachers = teachers;
+    }
 
     @Column(name = "subject_name")
     private String subjectName;

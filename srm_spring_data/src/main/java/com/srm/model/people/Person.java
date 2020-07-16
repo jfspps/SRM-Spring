@@ -18,13 +18,6 @@ import javax.persistence.OneToOne;
 @MappedSuperclass
 public class Person extends BaseEntity {
 
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    //DB id's are handled by BaseEntity
-
     //Hibernate uses snake case by default so the name argument is somewhat redundant here
     @Column(name = "first_name")
     private String firstName;
@@ -35,4 +28,10 @@ public class Person extends BaseEntity {
     //transferred to Student, Teacher and Guardian??? wait and see
     @OneToOne
     private ContactDetail contactDetail;
+
+    public Person(Long id, String firstName, String lastName) {
+        super(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

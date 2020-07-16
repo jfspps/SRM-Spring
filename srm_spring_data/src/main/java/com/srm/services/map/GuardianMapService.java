@@ -2,6 +2,7 @@ package com.srm.services.map;
 
 import com.srm.model.people.Guardian;
 import com.srm.services.GuardianService;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +12,22 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (GuardianService) is declared with @Service; the wiring is
 //done through the map service
 @Service
+@NoArgsConstructor
 //this service-map is also the default
 @Profile(value = {"default", "map"})
-public class GuardianServiceMap extends AbstractMapService<Guardian, Long> implements GuardianService {
+public class GuardianMapService extends AbstractMapService<Guardian, Long> implements GuardianService {
 
     //map service which links the BaseService CRUD ops (via GuardianService) with AbstractMapService
     //generally, take a Guardian object from MapService and return AbstractMapService's method (hence super)
 
     @Override
     public Guardian save(Guardian guardian) {
-        return super.save(guardian);
+        if (guardian != null) {
+            return super.save(guardian);
+        } else {
+            System.out.println("Empty object passed to Guardian()");
+            return null;
+        }
     }
 
     @Override

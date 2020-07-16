@@ -1,6 +1,9 @@
 package com.srm.model.people;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,14 +12,18 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "students")
 public class Student extends Person {
 
     @Builder
-    public Student(String firstName, String lastName) {
-        super(firstName, lastName);
+    public Student(Long id, String firstName, String lastName, Set<Guardian> guardians, Teacher personalTutor,
+                   Set<SubjectClassList> subjectClassLists, FormGroupList formGroupList) {
+        super(id, firstName, lastName);
+        this.guardians = guardians;
+        this.personalTutor = personalTutor;
+        this.subjectClassLists = subjectClassLists;
+        this.formGroupList = formGroupList;
     }
 
     @JoinTable(name = "student_guardian",
