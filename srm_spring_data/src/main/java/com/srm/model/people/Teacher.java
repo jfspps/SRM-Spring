@@ -12,10 +12,14 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "teachers")
 public class Teacher extends Person {
+
+    @Builder
+    public Teacher(String firstName, String lastName) {
+        super(firstName, lastName);
+    }
 
     @JoinTable(name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))

@@ -4,7 +4,6 @@ import com.srm.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 
@@ -13,7 +12,5 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class StudentList extends BaseEntity {
 
-    @Column(name = "group_name")
     private String groupName;
-
 }

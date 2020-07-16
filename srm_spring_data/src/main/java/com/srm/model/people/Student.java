@@ -6,15 +6,18 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "students")
 public class Student extends Person {
+
+    @Builder
+    public Student(String firstName, String lastName) {
+        super(firstName, lastName);
+    }
 
     @JoinTable(name = "student_guardian",
             joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "guardian_id"))
@@ -24,4 +27,12 @@ public class Student extends Person {
     //no need for cascading
     @OneToOne
     private Teacher personalTutor;
+
+    @JoinTable(name = "student_subjectlist",
+            joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subjectclasslist_id"))
+    @ManyToMany
+    private Set<SubjectClassList> subjectClassLists = new HashSet<>();
+
+    @ManyToOne
+    private FormGroupList formGroupList;
 }

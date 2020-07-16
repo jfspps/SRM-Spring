@@ -11,7 +11,8 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (GuardianService) is declared with @Service; the wiring is
 //done through the map service
 @Service
-@Profile("map")
+//this service-map is also the default
+@Profile({"default", "map"})
 public class GuardianServiceMap extends AbstractMapService<Guardian, Long> implements GuardianService {
 
     //map service which links the BaseService CRUD ops (via GuardianService) with AbstractMapService

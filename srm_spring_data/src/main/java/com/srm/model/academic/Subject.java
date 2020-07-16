@@ -2,7 +2,10 @@ package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +19,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
 
