@@ -42,23 +42,19 @@ public class DataLoader implements CommandLineRunner {
     private void loadData() {
         //build a temporary POJO from Student, Teacher and Guardian classes and add (inject) to each respective service
 
-        //future work: implement Lombok Builder Pattern to clean initialisations below...
+        //note below, some POJOs employ Lombok's Builder Pattern
 
         Student student1 = new Student();
         student1.setFirstName("John");
         student1.setLastName("Smith");
         studentService.save(student1);
 
-        Student student2 = new Student();
-        student2.setFirstName("Elizabeth");
-        student2.setLastName("Jones");
+        Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
         studentService.save(student2);
 
         System.out.println("Students loaded to DB...");
 
-        Teacher teacher1 = new Teacher();
-        teacher1.setFirstName("Keith");
-        teacher1.setLastName("Thomson");
+        Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").build();
         teacherService.save(teacher1);
 
         Teacher teacher2 = new Teacher();
@@ -68,9 +64,7 @@ public class DataLoader implements CommandLineRunner {
 
         System.out.println("Teachers loaded to DB...");
 
-        Guardian guardian1 = new Guardian();
-        guardian1.setFirstName("Alan");
-        guardian1.setLastName("Smith");
+        Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").build();
         guardianService.save(guardian1);
 
         Guardian guardian2 = new Guardian();

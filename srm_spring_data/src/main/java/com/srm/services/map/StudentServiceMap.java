@@ -11,7 +11,8 @@ import java.util.Set;
 //note that neither AbstractService nor any of the services (StudentService) is declared with @Service; the wiring is
 //done through the map service
 @Service
-@Profile("map")
+//this service-map is also the default
+@Profile({"default", "map"})
 public class StudentServiceMap extends AbstractMapService<Student, Long> implements StudentService {
 
     //map service which links the BaseService CRUD ops (via StudentService) with AbstractMapService
@@ -45,6 +46,10 @@ public class StudentServiceMap extends AbstractMapService<Student, Long> impleme
     //unique to the StudentService interface
     @Override
     public Student findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(student -> student.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }

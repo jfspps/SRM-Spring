@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-@Profile("map")
+//this service-map is also the default
+@Profile({"default", "map"})
 public class SubjectMapService extends AbstractMapService<Subject, Long> implements SubjectService {
 
     @Override
