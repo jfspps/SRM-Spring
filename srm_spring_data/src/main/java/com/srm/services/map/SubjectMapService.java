@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Service
 //this service-map is also the default
-@Profile({"default", "map"})
+@Profile(value = {"default", "map"})
 public class SubjectMapService extends AbstractMapService<Subject, Long> implements SubjectService {
 
     @Override

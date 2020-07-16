@@ -20,6 +20,7 @@ public class StudentSDjpaService implements StudentService {
     private final StudentRepository studentRepository;
 
     public StudentSDjpaService(StudentRepository studentRepository) {
+        System.out.println("Currently using springDataJPA profile");
         this.studentRepository = studentRepository;
     }
 
