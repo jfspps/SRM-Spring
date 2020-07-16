@@ -1,6 +1,9 @@
 package com.srm.model.people;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -12,14 +15,15 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "guardians")
 public class Guardian extends Person {
 
     @Builder
-    public Guardian(String firstName, String lastName) {
-        super(firstName, lastName);
+    public Guardian(Long id, String firstName, String lastName, Address address, Set<Student> students) {
+        super(id, firstName, lastName);
+        this.address = address;
+        this.students = students;
     }
 
     @ManyToOne

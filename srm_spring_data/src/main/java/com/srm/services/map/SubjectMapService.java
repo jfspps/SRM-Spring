@@ -2,12 +2,14 @@ package com.srm.services.map;
 
 import com.srm.model.academic.Subject;
 import com.srm.services.SubjectService;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@NoArgsConstructor
 //this service-map is also the default
 @Profile(value = {"default", "map"})
 public class SubjectMapService extends AbstractMapService<Subject, Long> implements SubjectService {
@@ -18,8 +20,13 @@ public class SubjectMapService extends AbstractMapService<Subject, Long> impleme
     }
 
     @Override
-    public Subject save(Subject object) {
-        return super.save(object);
+    public Subject save(Subject subject) {
+        if (subject != null) {
+            return super.save(subject);
+        } else {
+            System.out.println("Empty object passed to Subject()");
+            return null;
+        }
     }
 
     @Override

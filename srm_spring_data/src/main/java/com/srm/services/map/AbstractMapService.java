@@ -17,11 +17,12 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
         if (object != null) {
             if (object.getId() == null) {
                 object.setId(getNextId());
-            } else {
-                throw new RuntimeException("Cannot build from null object");
             }
             map.put(object.getId(), object);
+        } else {
+            throw new RuntimeException("Object cannot be null");
         }
+
         return object;
     }
 
