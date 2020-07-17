@@ -42,6 +42,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 <!--    Build a slimmed down JAR without all external dependencies; SRM_data will include the SRM_web code into its JAR-->
