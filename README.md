@@ -1,7 +1,9 @@
+[![CircleCI](https://circleci.com/gh/jfspps/SRM-Spring.svg?style=svg)](https://circleci.com/gh/jfspps/SRM-Spring)
+
 # Student Record Management SRM #
 SRM (student record management) stores and processes academic data.
 
-This project was initally developed with [NodeJS and MySQL](https://github.com/jfspps/SRM_Node) and then moved across here as a Spring 5 based project. The port is intended to showcase my learning of the Spring framework.
+This project was initially developed with [NodeJS and MySQL](https://github.com/jfspps/SRM_Node) and then moved across here as a Spring 5 based project. The port is intended to showcase my learning of the Spring framework.
 
 The SQL schema (/dbSchema), admin login (previously NodeJS scripts, /dbscripts) and SRS documents (/docs) have been transferred across from the NodeJS repo for reference.
 
