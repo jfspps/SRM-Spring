@@ -3,6 +3,7 @@ package com.srm.controllers;
 import com.srm.services.SubjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //all routings below proceed /subjects, not the root (see indexController)
@@ -16,7 +17,7 @@ public class SubjectIndexController {
         this.subjectService = subjectService;
     }
 
-    @RequestMapping({"", "/", "/index", "/index.html"})
+    @GetMapping({"", "/", "/index", "/index.html"})
     public String listSubjects(Model model) {
         //model is handled by Spring
 

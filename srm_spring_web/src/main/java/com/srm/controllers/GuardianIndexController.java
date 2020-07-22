@@ -3,6 +3,7 @@ package com.srm.controllers;
 import com.srm.services.GuardianService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //all routings below proceed /guardians, not the root (see indexController)
@@ -17,7 +18,7 @@ public class GuardianIndexController {
         this.guardianService = guardianService;
     }
 
-    @RequestMapping({"", "/", "/index", "/index.html"})
+    @GetMapping({"", "/", "/index", "/index.html"})
     public String listGuardians(Model model) {
         //model is handled by Spring
 

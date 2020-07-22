@@ -3,6 +3,7 @@ package com.srm.services.map;
 import com.srm.model.people.Student;
 import com.srm.services.StudentService;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 //instruct Spring to inject the CRUD StudentService into the application context as a bean
 //note that neither AbstractService nor any of the services (StudentService) is declared with @Service; the wiring is
 //done through the map service
+@Slf4j
 @Service
 @NoArgsConstructor
 //this service-map is also the default
@@ -22,7 +24,6 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
 
     @Override
     public Student save(Student student) {
-        System.out.println("Currently using HashMap services");
         if (student != null) {
             return super.save(student);
         } else
@@ -37,6 +38,7 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
 
     @Override
     public Set<Student> findAll() {
+        log.info("findAll() from HashMap services");
         return super.findAll();
     }
 
