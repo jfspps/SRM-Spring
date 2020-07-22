@@ -3,6 +3,7 @@ package com.srm.services.springDataJPA;
 import com.srm.model.people.Student;
 import com.srm.repositories.StudentRepository;
 import com.srm.services.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 // pick one which operates as runtime (eventually, this dependency is decided later)
 
 // currently, springDataJPA profile is not in use so StudentServiceMap is injected at runtime
+@Slf4j
 @Service
 @Profile("springDataJPA")
 public class StudentSDjpaService implements StudentService {
@@ -20,7 +22,6 @@ public class StudentSDjpaService implements StudentService {
     private final StudentRepository studentRepository;
 
     public StudentSDjpaService(StudentRepository studentRepository) {
-        System.out.println("Currently using springDataJPA profile");
         this.studentRepository = studentRepository;
     }
 
@@ -43,6 +44,7 @@ public class StudentSDjpaService implements StudentService {
 
     @Override
     public Set<Student> findAll() {
+        log.info("findAll() from Spring Data JPA services");
         Set<Student> students = new HashSet<>();
         //pass each student from the repo to students and return
         studentRepository.findAll().forEach(students::add);
