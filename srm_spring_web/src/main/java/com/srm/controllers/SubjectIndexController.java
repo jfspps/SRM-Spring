@@ -21,7 +21,7 @@ public class SubjectIndexController {
     public String listSubjects(Model model) {
         //model is handled by Spring
 
-        //inject model into controller object with attribute 'subjects'
+        //execute findAll() and assign Set to Thymeleaf "subjects" at corresponding index.html
         model.addAttribute("subjects", subjectService.findAll());
         return "subjects/index";
     }

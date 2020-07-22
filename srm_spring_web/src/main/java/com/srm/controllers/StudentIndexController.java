@@ -22,7 +22,7 @@ public class StudentIndexController {
     public String listStudents(Model model) {
         //model is handled by Spring
 
-        //inject model into controller object with attribute 'students'
+        //execute findAll() and assign Set to Thymeleaf "students" at corresponding index.html
         model.addAttribute("students", studentService.findAll());
         return "students/index";
     }
