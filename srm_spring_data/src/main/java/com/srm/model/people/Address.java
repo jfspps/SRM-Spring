@@ -1,28 +1,31 @@
 package com.srm.model.people;
 
 import com.srm.model.BaseEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "addresses")
 public class Address extends BaseEntity {
 
-    @Column(name = "first_line")
+    @Builder
+    public Address(Long id, String firstLine, String secondLine, String postcode) {
+        super(id);
+        this.firstLine = firstLine;
+        this.secondLine = secondLine;
+        this.postcode = postcode;
+    }
+
     private String firstLine;
 
-    @Column(name = "second_line")
     private String secondLine;
 
-    @Column(name = "postcode")
     private String postcode;
 
 }

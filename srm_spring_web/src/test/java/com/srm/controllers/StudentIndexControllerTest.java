@@ -51,7 +51,7 @@ class StudentIndexControllerTest {
                 .andExpect(status().is(200))
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/index"))
-                .andExpect(model().attribute("students", hasSize(2)));
+                .andExpect(model().attribute("students", hasSize(2)));  //two records in findAll() Set
     }
 
     @Test
@@ -64,7 +64,7 @@ class StudentIndexControllerTest {
                 .andExpect(status().is(200))
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/index"))
-                .andExpect(model().attribute("students", hasSize(2))); //two records
+                .andExpect(model().attribute("students", hasSize(2))); //two records in findAll() Set
     }
 
     @Test
@@ -76,6 +76,6 @@ class StudentIndexControllerTest {
                 .andExpect(status().is(200))
                 .andExpect(status().isOk())
                 .andExpect(view().name("students/index"))
-                .andExpect(model().attribute("students", hasSize(2)));  //two records
+                .andExpect(model().attribute("students", hasSize(2)));  //two records in findAll() Set
     }
 }

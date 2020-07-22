@@ -16,7 +16,11 @@ public class SubjectMapService extends AbstractMapService<Subject, Long> impleme
 
     @Override
     public Subject findBySubjectName(String subjectName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(subject -> subject.getSubjectName().equalsIgnoreCase(subjectName))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

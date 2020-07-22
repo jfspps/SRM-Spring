@@ -22,7 +22,7 @@ public class GuardianIndexController {
     public String listGuardians(Model model) {
         //model is handled by Spring
 
-        //inject model into controller object with attribute 'guardians'
+        //execute findAll() and assign Set to Thymeleaf "guardians" at corresponding index.html
         model.addAttribute("guardians", guardianService.findAll());
         return "guardians/index";
     }

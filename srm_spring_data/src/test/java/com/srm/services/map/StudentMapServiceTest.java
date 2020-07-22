@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class StudentMapServiceTest {
 
@@ -25,12 +24,14 @@ class StudentMapServiceTest {
 
     @Test
     void save_withID() {
+        //overrides the student with the (same) id = 1L
         Student student_withID = Student.builder().id(id).build();
         assertNotNull(student_withID);
 
         Student savedStudent = studentMapService.save(student_withID);
         assertNotNull(savedStudent);
         assertEquals(id, savedStudent.getId());
+        assertNull(savedStudent.getFirstName());
     }
 
     @Test
