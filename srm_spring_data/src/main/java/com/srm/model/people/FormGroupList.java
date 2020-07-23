@@ -1,6 +1,7 @@
 package com.srm.model.people;
 
-import lombok.AllArgsConstructor;
+import com.srm.model.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +15,18 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class FormGroupList extends StudentList {
+public class FormGroupList extends BaseEntity {
+
+    @Builder
+    public FormGroupList(Long id, String groupName, Set<Student> studentList, Teacher teacher) {
+        super(id);
+        this.groupName = groupName;
+        this.studentList = studentList;
+        this.teacher = teacher;
+    }
+
+    private String groupName;
 
     @OneToMany(mappedBy = "formGroupList")
     private Set<Student> studentList = new HashSet<>();

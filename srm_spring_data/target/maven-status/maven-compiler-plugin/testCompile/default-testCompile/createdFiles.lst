@@ -1,6 +1,8 @@
 com/srm/services/springDataJPA/GuardianSDjpaServiceTest.class
 com/srm/services/map/GuardianMapServiceTest.class
 com/srm/services/springDataJPA/StudentSDjpaServiceTest.class
+com/srm/services/springDataJPA/SubjectSDjpaServiceTest.class
 com/srm/services/map/TeacherMapServiceTest.class
+com/srm/services/springDataJPA/TeacherSDjpaServiceTest.class
 com/srm/services/map/SubjectMapServiceTest.class
 com/srm/services/map/StudentMapServiceTest.class

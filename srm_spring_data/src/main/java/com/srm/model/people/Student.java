@@ -21,7 +21,7 @@ public class Student extends Person {
                    Set<SubjectClassList> subjectClassLists, FormGroupList formGroupList) {
         super(id, firstName, lastName);
         this.guardians = guardians;
-        this.personalTutor = personalTutor;
+        this.teacher = personalTutor;
         this.subjectClassLists = subjectClassLists;
         this.formGroupList = formGroupList;
     }
@@ -31,9 +31,9 @@ public class Student extends Person {
     @ManyToMany
     private Set<Guardian> guardians = new HashSet<>();
 
-    //no need for cascading
+    //personal tutor; no need for cascading
     @OneToOne
-    private Teacher personalTutor;
+    private Teacher teacher;
 
     @JoinTable(name = "student_subjectlist",
             joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subjectclasslist_id"))
