@@ -1,9 +1,6 @@
 package com.srm.services.academicServices;
 
-import com.srm.model.academic.AssignmentType;
 import com.srm.model.academic.StudentWork;
-import com.srm.model.academic.Subject;
-import com.srm.model.people.Teacher;
 import com.srm.services.CrudService;
 
 public interface StudentWorkService extends CrudService<StudentWork, Long> {
@@ -12,11 +9,11 @@ public interface StudentWorkService extends CrudService<StudentWork, Long> {
 
     StudentWork findByTitle(String title);
 
-    StudentWork findByTeacher(Teacher uploader);
+    StudentWork findByTeacherLastName(String lastName);
 
-    StudentWork findBySubject(Subject subject);
+    StudentWork findBySubject(String subjectName);
 
-    StudentWork findByAssignmentType(AssignmentType assignmentType);
+    StudentWork findByAssignmentType(String assignmentType);
 
     StudentWork findByContribution(boolean isAContributor);
 }

@@ -1,20 +1,17 @@
 package com.srm.services.academicServices;
 
 import com.srm.model.academic.StudentResult;
-import com.srm.model.academic.StudentWork;
-import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
 import com.srm.services.CrudService;
 
 public interface StudentResultService extends CrudService<StudentResult, Long> {
 
     //other methods not declared in CrudService
 
-    StudentResult findByStudent(Student student);
+    StudentResult findByStudentLastName(String lastName);
 
-    StudentResult findByTeacher(Teacher marker);
+    StudentResult findByTeacherLastName(String lastName);
 
-    StudentResult findByStudentWork(StudentWork studentWork);
+    StudentResult findByStudentWorkTitle(String assignmentTitle);
 
     StudentResult findByScore(String score);
 

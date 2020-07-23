@@ -1,7 +1,6 @@
 package com.srm.repositories.peopleRepos;
 
 import com.srm.model.people.FormGroupList;
-import com.srm.model.people.Teacher;
 import org.springframework.data.repository.CrudRepository;
 
 //the implementation of the following methods is supplied automatically by JPA
@@ -11,5 +10,5 @@ public interface FormGroupListRepository extends CrudRepository<FormGroupList, L
 
     FormGroupList findByGroupName(String groupName);
 
-    FormGroupList findByTeacher(Teacher teacher);
+    FormGroupList findByTeacher_LastName(String teacherLastName);
 }

@@ -1,10 +1,7 @@
 package com.srm.repositories.academicRepos;
 
 
-import com.srm.model.academic.AssignmentType;
 import com.srm.model.academic.StudentWork;
-import com.srm.model.academic.Subject;
-import com.srm.model.people.Teacher;
 import org.springframework.data.repository.CrudRepository;
 
 //the implementation of the following methods is supplied automatically by JPA
@@ -15,11 +12,11 @@ public interface StudentWorkRepository extends CrudRepository<StudentWork, Long>
     StudentWork findByTitle(String title);
 
     //method identifier auto-generated in IDE...
-    StudentWork findByTeacherUploader(Teacher uploader);
+    StudentWork findByTeacherUploader_LastName(String uploaderLastName);
 
-    StudentWork findBySubject(Subject subject);
+    StudentWork findBySubject_SubjectName(String subjectName);
 
-    StudentWork findByAssignmentType(AssignmentType assignmentType);
+    StudentWork findByAssignmentType_AssignmentType(String assignmentType);
 
     //method identifier auto-generated in IDE...
     StudentWork findByContributor(boolean isAContributor);

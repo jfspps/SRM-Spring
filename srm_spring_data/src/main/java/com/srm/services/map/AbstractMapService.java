@@ -13,6 +13,10 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
 
     protected Map<Long, T> map = new HashMap<>();
 
+    // the following save(), findById(), findAll(), delete() and deleteById() are only accessible to classes in
+    // this package (com.arm.services.map) with accessible terms between protected and private (hence all subclasses
+    // of AbstractMapService are currently in the same package)
+
     T save(T object) {
         if (object != null) {
             if (object.getId() == null) {

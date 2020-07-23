@@ -1,7 +1,6 @@
 package com.srm.services.peopleServices;
 
 import com.srm.model.people.FormGroupList;
-import com.srm.model.people.Teacher;
 import com.srm.services.CrudService;
 
 public interface FormGroupListService extends CrudService<FormGroupList, Long> {
@@ -10,5 +9,5 @@ public interface FormGroupListService extends CrudService<FormGroupList, Long> {
 
     FormGroupList findByGroupName(String groupName);
 
-    FormGroupList findByTeacher(Teacher teacher);
+    FormGroupList findByTeacherLastName(String lastName);
 }
