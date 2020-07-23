@@ -1,14 +1,16 @@
-package com.srm.services.academicServices;
+package com.srm.repositories.academicRepos;
+
+
+//the implementation of the following methods is supplied automatically by JPA
 
 import com.srm.model.academic.StudentResult;
 import com.srm.model.academic.StudentWork;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
-import com.srm.services.CrudService;
+import org.springframework.data.repository.CrudRepository;
 
-public interface StudentResultService extends CrudService<StudentResult, Long> {
-
-    //other methods not declared in CrudService
+//declares additional SpringDataJPA CRUD functionality for StudentResult
+public interface StudentResultRepository extends CrudRepository<StudentResult, Long> {
 
     StudentResult findByStudent(Student student);
 
@@ -17,6 +19,4 @@ public interface StudentResultService extends CrudService<StudentResult, Long> {
     StudentResult findByStudentWork(StudentWork studentWork);
 
     StudentResult findByScore(String score);
-
-    //numerous other possible search parameters possible
 }

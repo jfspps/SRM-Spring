@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 //declares additional SpringDataJPA CRUD functionality for Address
 public interface AddressRepository extends CrudRepository<Address, Long> {
 
-    //*** important that the case of 'postcode' in 'findBypostcode' matches that in Address
-    Address findBypostcode(String postcode);
+    //*** important to allow IDE to help select identifier of postcode (can't always reference otherwise) ??
+    Address findByPostcode(String postcode);
 }

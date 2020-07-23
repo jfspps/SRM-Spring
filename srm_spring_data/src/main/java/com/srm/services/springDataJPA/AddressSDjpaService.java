@@ -23,7 +23,7 @@ public class AddressSDjpaService implements AddressService {
 
     @Override
     public Address findByPostCode(String postcode) {
-        return addressRepository.findBypostcode(postcode);
+        return addressRepository.findByPostcode(postcode);
     }
 
     @Override

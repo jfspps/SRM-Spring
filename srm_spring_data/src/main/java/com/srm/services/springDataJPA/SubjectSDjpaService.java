@@ -1,7 +1,7 @@
 package com.srm.services.springDataJPA;
 
 import com.srm.model.academic.Subject;
-import com.srm.repositories.peopleRepos.SubjectRepository;
+import com.srm.repositories.academicRepos.SubjectRepository;
 import com.srm.services.academicServices.SubjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

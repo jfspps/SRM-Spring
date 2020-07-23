@@ -7,7 +7,7 @@ public interface ThresholdService extends CrudService<Threshold, Long> {
 
     //other methods not declared in CrudService
 
-    Threshold findByNumericalBoundary(String numericalBoundary);
+    Threshold findByNumericalBoundary(int numericalBoundary);
 
     Threshold findByLetterGrade(String letterGrade);
 }
