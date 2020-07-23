@@ -1,7 +1,7 @@
 package com.srm.controllers;
 
 import com.srm.model.people.Student;
-import com.srm.services.StudentService;
+import com.srm.services.peopleServices.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

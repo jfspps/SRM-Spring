@@ -1,11 +1,12 @@
-package com.srm.repositories;
+package com.srm.repositories.peopleRepos;
 
 import com.srm.model.people.Teacher;
 import org.springframework.data.repository.CrudRepository;
 
-//declares SpringDataJPA CRUD functionality for Teachers
+//the implementation of the following methods is supplied automatically by JPA
+
+//declares additional SpringDataJPA CRUD functionality for Teachers
 public interface TeacherRepository extends CrudRepository<Teacher, Long> {
 
-    //implementation of findByLastName is supplied automatically by JPA
     Teacher findByLastName(String lastName);
 }

@@ -1,6 +1,7 @@
-package com.srm.services;
+package com.srm.services.peopleServices;
 
 import com.srm.model.people.Student;
+import com.srm.services.CrudService;
 
 public interface StudentService extends CrudService<Student, Long> {
 

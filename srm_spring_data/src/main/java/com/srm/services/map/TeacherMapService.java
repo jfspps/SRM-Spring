@@ -1,7 +1,7 @@
 package com.srm.services.map;
 
 import com.srm.model.people.Teacher;
-import com.srm.services.TeacherService;
+import com.srm.services.peopleServices.TeacherService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

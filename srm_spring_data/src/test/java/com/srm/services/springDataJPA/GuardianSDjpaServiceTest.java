@@ -3,7 +3,7 @@ package com.srm.services.springDataJPA;
 import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
-import com.srm.repositories.GuardianRepository;
+import com.srm.repositories.peopleRepos.GuardianRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
