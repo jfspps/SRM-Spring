@@ -53,6 +53,17 @@ class TeacherSDjpaServiceTest {
     }
 
     @Test
+    void findByFirstNameAndLastName() {
+        when(teacherRepository.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(teacher);
+
+        Teacher testTeacher = teacherSDjpaService.findByFirstAndLastName("The", "Mole");
+        assertNotNull(testTeacher);
+        assertEquals(lastName, testTeacher.getLastName());
+        assertEquals(firstName, testTeacher.getFirstName());
+        verify(teacherRepository, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
     void saveWithId() {
         when(teacherRepository.save(any())).thenReturn(teacher);
 

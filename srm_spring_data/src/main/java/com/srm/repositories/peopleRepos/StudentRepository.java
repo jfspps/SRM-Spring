@@ -9,4 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface StudentRepository extends CrudRepository<Student, Long> {
 
     Student findByLastName(String lastName);
+
+    Student findByFirstNameAndLastName(String firstName, String lastName);
 }

@@ -77,4 +77,11 @@ class TeacherMapServiceTest {
         Teacher found = teacherMapService.findByLastName(lastName);
         assertEquals(lastName, found.getLastName());
     }
+
+    @Test
+    void findByFirstAndLastName() {
+        Teacher teacherFullName = teacherMapService.findByFirstAndLastName(firstName, lastName);
+        assertEquals(lastName, teacherFullName.getLastName());
+        assertEquals(firstName, teacherFullName.getFirstName());
+    }
 }

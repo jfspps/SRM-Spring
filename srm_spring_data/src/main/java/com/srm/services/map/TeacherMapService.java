@@ -59,4 +59,14 @@ public class TeacherMapService extends AbstractMapService<Teacher, Long> impleme
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public Teacher findByFirstAndLastName(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(teacher -> teacher.getLastName().equalsIgnoreCase(lastName))
+                .filter(teacher -> teacher.getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
 }
