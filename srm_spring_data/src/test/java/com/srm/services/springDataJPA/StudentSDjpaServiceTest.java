@@ -1,7 +1,7 @@
 package com.srm.services.springDataJPA;
 
 import com.srm.model.people.Student;
-import com.srm.repositories.StudentRepository;
+import com.srm.repositories.peopleRepos.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

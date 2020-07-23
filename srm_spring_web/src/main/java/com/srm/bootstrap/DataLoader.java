@@ -4,10 +4,10 @@ import com.srm.model.academic.Subject;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
-import com.srm.services.GuardianService;
-import com.srm.services.StudentService;
-import com.srm.services.SubjectService;
-import com.srm.services.TeacherService;
+import com.srm.services.academicServices.SubjectService;
+import com.srm.services.peopleServices.GuardianService;
+import com.srm.services.peopleServices.StudentService;
+import com.srm.services.peopleServices.TeacherService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

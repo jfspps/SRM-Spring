@@ -1,7 +1,7 @@
 package com.srm.services.map;
 
 import com.srm.model.people.Guardian;
-import com.srm.services.GuardianService;
+import com.srm.services.peopleServices.GuardianService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @Entity
 public class Address extends BaseEntity {
-    //at present, there is no plan to implement a database table of addresses, rather, they are stored in Guardians
+
     @Builder
     public Address(Long id, String firstLine, String secondLine, String postcode) {
         super(id);

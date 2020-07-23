@@ -19,10 +19,11 @@ import javax.persistence.OneToOne;
 public class StudentResult extends BaseEntity {
 
     @Builder
-    public StudentResult(Long id, Student student, Teacher teacherMarker, StudentWork studentWork, String score, String comments) {
+    public StudentResult(Long id, Student student, Teacher teacherMarker, StudentWork studentWork, String score,
+                         String comments) {
         super(id);
         this.student = student;
-        this.teacherMarker = teacherMarker;
+        this.teacher = teacherMarker;
         this.studentWork = studentWork;
         this.score = score;
         this.comments = comments;
@@ -32,7 +33,8 @@ public class StudentResult extends BaseEntity {
     private Student student;
 
     @OneToOne
-    private Teacher teacherMarker;        //allow for different teachers to share the same assignment
+    private Teacher teacher;        //teacher markers not setters;
+    // allow for different teachers to share the same assignment
 
     @ManyToOne
     private StudentWork studentWork;

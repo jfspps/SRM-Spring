@@ -1,8 +1,8 @@
 package com.srm.services.springDataJPA;
 
 import com.srm.model.people.Teacher;
-import com.srm.repositories.TeacherRepository;
-import com.srm.services.TeacherService;
+import com.srm.repositories.peopleRepos.TeacherRepository;
+import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

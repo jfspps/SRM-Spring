@@ -1,7 +1,7 @@
 package com.srm.services.map;
 
 import com.srm.model.people.Student;
-import com.srm.services.StudentService;
+import com.srm.services.peopleServices.StudentService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
