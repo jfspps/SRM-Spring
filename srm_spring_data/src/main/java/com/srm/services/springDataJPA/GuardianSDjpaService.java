@@ -3,6 +3,7 @@ package com.srm.services.springDataJPA;
 import com.srm.model.people.Guardian;
 import com.srm.repositories.GuardianRepository;
 import com.srm.services.GuardianService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //see StudentSDjpaService for commentary
+@Slf4j
 @Service
 @Profile("springDataJPA")
 public class GuardianSDjpaService implements GuardianService {

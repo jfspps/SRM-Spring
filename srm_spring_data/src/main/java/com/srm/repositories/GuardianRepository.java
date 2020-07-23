@@ -3,7 +3,7 @@ package com.srm.repositories;
 import com.srm.model.people.Guardian;
 import org.springframework.data.repository.CrudRepository;
 
-//provide CRUD functionality to Guardians
+//declares SpringDataJPA CRUD functionality for Guardians
 public interface GuardianRepository extends CrudRepository<Guardian, Long> {
 
     //implementation of findByLastName is supplied automatically by JPA
