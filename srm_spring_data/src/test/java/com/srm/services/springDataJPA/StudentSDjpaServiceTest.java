@@ -57,6 +57,17 @@ class StudentSDjpaServiceTest {
     }
 
     @Test
+    void findByFirstNameAndLastName() {
+        when(studentRepository.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(mockStudent);
+
+        Student testStudent = studentSDjpaService.findByFirstAndLastName("The", "Mole");
+        assertNotNull(testStudent);
+        assertEquals(lastName, testStudent.getLastName());
+        assertEquals(firstName, testStudent.getFirstName());
+        verify(studentRepository, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
     void save() {
         Student StudentToBeSaved = Student.builder().id(id).build();
 

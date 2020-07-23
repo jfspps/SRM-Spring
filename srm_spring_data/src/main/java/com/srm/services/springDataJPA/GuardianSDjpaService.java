@@ -28,6 +28,11 @@ public class GuardianSDjpaService implements GuardianService {
     }
 
     @Override
+    public Guardian findByFirstAndLastName(String firstName, String lastName) {
+        return guardianRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
     public Guardian save(Guardian object) {
         return guardianRepository.save(object);
     }
@@ -53,4 +58,5 @@ public class GuardianSDjpaService implements GuardianService {
     public void deleteById(Long aLong) {
         guardianRepository.deleteById(aLong);
     }
+
 }

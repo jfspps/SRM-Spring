@@ -28,6 +28,11 @@ public class TeacherSDjpaService implements TeacherService {
     }
 
     @Override
+    public Teacher findByFirstAndLastName(String firstName, String lastName) {
+        return teacherRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
     public Teacher save(Teacher object) {
         return teacherRepository.save(object);
     }

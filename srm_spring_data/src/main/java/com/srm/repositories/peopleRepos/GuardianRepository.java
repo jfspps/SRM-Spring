@@ -9,4 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface GuardianRepository extends CrudRepository<Guardian, Long> {
 
     Guardian findByLastName(String lastName);
+
+    Guardian findByFirstNameAndLastName(String firstName, String lastName);
 }

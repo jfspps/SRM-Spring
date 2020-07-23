@@ -8,4 +8,6 @@ public interface TeacherService extends CrudService<Teacher, Long> {
     //other methods not declared in CrudService
 
     Teacher findByLastName(String lastName);
+
+    Teacher findByFirstAndLastName(String firstName, String lastName);
 }

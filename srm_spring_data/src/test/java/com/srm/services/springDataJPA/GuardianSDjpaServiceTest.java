@@ -69,6 +69,17 @@ class GuardianSDjpaServiceTest {
     }
 
     @Test
+    void findByFirstNameAndLastName() {
+        when(guardianRepository.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(mockGuardian);
+
+        Guardian testGuardian = guardianSDjpaService.findByFirstAndLastName("The", "Mole");
+        assertNotNull(testGuardian);
+        assertEquals(lastName, testGuardian.getLastName());
+        assertEquals(firstName, testGuardian.getFirstName());
+        verify(guardianRepository, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
     void saveWithId() {
         when(guardianRepository.save(any())).thenReturn(mockGuardian);
 

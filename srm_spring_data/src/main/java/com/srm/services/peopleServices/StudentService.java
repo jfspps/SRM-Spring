@@ -8,4 +8,6 @@ public interface StudentService extends CrudService<Student, Long> {
     //other methods not declared in CrudService
 
     Student findByLastName(String lastName);
+
+    Student findByFirstAndLastName(String firstName, String lastName);
 }

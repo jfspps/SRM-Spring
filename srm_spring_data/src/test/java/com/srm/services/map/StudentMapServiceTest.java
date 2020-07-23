@@ -72,4 +72,11 @@ class StudentMapServiceTest {
         Student queryStudent = studentMapService.findByLastName(lastName);
         assertEquals(lastName, queryStudent.getLastName());
     }
+
+    @Test
+    void findByFirstAndLastName() {
+        Student studentFullName = studentMapService.findByFirstAndLastName(firstName, lastName);
+        assertEquals(lastName, studentFullName.getLastName());
+        assertEquals(firstName, studentFullName.getFirstName());
+    }
 }

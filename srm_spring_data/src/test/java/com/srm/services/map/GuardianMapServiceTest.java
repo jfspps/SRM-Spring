@@ -100,4 +100,11 @@ class GuardianMapServiceTest {
         Guardian guardianWithName = guardianMapService.findByLastName(lastName);
         assertEquals(lastName, guardianWithName.getLastName());
     }
+
+    @Test
+    void findByFirstAndLastName() {
+        Guardian guardianFullName = guardianMapService.findByFirstAndLastName(firstName, lastName);
+        assertEquals(lastName, guardianFullName.getLastName());
+        assertEquals(firstName, guardianFullName.getFirstName());
+    }
 }
