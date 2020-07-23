@@ -8,4 +8,6 @@ public interface GuardianService extends CrudService<Guardian, Long> {
     //other methods not declared in CrudService
 
     Guardian findByLastName(String lastName);
+
+    Guardian findByFirstAndLastName(String firstName, String lastName);
 }

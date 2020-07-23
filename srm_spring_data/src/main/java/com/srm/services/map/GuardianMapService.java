@@ -59,4 +59,14 @@ public class GuardianMapService extends AbstractMapService<Guardian, Long> imple
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public Guardian findByFirstAndLastName(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(guardian -> guardian.getLastName().equalsIgnoreCase(lastName))
+                .filter(guardian -> guardian.getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
 }
