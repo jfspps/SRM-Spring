@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class StudentSDjpaServiceTest {
 
-    //needed for StudentSDjpaService constructor (and mocks below)
+    //mock object needed for JPA functionality
     @Mock
     StudentRepository studentRepository;
 
@@ -52,7 +52,7 @@ class StudentSDjpaServiceTest {
 
         assertEquals(lastName, randomStudent.getLastName());
 
-        //verify that studentRepository's findByLastName() was called at least once
+        //verify that mock studentRepository's findByLastName() was called at least once
         verify(studentRepository).findByLastName(any());
     }
 
@@ -62,7 +62,7 @@ class StudentSDjpaServiceTest {
 
         when(studentRepository.save(any())).thenReturn(mockStudent);
 
-        //savedStudent will be the same as mockStudent
+        //savedStudent will be the same as mockStudent; at this stage, we only verify the return of save()
         Student savedStudent = studentSDjpaService.save(StudentToBeSaved);
 
         assertNotNull(savedStudent);
@@ -84,8 +84,8 @@ class StudentSDjpaServiceTest {
     @Test
     void findAll() {
         Set<Student> studentSet = new HashSet<>();
-        studentSet.add(Student.builder().id(1l).build());
-        studentSet.add(Student.builder().id(2l).build());
+        studentSet.add(Student.builder().id(1L).build());
+        studentSet.add(Student.builder().id(2L).build());
 
         when(studentRepository.findAll()).thenReturn(studentSet);
 
@@ -97,6 +97,10 @@ class StudentSDjpaServiceTest {
 
     @Test
     void delete() {
+        //test somewhat meaningless for now...
+
+        studentSDjpaService.save(mockStudent);
+        assertEquals(0, studentSDjpaService.findAll().size());
         studentSDjpaService.delete(mockStudent);
         assertEquals(0, studentSDjpaService.findAll().size());
         verify(studentRepository, times(1)).delete(any());
@@ -104,6 +108,10 @@ class StudentSDjpaServiceTest {
 
     @Test
     void deleteById() {
+        //test somewhat meaningless for now...
+
+        studentSDjpaService.save(mockStudent);
+        assertEquals(0, studentSDjpaService.findAll().size());
         studentSDjpaService.deleteById(id);
         assertEquals(0, studentSDjpaService.findAll().size());
         verify(studentRepository).deleteById(anyLong());

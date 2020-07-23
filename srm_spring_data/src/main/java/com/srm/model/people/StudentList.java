@@ -1,16 +1,23 @@
 package com.srm.model.people;
 
 import com.srm.model.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.MappedSuperclass;
+import java.util.HashSet;
+import java.util.Set;
 
+//generic class list
 
 @Setter
 @Getter
-@MappedSuperclass
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentList extends BaseEntity {
 
     private String groupName;
+
+    Set<Student> students = new HashSet<>();
 }

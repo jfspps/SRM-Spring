@@ -13,7 +13,11 @@ import java.util.Set;
 // both StudentSDjpaService and StudentServiceMap are declared as Services for StudentService, so set a profile to
 // pick one which operates as runtime (eventually, this dependency is decided later)
 
-// currently, springDataJPA profile is not in use so StudentServiceMap is injected at runtime
+// SpringData JPA is only injected if application.yml is set to springDataJPA
+
+// The interface StudentService declares the minimum CRUD functionality and custom findBy...() methods
+// The interface StudentRepository declares the methods which extends from Spring CrudRepository (automatically
+// implemented by JPA)
 @Slf4j
 @Service
 @Profile("springDataJPA")

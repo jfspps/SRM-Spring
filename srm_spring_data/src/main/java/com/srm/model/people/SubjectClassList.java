@@ -1,7 +1,8 @@
 package com.srm.model.people;
 
+import com.srm.model.BaseEntity;
 import com.srm.model.academic.Subject;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +16,19 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class SubjectClassList extends StudentList {
+public class SubjectClassList extends BaseEntity {
+
+    @Builder
+    public SubjectClassList(Long id, String groupName, Set<Student> students, Teacher teacher, Subject subject) {
+        super(id);
+        this.groupName = groupName;
+        this.studentList = students;
+        this.teacher = teacher;
+        this.subject = subject;
+    }
+
+    private String groupName;
 
     @ManyToMany(mappedBy = "subjectClassLists")
     private Set<Student> studentList = new HashSet<>();

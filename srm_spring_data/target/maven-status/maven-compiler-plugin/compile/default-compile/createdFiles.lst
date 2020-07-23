@@ -21,6 +21,7 @@ com/srm/model/people/Teacher$TeacherBuilder.class
 com/srm/services/springDataJPA/TeacherSDjpaService.class
 com/srm/model/academic/StudentResult.class
 com/srm/model/people/Guardian$GuardianBuilder.class
+com/srm/model/people/FormGroupList$FormGroupListBuilder.class
 com/srm/services/map/StudentMapService.class
 com/srm/model/people/StudentList.class
 com/srm/repositories/TeacherRepository.class
@@ -31,6 +32,8 @@ com/srm/model/academic/AssignmentType.class
 com/srm/model/academic/Threshold.class
 com/srm/model/people/Guardian.class
 com/srm/model/people/Teacher.class
+com/srm/model/people/SubjectClassList$SubjectClassListBuilder.class
+com/srm/model/academic/StudentWork$StudentWorkBuilder.class
 com/srm/model/academic/ThresholdList.class
 com/srm/model/academic/Report$ReportBuilder.class
 com/srm/services/map/SubjectMapService.class
@@ -40,5 +43,6 @@ com/srm/services/GuardianService.class
 com/srm/model/people/ContactDetail.class
 com/srm/model/people/FormGroupList.class
 com/srm/repositories/GuardianRepository.class
+com/srm/model/academic/AssignmentType$AssignmentTypeBuilder.class
 com/srm/services/springDataJPA/SubjectSDjpaService.class
 com/srm/model/academic/StudentWork.class

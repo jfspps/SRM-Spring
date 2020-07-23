@@ -1,7 +1,7 @@
 package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,10 +14,16 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class AssignmentType extends BaseEntity {
     //this would be uniformly set by the school admin
+
+    @Builder
+    public AssignmentType(Long id, String assignmentType, Set<StudentResult> studentResults) {
+        super(id);
+        this.assignmentType = assignmentType;
+        this.studentResults = studentResults;
+    }
 
     private String assignmentType;
 

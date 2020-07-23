@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "contact_details")
+@Table(name = "contact_detail")
 public class ContactDetail extends BaseEntity {
 
     @Column(name = "email")

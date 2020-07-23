@@ -1,2 +1,8 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/springDataJPA/StudentSDjpaServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/springDataJPA/SubjectSDjpaServiceTest.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/map/StudentMapServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/map/GuardianMapServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/map/TeacherMapServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/springDataJPA/GuardianSDjpaServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/springDataJPA/TeacherSDjpaServiceTest.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/test/java/com/srm/services/map/SubjectMapServiceTest.java
