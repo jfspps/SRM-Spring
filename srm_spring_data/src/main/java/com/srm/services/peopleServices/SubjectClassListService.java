@@ -12,4 +12,6 @@ public interface SubjectClassListService extends CrudService<SubjectClassList, L
     SubjectClassList findByTeacherLastName(String lastName);
 
     SubjectClassList findByGroupName(String groupName);
+
+    SubjectClassList findByTeacherFirstAndLastName(String firstName, String lastName);
 }

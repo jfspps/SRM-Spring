@@ -10,4 +10,6 @@ public interface FormGroupListService extends CrudService<FormGroupList, Long> {
     FormGroupList findByGroupName(String groupName);
 
     FormGroupList findByTeacherLastName(String lastName);
+
+    FormGroupList findByTeacherFirstAndLastName(String firstName, String lastName);
 }

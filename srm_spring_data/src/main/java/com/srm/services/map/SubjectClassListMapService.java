@@ -72,4 +72,14 @@ public class SubjectClassListMapService extends AbstractMapService<SubjectClassL
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public SubjectClassList findByTeacherFirstAndLastName(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(subjectClassList -> subjectClassList.getTeacher().getLastName().equalsIgnoreCase(lastName))
+                .filter(subjectClassList -> subjectClassList.getTeacher().getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
 }

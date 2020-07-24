@@ -11,4 +11,6 @@ public interface FormGroupListRepository extends CrudRepository<FormGroupList, L
     FormGroupList findByGroupName(String groupName);
 
     FormGroupList findByTeacher_LastName(String teacherLastName);
+
+    FormGroupList findByTeacher_FirstNameAndTeacher_LastName(String firstName, String lastName);
 }

@@ -61,4 +61,14 @@ public class FormGroupListMapService extends AbstractMapService<FormGroupList, L
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public FormGroupList findByTeacherFirstAndLastName(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(formGroupList -> formGroupList.getTeacher().getLastName().equalsIgnoreCase(lastName))
+                .filter(formGroupList -> formGroupList.getTeacher().getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
 }
