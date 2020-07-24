@@ -53,6 +53,7 @@ com/srm/repositories/peopleRepos/GuardianRepository.class
 com/srm/model/academic/StudentResult$StudentResultBuilder.class
 com/srm/repositories/academicRepos/ReportRepository.class
 com/srm/model/people/Teacher$TeacherBuilder.class
+com/srm/model/academic/ThresholdList$ThresholdListBuilder.class
 com/srm/services/springDataJPA/TeacherSDjpaService.class
 com/srm/model/academic/StudentResult.class
 com/srm/model/people/StudentList.class

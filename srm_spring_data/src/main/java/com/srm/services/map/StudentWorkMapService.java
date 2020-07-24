@@ -33,6 +33,16 @@ public class StudentWorkMapService extends AbstractMapService<StudentWork, Long>
     }
 
     @Override
+    public StudentWork findByTeacherFirstAndLastName(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(studentWork -> studentWork.getTeacherUploader().getLastName().equalsIgnoreCase(lastName))
+                .filter(studentWork -> studentWork.getTeacherUploader().getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public StudentWork findBySubject(String subjectName) {
         return this.findAll()
                 .stream()
@@ -42,10 +52,10 @@ public class StudentWorkMapService extends AbstractMapService<StudentWork, Long>
     }
 
     @Override
-    public StudentWork findByAssignmentType(String assignmentType) {
+    public StudentWork findByDescription(String assignmentType) {
         return this.findAll()
                 .stream()
-                .filter(studentWork -> studentWork.getAssignmentType().getAssignmentType().equalsIgnoreCase(assignmentType))
+                .filter(studentWork -> studentWork.getAssignmentType().getDescription().equalsIgnoreCase(assignmentType))
                 .findFirst()
                 .orElse(null);
     }

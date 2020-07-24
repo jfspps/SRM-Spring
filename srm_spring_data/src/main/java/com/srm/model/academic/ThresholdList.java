@@ -1,7 +1,7 @@
 package com.srm.model.academic;
 
 import com.srm.model.BaseEntity;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +16,14 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class ThresholdList extends BaseEntity {
+
+    @Builder
+    public ThresholdList(Long id, Set<Threshold> thresholds) {
+        super(id);
+        this.thresholds = thresholds;
+    }
 
     @JoinTable(name = "thresholdList_threshold",
             joinColumns = @JoinColumn(name = "thresholdlist_id"), inverseJoinColumns = @JoinColumn(name = "threshold_id"))

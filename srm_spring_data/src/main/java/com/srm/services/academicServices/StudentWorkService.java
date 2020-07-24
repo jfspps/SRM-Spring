@@ -11,9 +11,11 @@ public interface StudentWorkService extends CrudService<StudentWork, Long> {
 
     StudentWork findByTeacherLastName(String lastName);
 
+    StudentWork findByTeacherFirstAndLastName(String firstName, String lastName);
+
     StudentWork findBySubject(String subjectName);
 
-    StudentWork findByAssignmentType(String assignmentType);
+    StudentWork findByDescription(String description);
 
     StudentWork findByContribution(boolean isAContributor);
 }

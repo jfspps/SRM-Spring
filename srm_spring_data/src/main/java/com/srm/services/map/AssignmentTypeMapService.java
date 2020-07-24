@@ -15,10 +15,10 @@ import java.util.Set;
 public class AssignmentTypeMapService extends AbstractMapService<AssignmentType, Long> implements AssignmentTypeService {
 
     @Override
-    public AssignmentType findByAssignmentType(String type) {
+    public AssignmentType findByDescription(String type) {
         return this.findAll()
                 .stream()
-                .filter(assignmentType -> assignmentType.getAssignmentType().equalsIgnoreCase(type))
+                .filter(assignmentType -> assignmentType.getDescription().equalsIgnoreCase(type))
                 .findFirst()
                 .orElse(null);
     }

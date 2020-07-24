@@ -8,5 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 //declares additional SpringDataJPA CRUD functionality for AssignmentType
 public interface AssignmentTypeRepository extends CrudRepository<AssignmentType, Long> {
 
-    AssignmentType findByAssignmentType(String type);
+    AssignmentType findByDescription(String description);
 }
