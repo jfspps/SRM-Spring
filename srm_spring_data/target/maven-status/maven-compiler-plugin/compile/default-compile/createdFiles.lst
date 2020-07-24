@@ -1,4 +1,5 @@
 com/srm/services/map/SubjectClassListMapService.class
+com/srm/services/map/ThresholdListMapService.class
 com/srm/model/people/Student.class
 com/srm/model/people/SubjectClassList.class
 com/srm/model/people/Address.class
@@ -8,9 +9,11 @@ com/srm/repositories/academicRepos/StudentResultRepository.class
 com/srm/services/map/FormGroupListMapService.class
 com/srm/model/people/ContactDetail$ContactDetailBuilder.class
 com/srm/services/peopleServices/SubjectClassListService.class
+com/srm/services/map/ThresholdMapService.class
 com/srm/model/people/Guardian$GuardianBuilder.class
 com/srm/model/people/FormGroupList$FormGroupListBuilder.class
 com/srm/repositories/academicRepos/SubjectRepository.class
+com/srm/services/map/StudentResultMapService.class
 com/srm/services/map/StudentMapService.class
 com/srm/repositories/peopleRepos/ContactDetailRepository.class
 com/srm/services/peopleServices/StudentService.class
@@ -50,6 +53,7 @@ com/srm/repositories/peopleRepos/GuardianRepository.class
 com/srm/model/academic/StudentResult$StudentResultBuilder.class
 com/srm/repositories/academicRepos/ReportRepository.class
 com/srm/model/people/Teacher$TeacherBuilder.class
+com/srm/model/academic/ThresholdList$ThresholdListBuilder.class
 com/srm/services/springDataJPA/TeacherSDjpaService.class
 com/srm/model/academic/StudentResult.class
 com/srm/model/people/StudentList.class
@@ -57,6 +61,7 @@ com/srm/services/peopleServices/ContactDetailService.class
 com/srm/services/map/ContactDetailMapService.class
 com/srm/model/people/Student$StudentBuilder.class
 com/srm/model/academic/AssignmentType.class
+com/srm/services/map/StudentWorkMapService.class
 com/srm/model/academic/Threshold.class
 com/srm/model/people/Guardian.class
 com/srm/repositories/academicRepos/ThresholdListRepository.class
@@ -64,10 +69,12 @@ com/srm/repositories/academicRepos/ThresholdRepository.class
 com/srm/services/academicServices/StudentResultService.class
 com/srm/model/academic/Report$ReportBuilder.class
 com/srm/services/map/SubjectMapService.class
+com/srm/services/map/ReportMapService.class
 com/srm/model/academic/Threshold$ThresholdBuilder.class
 com/srm/services/peopleServices/GuardianService.class
 com/srm/services/springDataJPA/AddressSDjpaService.class
 com/srm/services/peopleServices/AddressService.class
 com/srm/services/academicServices/StudentWorkService.class
+com/srm/services/map/AssignmentTypeMapService.class
 com/srm/services/academicServices/ThresholdService.class
 com/srm/services/academicServices/ThresholdListService.class

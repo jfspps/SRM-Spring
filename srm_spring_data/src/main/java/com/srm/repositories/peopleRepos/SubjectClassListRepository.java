@@ -13,4 +13,6 @@ public interface SubjectClassListRepository extends CrudRepository<SubjectClassL
     SubjectClassList findByTeacher_LastName(String teacherLastName);
 
     SubjectClassList findByGroupName(String groupName);
+
+    SubjectClassList findByTeacher_FirstNameAndTeacher_LastName(String firstName, String lastName);
 }

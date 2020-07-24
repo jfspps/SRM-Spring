@@ -27,7 +27,7 @@ public class StudentWork extends BaseEntity {
         super(id);
         this.title = title;
         this.maxScore = maxScore;
-        this.contributor = contributor;
+        this.contributor = true;    //assume that any data uploaded contributes to some overall score
         this.teacherUploader = teacherUploader;
         this.subject = subject;
         this.assignmentType = assignmentType;
@@ -35,8 +35,8 @@ public class StudentWork extends BaseEntity {
     }
 
     private String title;
-    private Integer maxScore;               //boxed Integer can be null; allows for letter grades or no score at all
-    private boolean contributor = true;     //does this contribute to an overall end-of-term/semester/year score?
+    private Integer maxScore;        //boxed Integer can be null; allows for letter grades or no score at all
+    private boolean contributor;     //purpose is to state whether this contributes to an overall end-of-term/...score
 
     @OneToOne
     private Teacher teacherUploader;

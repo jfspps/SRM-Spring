@@ -1,4 +1,5 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Student.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/StudentWorkMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/StudentSDjpaService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/AssignmentTypeService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/SubjectRepository.java
@@ -17,9 +18,11 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/StudentResultService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/TeacherSDjpaService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/FormGroupList.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/ReportMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/StudentRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/peopleServices/FormGroupListService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/StudentResult.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/AssignmentTypeMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Teacher.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/AddressRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/AbstractMapService.java
@@ -31,6 +34,7 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/AssignmentType.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ReportService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/ContactDetailRepository.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/ThresholdListMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ThresholdListService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/ThresholdRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/peopleServices/TeacherService.java
@@ -52,9 +56,11 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/SubjectClassListRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Guardian.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/FormGroupListRepository.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/ThresholdMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ThresholdService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/peopleServices/ContactDetailService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/StudentList.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/GuardianMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/SubjectSDjpaService.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/StudentResultMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/ContactDetail.java

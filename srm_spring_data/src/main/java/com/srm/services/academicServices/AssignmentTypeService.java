@@ -7,5 +7,5 @@ public interface AssignmentTypeService extends CrudService<AssignmentType, Long>
 
     //other methods not declared in CrudService
 
-    AssignmentType findByAssignmentType(String type);
+    AssignmentType findByDescription(String type);
 }

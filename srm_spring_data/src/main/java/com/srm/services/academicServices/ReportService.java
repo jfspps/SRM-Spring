@@ -9,7 +9,11 @@ public interface ReportService extends CrudService<Report, Long> {
 
     Report findByStudentLastName(String lastName);
 
+    Report findByStudentFirstAndLastName(String firstName, String lastName);
+
     Report findByTeacherLastName(String lastName);
+
+    Report findByTeacherFirstAndLastName(String firstName, String lastName);
 
     Report findBySubject(String subjectName);
 
