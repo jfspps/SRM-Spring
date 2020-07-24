@@ -1,4 +1,5 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Student.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/StudentWorkMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/StudentSDjpaService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/AssignmentTypeService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/SubjectRepository.java
@@ -33,6 +34,7 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/academic/AssignmentType.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ReportService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/ContactDetailRepository.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/ThresholdListMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ThresholdListService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/ThresholdRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/peopleServices/TeacherService.java
@@ -54,6 +56,7 @@
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/SubjectClassListRepository.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/Guardian.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/FormGroupListRepository.java
+/home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/map/ThresholdMapService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/ThresholdService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/services/peopleServices/ContactDetailService.java
 /home/james/Dev/SRM_Spring/srm_spring_data/src/main/java/com/srm/model/people/StudentList.java

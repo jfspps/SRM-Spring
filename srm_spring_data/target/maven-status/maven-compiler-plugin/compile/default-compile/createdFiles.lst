@@ -1,4 +1,5 @@
 com/srm/services/map/SubjectClassListMapService.class
+com/srm/services/map/ThresholdListMapService.class
 com/srm/model/people/Student.class
 com/srm/model/people/SubjectClassList.class
 com/srm/model/people/Address.class
@@ -8,6 +9,7 @@ com/srm/repositories/academicRepos/StudentResultRepository.class
 com/srm/services/map/FormGroupListMapService.class
 com/srm/model/people/ContactDetail$ContactDetailBuilder.class
 com/srm/services/peopleServices/SubjectClassListService.class
+com/srm/services/map/ThresholdMapService.class
 com/srm/model/people/Guardian$GuardianBuilder.class
 com/srm/model/people/FormGroupList$FormGroupListBuilder.class
 com/srm/repositories/academicRepos/SubjectRepository.class
@@ -58,6 +60,7 @@ com/srm/services/peopleServices/ContactDetailService.class
 com/srm/services/map/ContactDetailMapService.class
 com/srm/model/people/Student$StudentBuilder.class
 com/srm/model/academic/AssignmentType.class
+com/srm/services/map/StudentWorkMapService.class
 com/srm/model/academic/Threshold.class
 com/srm/model/people/Guardian.class
 com/srm/repositories/academicRepos/ThresholdListRepository.class
