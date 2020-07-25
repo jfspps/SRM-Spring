@@ -11,7 +11,11 @@ public interface StudentResultRepository extends CrudRepository<StudentResult, L
 
     StudentResult findByStudent_LastName(String studentLastName);
 
+    StudentResult findByStudent_FirstNameAndStudent_LastName(String firstName, String lastName);
+
     StudentResult findByTeacher_LastName(String markerLastName);
+
+    StudentResult findByTeacher_FirstNameAndTeacher_LastName(String firstName, String lastName);
 
     StudentResult findByStudentWork_Title(String assignmentTitle);
 

@@ -1,6 +1,7 @@
 com/srm/services/map/SubjectClassListMapService.class
 com/srm/services/map/ThresholdListMapService.class
 com/srm/model/people/Student.class
+com/srm/services/springDataJPA/ThresholdListSDjpaService.class
 com/srm/model/people/SubjectClassList.class
 com/srm/model/people/Address.class
 com/srm/repositories/peopleRepos/StudentRepository.class
@@ -20,6 +21,8 @@ com/srm/services/peopleServices/StudentService.class
 com/srm/repositories/academicRepos/AssignmentTypeRepository.class
 com/srm/model/academic/Subject.class
 com/srm/services/CrudService.class
+com/srm/services/springDataJPA/AssignmentTypeSDjpaService.class
+com/srm/services/springDataJPA/ReportSDjpaService.class
 com/srm/repositories/peopleRepos/FormGroupListRepository.class
 com/srm/model/people/Teacher.class
 com/srm/model/people/SubjectClassList$SubjectClassListBuilder.class
@@ -32,10 +35,12 @@ com/srm/services/peopleServices/FormGroupListService.class
 com/srm/model/people/ContactDetail.class
 com/srm/services/academicServices/SubjectService.class
 com/srm/model/people/FormGroupList.class
+com/srm/services/springDataJPA/SubjectClassListSDjpaService.class
 com/srm/repositories/academicRepos/StudentWorkRepository.class
 com/srm/model/academic/AssignmentType$AssignmentTypeBuilder.class
 com/srm/services/springDataJPA/SubjectSDjpaService.class
 com/srm/model/academic/StudentWork.class
+com/srm/services/springDataJPA/ContactDetailSDjpaService.class
 com/srm/services/map/TeacherMapService.class
 com/srm/model/BaseEntity.class
 com/srm/services/academicServices/AssignmentTypeService.class
@@ -46,10 +51,12 @@ com/srm/services/springDataJPA/StudentSDjpaService.class
 com/srm/model/people/Address$AddressBuilder.class
 com/srm/services/academicServices/ReportService.class
 com/srm/services/springDataJPA/GuardianSDjpaService.class
+com/srm/services/springDataJPA/StudentResultSDjpaService.class
 com/srm/services/map/AbstractMapService.class
 com/srm/services/peopleServices/TeacherService.class
 com/srm/repositories/peopleRepos/AddressRepository.class
 com/srm/repositories/peopleRepos/GuardianRepository.class
+com/srm/services/springDataJPA/FormGroupListSDjpaService.class
 com/srm/model/academic/StudentResult$StudentResultBuilder.class
 com/srm/repositories/academicRepos/ReportRepository.class
 com/srm/model/people/Teacher$TeacherBuilder.class
@@ -67,6 +74,7 @@ com/srm/model/people/Guardian.class
 com/srm/repositories/academicRepos/ThresholdListRepository.class
 com/srm/repositories/academicRepos/ThresholdRepository.class
 com/srm/services/academicServices/StudentResultService.class
+com/srm/services/springDataJPA/ThresholdSDjpaService.class
 com/srm/model/academic/Report$ReportBuilder.class
 com/srm/services/map/SubjectMapService.class
 com/srm/services/map/ReportMapService.class
@@ -78,3 +86,4 @@ com/srm/services/academicServices/StudentWorkService.class
 com/srm/services/map/AssignmentTypeMapService.class
 com/srm/services/academicServices/ThresholdService.class
 com/srm/services/academicServices/ThresholdListService.class
+com/srm/services/springDataJPA/StudentWorkSDjpaService.class

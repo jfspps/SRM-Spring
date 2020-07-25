@@ -10,19 +10,21 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-// both StudentSDjpaService and StudentServiceMap are declared as Services for StudentService, so set a profile to
+// both StudentSDjpaService and StudentServiceMap are implementations of StudentService, so set a profile to
 // pick one which operates as runtime (eventually, this dependency is decided later)
 
-// SpringData JPA is only injected if application.yml is set to springDataJPA
+// SpringData JPA is only injected if application.yml is set to springDataJPA; the default is StudentServiceMap
 
-// The interface StudentService declares the minimum CRUD functionality and custom findBy...() methods
-// The interface StudentRepository declares the methods which extends from Spring CrudRepository (automatically
-// implemented by JPA)
+// The interface StudentService lists the minimum CRUD functionality and custom findBy...() methods
+// The interface StudentRepository declares and defines the CRUD JPA methods.
+// This class maps the JPA methods from the repository with the service methods listed in StudentService
+// (which may be also be implemented by other services)
 @Slf4j
 @Service
 @Profile("springDataJPA")
 public class StudentSDjpaService implements StudentService {
 
+    //JPA methods defined under StudentRepository, hence made accessible via an object studentRepository
     private final StudentRepository studentRepository;
 
     public StudentSDjpaService(StudentRepository studentRepository) {
@@ -51,6 +53,7 @@ public class StudentSDjpaService implements StudentService {
         return studentRepository.findById(aLong).orElse(null);
     }
 
+    //passing a JPA iterable<T> to a HashSet<T>
     @Override
     public Set<Student> findAll() {
         log.info("findAll() from Spring Data JPA services");
