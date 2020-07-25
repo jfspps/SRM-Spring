@@ -19,7 +19,7 @@ class AssignmentTypeMapServiceTest {
     AssignmentTypeMapService assignmentTypeMapService;
     final String Exam = "Exam";
     final String exam = "exam";
-    final String Coursework = "Coursework";
+    final String description = "Coursework";
 
 
     @BeforeEach
@@ -42,7 +42,7 @@ class AssignmentTypeMapServiceTest {
 
     @Test
     void findByFalseAssignmentType() {
-        AssignmentType test3 = assignmentTypeMapService.findByDescription(Coursework);
+        AssignmentType test3 = assignmentTypeMapService.findByDescription(description);
         assertNull(test3);
     }
 }

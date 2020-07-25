@@ -22,7 +22,7 @@ import java.util.Set;
 public class StudentWork extends BaseEntity {
 
     @Builder
-    public StudentWork(Long id, String title, Integer maxScore, boolean contributor, Teacher teacherUploader,
+    public StudentWork(Long id, String title, Integer maxScore, Teacher teacherUploader,
                        Subject subject, AssignmentType assignmentType, Set<StudentResult> studentResults) {
         super(id);
         this.title = title;

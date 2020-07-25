@@ -14,6 +14,8 @@ public interface StudentWorkRepository extends CrudRepository<StudentWork, Long>
     //method identifier auto-generated in IDE...
     StudentWork findByTeacherUploader_LastName(String uploaderLastName);
 
+    StudentWork findByTeacherUploader_FirstNameAndTeacherUploader_LastName(String firstName, String lastName);
+
     StudentWork findBySubject_SubjectName(String subjectName);
 
     StudentWork findByAssignmentType_Description(String description);

@@ -11,7 +11,11 @@ public interface ReportRepository extends CrudRepository<Report, Long> {
 
     Report findByStudent_LastName(String studentLastName);
 
+    Report findByStudent_FirstNameAndStudent_LastName(String firstName, String lastName);
+
     Report findByTeacher_LastName(String teacherLastName);
+
+    Report findByTeacher_FirstNameAndTeacher_LastName(String firstName, String lastName);
 
     Report findBySubject_SubjectName(String subjectName);
 }

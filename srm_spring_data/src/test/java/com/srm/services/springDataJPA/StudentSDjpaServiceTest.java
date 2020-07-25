@@ -52,7 +52,8 @@ class StudentSDjpaServiceTest {
 
         assertEquals(lastName, randomStudent.getLastName());
 
-        //verify that mock studentRepository's findByLastName() was called at least once
+        // verify that JPA studentRepository's findByLastName() was called when calling SDjpa's findByLastName() was
+        // called (this demonstrates that the mapping provided in SDjpa was successful)
         verify(studentRepository).findByLastName(any());
     }
 
@@ -104,6 +105,21 @@ class StudentSDjpaServiceTest {
 
         assertNotNull(returnedSet);
         assertEquals(2, returnedSet.size());
+    }
+
+    @Test
+    void findAllWithSave() {
+        Student student1 = Student.builder().id(1L).build();
+        Student student2 = Student.builder().id(2L).build();
+
+        studentSDjpaService.save(student1);
+        studentSDjpaService.save(student2);
+
+        Set<Student> returnedSet = studentSDjpaService.findAll();
+
+        assertNotNull(returnedSet);
+        assertEquals(0, returnedSet.size());
+        //save() doesn't seem to persist at the moment...
     }
 
     @Test
