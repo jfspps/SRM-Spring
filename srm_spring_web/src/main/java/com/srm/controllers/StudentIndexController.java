@@ -3,7 +3,9 @@ package com.srm.controllers;
 import com.srm.services.peopleServices.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //all routings below proceed /students, not the root (see indexController)
@@ -16,6 +18,12 @@ public class StudentIndexController {
     //constructor service injection; when StudentIndexController is instantiated, it is injected with a one-time StudentService
     public StudentIndexController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    //prevent the HTTP form POST from editing listed properties
+    @InitBinder
+    public void setAllowedFields(WebDataBinder dataBinder){
+        dataBinder.setDisallowedFields("id");
     }
 
     @GetMapping({"", "/", "/index", "/index.html"})
