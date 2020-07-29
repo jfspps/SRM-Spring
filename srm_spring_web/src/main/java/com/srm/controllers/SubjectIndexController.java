@@ -26,11 +26,15 @@ public class SubjectIndexController {
     }
 
     @GetMapping({"", "/", "/index", "/index.html"})
-    public String listSubjects(Model model) {
+    public String listSubjects(Model model, String subjectName) {
         //model is handled by Spring
 
-        //execute findAll() and assign Set to Thymeleaf "subjects" at corresponding index.html
-        model.addAttribute("subjects", subjectService.findAll());
+        if(subjectName == null || subjectName.isEmpty()){
+            //execute findAll() and assign Set to Thymeleaf "subjects" at corresponding index.html
+            model.addAttribute("subjects", subjectService.findAll());
+        } else {
+            model.addAttribute("subjects", subjectService.findBySubjectName(subjectName));
+        }
         return "subjects/index";
     }
 }

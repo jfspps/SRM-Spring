@@ -27,11 +27,15 @@ public class TeacherIndexController {
     }
 
     @GetMapping({"", "/", "/index", "/index.html"})
-    public String listGuardians(Model model) {
+    public String listGuardians(Model model, String lastName) {
         //model is handled by Spring
 
-        //execute findAll() and assign Set to Thymeleaf "teachers" at corresponding index.html
-        model.addAttribute("teachers", teacherService.findAll());
+        if(lastName == null || lastName.isEmpty()){
+            //execute findAll() and assign Set to Thymeleaf "teachers" at corresponding index.html
+            model.addAttribute("teachers", teacherService.findAll());
+        } else {
+            model.addAttribute("teachers", teacherService.findByLastName(lastName));
+        }
         return "teachers/index";
     }
 }

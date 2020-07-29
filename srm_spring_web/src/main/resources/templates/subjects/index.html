@@ -11,7 +11,7 @@
     <title>SRM | Subjects </title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form})">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form},${'Subject Index'})">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,9 @@
                 <a class="nav-link disabled" href="#">Admin</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Subject name" aria-label="Search">
+        <!--        name="subjectName" must match controller listSubjects() parameter-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/index}" method="get">
+            <input class="form-control mr-sm-2" type="text" name="subjectName" placeholder="Subject name" aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -53,9 +54,6 @@
 <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
 
 <div class="container-fluid">
-    <!--Note that text is held in single quotes and this expression lies in double quotes-->
-    <h1 th:text="'Subject list'">Subject /index</h1>
-
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
         <tr>

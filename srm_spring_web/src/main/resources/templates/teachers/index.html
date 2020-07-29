@@ -11,7 +11,7 @@
     <title>SRM | Teachers</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form})">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form},${'Teacher Index'})">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,18 @@
                 <a class="nav-link disabled" href="#">Admin</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Teacher last name" aria-label="Search">
+        <ul class="navbar-nav mr-auto">
+            <!--Note that text is held in single quotes and this expression lies in double quotes-->
+            <a class="navbar-brand">Teacher /index</a>
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+            <input class="btn btn-primary mr-sm-2" type="button" value="New">
+            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
+            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
+        </ul>
+        <!--        name="lastName" must match controller listTeachers() parameter-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
+            <input class="form-control mr-sm-2" type="text" name="lastName"  placeholder="Teacher last name" aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -53,9 +63,6 @@
 <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
 
 <div class="container-fluid">
-    <!--Note that text is held in single quotes and this expression lies in double quotes-->
-    <h1 th:text="'Teacher list'">Teachers /index</h1>
-
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
         <tr>

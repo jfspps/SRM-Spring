@@ -27,11 +27,15 @@ public class GuardianIndexController {
     }
 
     @GetMapping({"", "/", "/index", "/index.html"})
-    public String listGuardians(Model model) {
+    public String listGuardians(Model model, String lastName) {
         //model is handled by Spring
 
-        //execute findAll() and assign Set to Thymeleaf "guardians" at corresponding index.html
-        model.addAttribute("guardians", guardianService.findAll());
+        if (lastName == null || lastName.isEmpty()){
+            //execute findAll() and assign Set to Thymeleaf "guardians" at corresponding index.html
+            model.addAttribute("guardians", guardianService.findAll());
+        } else {
+            model.addAttribute("guardians", guardianService.findByLastName(lastName));
+        }
         return "guardians/index";
     }
 }
