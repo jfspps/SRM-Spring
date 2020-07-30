@@ -1,12 +1,15 @@
 package com.srm.services.map;
 
 import com.srm.model.people.Guardian;
+import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.GuardianService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 //instruct Spring to inject the CRUD GuardianService into the application context as a bean
 //note that neither AbstractService nor any of the services (GuardianService) is declared with @Service; the wiring is
@@ -68,5 +71,22 @@ public class GuardianMapService extends AbstractMapService<Guardian, Long> imple
                 .filter(guardian -> guardian.getFirstName().equalsIgnoreCase(firstName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Guardian> findAllByLastNameLike(String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(guardian -> guardian.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Guardian> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(guardian -> guardian.getFirstName().toLowerCase().contains(firstName.toLowerCase()))
+                .filter(guardian -> guardian.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

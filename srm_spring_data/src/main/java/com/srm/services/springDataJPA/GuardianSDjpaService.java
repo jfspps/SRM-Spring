@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //see StudentSDjpaService for commentary
@@ -30,6 +31,16 @@ public class GuardianSDjpaService implements GuardianService {
     @Override
     public Guardian findByFirstAndLastName(String firstName, String lastName) {
         return guardianRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<Guardian> findAllByLastNameLike(String lastName) {
+        return guardianRepository.findAllByLastNameLike(lastName);
+    }
+
+    @Override
+    public List<Guardian> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return guardianRepository.findAllByFirstNameLikeAndLastNameLike(firstName, lastName);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.srm.services.map;
 
+import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 //instruct Spring to inject the CRUD TeacherService into the application context as a bean
 //note that neither AbstractService nor any of the services (TeacherService) is declared with @Service; the wiring is
@@ -68,5 +71,22 @@ public class TeacherMapService extends AbstractMapService<Teacher, Long> impleme
                 .filter(teacher -> teacher.getFirstName().equalsIgnoreCase(firstName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Teacher> findAllByLastNameLike(String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(teacher -> teacher.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Teacher> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(teacher -> teacher.getFirstName().toLowerCase().contains(firstName.toLowerCase()))
+                .filter(teacher -> teacher.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

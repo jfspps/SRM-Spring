@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //see StudentSDjpaService for commentary
@@ -30,6 +31,16 @@ public class TeacherSDjpaService implements TeacherService {
     @Override
     public Teacher findByFirstAndLastName(String firstName, String lastName) {
         return teacherRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<Teacher> findAllByLastNameLike(String lastName) {
+        return teacherRepository.findAllByLastNameLike(lastName);
+    }
+
+    @Override
+    public List<Teacher> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return teacherRepository.findAllByFirstNameLikeAndLastNameLike(firstName, lastName);
     }
 
     @Override

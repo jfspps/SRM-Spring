@@ -50,26 +50,20 @@
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="col-3 p-3">
-            <h5>Search Parameters</h5>
+        <div class="col-4 p-3">
             <!--the following is for IntelliJ-->
             <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
             <form th:object="${student}" th:action="@{/search}" method="get"
-                  class="form-horizontal" id="search-owner-form">
+                  class="form-horizontal" id="search-student-form">
                 <div class="form-group">
-                    <div class="control-group" id="lastNameGroup">
+                    <div class="control-group" id="studentLastNameGroup">
                         <label class="control-label">Student first name</label>
                         <div>
                             <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />
-                            <span class="help-inline">
-                                <div th:if="${#fields.hasAnyErrors()}">
-                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
-                                </div>
-                            </span>
                         </div>
                         <label class="control-label">Student last name</label>
                         <div>
-                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />
+                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80"/>
                             <span class="help-inline">
                                 <div th:if="${#fields.hasAnyErrors()}">
                                     <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
@@ -80,14 +74,69 @@
                 </div>
                 <div class="form-group">
                     <div>
-                        <button type="submit" class="btn btn-info">Find</button>
+                        <button type="submit" class="btn btn-info">Find Student</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-9 p-3" style="background-color: white">
-            <h5>Results</h5>
-        </div>
+<!--        <div class="col-4 p-3">-->
+<!--            &lt;!&ndash;the following is for IntelliJ&ndash;&gt;-->
+<!--            &lt;!&ndash;/*@thymesVar id="student" type="com.srm.model.people.Guardian"*/&ndash;&gt;-->
+<!--            <form th:object="${guardian}" th:action="@{/search}" method="get"-->
+<!--                  class="form-horizontal" id="search-guardian-form">-->
+<!--                <div class="form-group">-->
+<!--                    <div class="control-group" id="guardianLastNameGroup">-->
+<!--                        <label class="control-label">Guardian first name</label>-->
+<!--                        <div>-->
+<!--                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />-->
+<!--                        </div>-->
+<!--                        <label class="control-label">Guardian last name</label>-->
+<!--                        <div>-->
+<!--                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />-->
+<!--                            <span class="help-inline">-->
+<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
+<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
+<!--                                </div>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <div>-->
+<!--                        <button type="submit" class="btn btn-info">Find Guardian</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="col-4 p-3">-->
+<!--            &lt;!&ndash;the following is for IntelliJ&ndash;&gt;-->
+<!--            &lt;!&ndash;/*@thymesVar id="student" type="com.srm.model.people.Teacher"*/&ndash;&gt;-->
+<!--            <form th:object="${teacher}" th:action="@{/search}" method="get"-->
+<!--                  class="form-horizontal" id="search-teacher-form">-->
+<!--                <div class="form-group">-->
+<!--                    <div class="control-group" id="teacherLastNameGroup">-->
+<!--                        <label class="control-label">Student first name</label>-->
+<!--                        <div>-->
+<!--                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />-->
+<!--                        </div>-->
+<!--                        <label class="control-label">Student last name</label>-->
+<!--                        <div>-->
+<!--                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />-->
+<!--                            <span class="help-inline">-->
+<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
+<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
+<!--                                </div>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <div>-->
+<!--                        <button type="submit" class="btn btn-info">Find Teacher</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
     </div>
 </div>
 
