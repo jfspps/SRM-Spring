@@ -30,7 +30,7 @@ public class SearchController {
             log.info("New student search started");
         } else {
             //proceed with the search
-            List<Student> results = studentService.findAllByLastNameLike(student.getLastName());
+            List<Student> results = studentService.findAllByFirstNameLikeAndLastNameLike(student.getFirstName(), student.getLastName());
             log.info("Found: " + results.size());
         }
         return null;

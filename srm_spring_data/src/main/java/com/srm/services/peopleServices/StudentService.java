@@ -14,4 +14,6 @@ public interface StudentService extends CrudService<Student, Long> {
     Student findByFirstAndLastName(String firstName, String lastName);
 
     List<Student> findAllByLastNameLike(String lastName);
+
+    List<Student> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName);
 }

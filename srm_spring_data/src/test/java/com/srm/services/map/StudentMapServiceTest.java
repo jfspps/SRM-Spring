@@ -107,4 +107,46 @@ class StudentMapServiceTest {
         List<Student> testList = studentMapService.findAllByLastNameLike("app");
         assertEquals(lastName, testList.get(0).getLastName());
     }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLike(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike(firstName, lastName);
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeBlank(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike("", "");
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeFirstNameBlank(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike("", lastName);
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeLastNameBlank(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike(firstName, "");
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeBothPartials(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike("jam", "pps");
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeOnePartialOneBlank(){
+        List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike("", "pps");
+        assertEquals(firstName, testList.get(0).getFirstName());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
 }

@@ -81,4 +81,13 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
                 .filter(student -> student.getLastName().toLowerCase().contains(lastName.toLowerCase()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Student> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(student -> student.getFirstName().toLowerCase().contains(firstName.toLowerCase()))
+                .filter(student -> student.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

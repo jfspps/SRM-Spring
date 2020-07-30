@@ -23,4 +23,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     Student findByFirstNameAndLastName(String firstName, String lastName);
 
     List<Student> findAllByLastNameLike(String lastName);
+
+    List<Student> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName);
 }

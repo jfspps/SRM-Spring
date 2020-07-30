@@ -48,6 +48,11 @@ public class StudentSDjpaService implements StudentService {
     }
 
     @Override
+    public List<Student> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return studentRepository.findAllByFirstNameLikeAndLastNameLike(firstName, lastName);
+    }
+
+    @Override
     public Student save(Student object) {
         return studentRepository.save(object);
     }

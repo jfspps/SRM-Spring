@@ -109,6 +109,41 @@ class StudentSDjpaServiceTest {
         assertEquals("Jones", testList.get(0).getLastName());
     }
 
+    //equivalent to findAll()
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeTwoBlank(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("", "");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeOneBlank(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("Tom", "");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeTwoPartials(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("om", "nes");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
+
     @Test
     void save() {
         Student StudentToBeSaved = Student.builder().id(id).build();
