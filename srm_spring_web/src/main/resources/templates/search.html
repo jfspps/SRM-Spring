@@ -54,30 +54,27 @@
             <h5>Search Parameters</h5>
             <!--the following is for IntelliJ-->
             <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
-<!--            <form th:object="${student}" th:action="@{/students}" method="get"-->
-<!--                  class="form-horizontal" id="search-owner-form">-->
-                <form class="form-horizontal" id="search-owner-form">
+            <form th:object="${student}" th:action="@{/search}" method="get"
+                  class="form-horizontal" id="search-owner-form">
                 <div class="form-group">
                     <div class="control-group" id="lastNameGroup">
                         <label class="control-label">Student first name</label>
                         <div>
-<!--                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />-->
-                            <input class="form-control" size="30" maxlength="80" />
-<!--                            <span class="help-inline">-->
-<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
-<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
-<!--                                </div>-->
-<!--                            </span>-->
+                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />
+                            <span class="help-inline">
+                                <div th:if="${#fields.hasAnyErrors()}">
+                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                                </div>
+                            </span>
                         </div>
                         <label class="control-label">Student last name</label>
                         <div>
-<!--                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />-->
-                            <input class="form-control" size="30" maxlength="80" />
-<!--                            <span class="help-inline">-->
-<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
-<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
-<!--                                </div>-->
-<!--                            </span>-->
+                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />
+                            <span class="help-inline">
+                                <div th:if="${#fields.hasAnyErrors()}">
+                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>

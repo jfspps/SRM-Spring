@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // both StudentSDjpaService and StudentServiceMap are implementations of StudentService, so set a profile to
@@ -39,6 +40,11 @@ public class StudentSDjpaService implements StudentService {
     @Override
     public Student findByFirstAndLastName(String firstName, String lastName) {
         return studentRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<Student> findAllByLastNameLike(String lastName) {
+        return studentRepository.findAllByLastNameLike(lastName);
     }
 
     @Override

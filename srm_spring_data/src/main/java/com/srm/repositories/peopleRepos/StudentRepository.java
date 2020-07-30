@@ -3,6 +3,8 @@ package com.srm.repositories.peopleRepos;
 import com.srm.model.people.Student;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 // The repository is an interface of JPA based methods. The implementation of the methods below is supplied
 // automatically by JPA
 
@@ -19,4 +21,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     Student findByLastName(String lastName);
 
     Student findByFirstNameAndLastName(String firstName, String lastName);
+
+    List<Student> findAllByLastNameLike(String lastName);
 }

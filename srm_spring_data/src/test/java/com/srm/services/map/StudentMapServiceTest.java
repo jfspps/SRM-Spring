@@ -4,6 +4,8 @@ import com.srm.model.people.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +16,7 @@ class StudentMapServiceTest {
     final String firstName = "James";
     final String lastName = "Apps";
     Long id = 1L;
+    List<Student> studentList = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -78,5 +81,30 @@ class StudentMapServiceTest {
         Student studentFullName = studentMapService.findByFirstAndLastName(firstName, lastName);
         assertEquals(lastName, studentFullName.getLastName());
         assertEquals(firstName, studentFullName.getFirstName());
+    }
+
+    @Test
+    void findByLastNameLike(){
+        List<Student> testList = studentMapService.findAllByLastNameLike(lastName);
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findByLastNameLikeIgnoreCase(){
+        List<Student> testList = studentMapService.findAllByLastNameLike(lastName.toUpperCase());
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    //equivalent to findAll()
+    @Test
+    void findByLastNameLikeBlank(){
+        List<Student> testList = studentMapService.findAllByLastNameLike("");
+        assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void findByLastNameLikePartial(){
+        List<Student> testList = studentMapService.findAllByLastNameLike("app");
+        assertEquals(lastName, testList.get(0).getLastName());
     }
 }

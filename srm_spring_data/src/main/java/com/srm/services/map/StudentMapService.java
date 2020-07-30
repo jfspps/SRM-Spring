@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 //instruct Spring to inject the CRUD StudentService into the application context as a bean
 //note that neither AbstractService nor any of the services (StudentService) is declared with @Service; the wiring is
@@ -70,5 +72,13 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
                 .filter(student -> student.getFirstName().equalsIgnoreCase(firstName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Student> findAllByLastNameLike(String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(student -> student.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
