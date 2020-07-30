@@ -37,6 +37,7 @@ public class StudentIndexController {
             //execute findAll() and assign Set to Thymeleaf "students" at corresponding index.html
             model.addAttribute("students", studentService.findAll());
         } else {
+            //findByLastName returns one Student not a Set of Students, if found
             model.addAttribute("students", studentService.findByLastName(lastName));
         }
         return "students/index";

@@ -2,6 +2,7 @@ package com.srm.services.springDataJPA;
 
 import com.srm.model.people.Student;
 import com.srm.repositories.peopleRepos.StudentRepository;
+import com.srm.services.peopleServices.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,6 +30,7 @@ class StudentSDjpaServiceTest {
     final String lastName = "Apps";
     Long id = 1L;
     Student mockStudent;
+    List<Student> studentList = new ArrayList<>();
 
     //directs Mockito to inject above mocks (effectively a constructor)
     @InjectMocks
@@ -67,6 +67,82 @@ class StudentSDjpaServiceTest {
         assertEquals(firstName, testStudent.getFirstName());
         verify(studentRepository, times(1)).findByFirstNameAndLastName(anyString(), anyString());
     }
+
+    @Test
+    void findAllByLastNameLike(){
+        studentList.add(Student.builder().lastName("Jones").build());
+        when(studentRepository.findAllByLastNameLike(anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByLastNameLike("Jones");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByLastNameLikePartial(){
+        studentList.add(Student.builder().lastName("Jones").build());
+        when(studentRepository.findAllByLastNameLike(anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByLastNameLike("ones");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+    }
+
+    @Test
+    void findAllByLastNameLikeIgnoreCase(){
+        studentList.add(Student.builder().lastName("Jones").build());
+        when(studentRepository.findAllByLastNameLike(anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByLastNameLike("JONES");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+    }
+
+    //equivalent to findAll()
+    @Test
+    void findAllByLastNameLikeBlank(){
+        studentList.add(Student.builder().lastName("Jones").build());
+        when(studentRepository.findAllByLastNameLike(anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByLastNameLike("");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+    }
+
+    //equivalent to findAll()
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeTwoBlank(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("", "");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeOneBlank(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("Tom", "");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
+    @Test
+    void findAllByFirstNameLikeAndLastNameLikeTwoPartials(){
+        studentList.add(Student.builder().firstName("Tom").lastName("Jones").build());
+        when(studentRepository.findAllByFirstNameLikeAndLastNameLike(anyString(), anyString())).thenReturn(studentList);
+
+        List<Student> testList = studentSDjpaService.findAllByFirstNameLikeAndLastNameLike("om", "nes");
+        assertEquals(1, testList.size());
+        assertEquals("Jones", testList.get(0).getLastName());
+        assertEquals("Tom", testList.get(0).getFirstName());
+    }
+
 
     @Test
     void save() {
