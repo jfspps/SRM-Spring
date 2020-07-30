@@ -59,33 +59,33 @@
         </form>
     </div>
 </nav>
-<!--the following is for IntelliJ-->
-<!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
 
-<div class="container-fluid">
+<div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped my-auto mx-0">
         <thead class="thead-light">
         <tr>
-            <th>ID</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th class="px-3">ID</th>
+            <th class="px-3">First name</th>
+            <th class="px-3">Last name</th>
         </tr>
         </thead>
         <tbody>
+        <!--the following is for IntelliJ-->
+        <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
         <tr th:each="student: ${students}">
-            <th th:text="${student.id}"></th>
-            <th th:text="${student.firstName}"></th>
-            <th th:text="${student.lastName}"></th>
+            <th class="px-3" th:text="${student.id}"></th>
+            <th class="px-3" th:text="${student.firstName}"></th>
+            <th class="px-3" th:text="${student.lastName}"></th>
         </tr>
         <tr th:remove="all">
-            <th>1</th>
-            <th>Jimmy</th>
-            <th>White</th>
+            <th class="px-3">1</th>
+            <th class="px-3">Jimmy</th>
+            <th class="px-3">White</th>
         </tr>
         <tr th:remove="all">
-            <th>2</th>
-            <th>John</th>
-            <th>Smith</th>
+            <th class="px-3">2</th>
+            <th class="px-3">John</th>
+            <th class="px-3">Smith</th>
         </tr>
         </tbody>
     </table>

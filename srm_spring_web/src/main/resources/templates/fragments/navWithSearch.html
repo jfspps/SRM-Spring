@@ -31,7 +31,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Admin</a>
+                <a class="nav-link" href="/search">Advanced Search</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-auto">
@@ -40,8 +40,8 @@
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
             <input class="btn btn-primary mr-sm-2" type="button" value="New">
-            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
-            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
+            <input class="btn btn-secondary mr-sm-2 disabled" type="button" value="Update">
+            <input class="btn btn-danger mr-sm-2 disabled" type="button" value="Delete">
         </ul>
         <form class="form-inline my-2 my-lg-0" th:replace="${form}">
 <!--            this does not replace fragments which call nav()-->

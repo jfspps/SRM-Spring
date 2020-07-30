@@ -62,30 +62,30 @@
 <!--the following is for IntelliJ-->
 <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
 
-<div class="container-fluid">
+<div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
         <tr>
-            <th>ID</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th class="px-3">ID</th>
+            <th class="px-3">First name</th>
+            <th class="px-3">Last name</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="teacher: ${teachers}">
-            <th th:text="${teacher.id}"></th>
-            <th th:text="${teacher.firstName}"></th>
-            <th th:text="${teacher.lastName}"></th>
+            <th class="px-3" th:text="${teacher.id}"></th>
+            <th class="px-3" th:text="${teacher.firstName}"></th>
+            <th class="px-3" th:text="${teacher.lastName}"></th>
         </tr>
         <tr th:remove="all">
-            <th>1</th>
-            <th>Jimmy</th>
-            <th>White</th>
+            <th class="px-3">1</th>
+            <th class="px-3">Jimmy</th>
+            <th class="px-3">White</th>
         </tr>
         <tr th:remove="all">
-            <th>2</th>
-            <th>John</th>
-            <th>Smith</th>
+            <th class="px-3">2</th>
+            <th class="px-3">John</th>
+            <th class="px-3">Smith</th>
         </tr>
         </tbody>
     </table>

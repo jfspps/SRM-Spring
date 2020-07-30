@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/header :: baseHead(~{::title})">
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,11 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Guardians</title>
+    <title>SRM | Advanced search</title>
 </head>
-
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form},${'Guardian Index'})">
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navNoSearch :: nav">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,61 +45,53 @@
                 <a class="nav-link disabled" href="#">Admin</a>
             </li>
         </ul>
-        <ul class="navbar-nav mr-auto">
-            <!--Note that text is held in single quotes and this expression lies in double quotes-->
-            <a class="navbar-brand">Guardian /index</a>
-        </ul>
-        <ul class="navbar-nav mr-auto">
-            <!--Note that text is held in single quotes and this expression lies in double quotes-->
-            <a class="navbar-brand">Subject /index</a>
-        </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
-            <input class="btn btn-primary mr-sm-2" type="button" value="New">
-            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
-            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
-        </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
-            <input class="btn btn-primary mr-sm-2" type="button" value="New">
-            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
-            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
-        </ul>
-        <!--        name="lastName" must match controller listGuardians() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/guardians/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Guardian last name" aria-label="Search" maxlength="50">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
-<!--the following is for IntelliJ-->
-<!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
 
-<div class="container-fluid px-0">
-    <table class="table table-hover table-sm table-striped">
-        <thead class="thead-light">
-        <tr>
-            <th class="px-3">ID</th>
-            <th class="px-3">First name</th>
-            <th class="px-3">Last name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="guardian: ${guardians}">
-            <th class="px-3" th:text="${guardian.id}"></th>
-            <th class="px-3" th:text="${guardian.firstName}"></th>
-            <th class="px-3" th:text="${guardian.lastName}"></th>
-        </tr>
-        <tr th:remove="all">
-            <th class="px-3">1</th>
-            <th class="px-3">Jimmy</th>
-            <th class="px-3">White</th>
-        </tr>
-        <tr th:remove="all">
-            <th class="px-3">2</th>
-            <th class="px-3">John</th>
-            <th class="px-3">Smith</th>
-        </tr>
-        </tbody>
-    </table>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-3 p-3">
+            <h5>Search Parameters</h5>
+            <!--the following is for IntelliJ-->
+            <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
+<!--            <form th:object="${student}" th:action="@{/students}" method="get"-->
+<!--                  class="form-horizontal" id="search-owner-form">-->
+                <form class="form-horizontal" id="search-owner-form">
+                <div class="form-group">
+                    <div class="control-group" id="lastNameGroup">
+                        <label class="control-label">Student first name</label>
+                        <div>
+<!--                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />-->
+                            <input class="form-control" size="30" maxlength="80" />
+<!--                            <span class="help-inline">-->
+<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
+<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
+<!--                                </div>-->
+<!--                            </span>-->
+                        </div>
+                        <label class="control-label">Student last name</label>
+                        <div>
+<!--                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />-->
+                            <input class="form-control" size="30" maxlength="80" />
+<!--                            <span class="help-inline">-->
+<!--                                <div th:if="${#fields.hasAnyErrors()}">-->
+<!--                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>-->
+<!--                                </div>-->
+<!--                            </span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <button type="submit" class="btn btn-info">Find</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-9 p-3" style="background-color: white">
+            <h5>Results</h5>
+        </div>
+    </div>
 </div>
 
 <footer th:replace="fragments/footer :: footer">

@@ -53,30 +53,30 @@
 <!--the following is for IntelliJ-->
 <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
 
-<div class="container-fluid">
+<div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
         <tr>
-            <th>ID</th>
-            <th>Subject</th>
+            <th class="px-3">ID</th>
+            <th class="px-3">Subject</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="subject: ${subjects}">
-            <th th:text="${subject.id}"></th>
-            <th th:text="${subject.subjectName}"></th>
+            <th class="px-3" th:text="${subject.id}"></th>
+            <th class="px-3" th:text="${subject.subjectName}"></th>
         </tr>
         <tr th:remove="all">
-            <th>1</th>
-            <th>Science</th>
+            <th class="px-3">1</th>
+            <th class="px-3">Science</th>
         </tr>
         <tr th:remove="all">
-            <th>2</th>
-            <th>English</th>
+            <th class="px-3">2</th>
+            <th class="px-3">English</th>
         </tr>
         <tr th:remove="all">
-            <th>3</th>
-            <th>Mathematics</th>
+            <th class="px-3">3</th>
+            <th class="px-3">Mathematics</th>
         </tr>
         </tbody>
     </table>
