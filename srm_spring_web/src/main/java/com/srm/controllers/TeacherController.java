@@ -44,7 +44,7 @@ public class TeacherController {
             //execute findAll() and assign Set to Thymeleaf "teachers" at corresponding index.html
             model.addAttribute("teachers", teacherService.findAll());
         } else {
-            model.addAttribute("teachers", teacherService.findByLastName(lastName));
+            model.addAttribute("teachers", teacherService.findAllByLastNameLike(lastName));
         }
         return "teachers/index";
     }

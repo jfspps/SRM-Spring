@@ -44,7 +44,7 @@ public class GuardianController {
             //execute findAll() and assign Set to Thymeleaf "guardians" at corresponding index.html
             model.addAttribute("guardians", guardianService.findAll());
         } else {
-            model.addAttribute("guardians", guardianService.findByLastName(lastName));
+            model.addAttribute("guardians", guardianService.findAllByLastNameLike(lastName));
         }
         return "guardians/index";
     }

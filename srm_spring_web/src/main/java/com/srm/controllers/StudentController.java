@@ -9,7 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,20 +46,22 @@ public class StudentController {
             model.addAttribute("students", studentService.findAll());
         } else {
             //findByLastName returns one Student not a Set of Students, if found
-            model.addAttribute("students", studentService.findByLastName(lastName));
+            model.addAttribute("students", studentService.findAllByLastNameLike(lastName));
         }
         return "students/index";
     }
 
-    //on GET request, inject Student POJO as a Model to access Student properties
+    //on GET request, <form> passes 'student' with properties set on form
     @GetMapping({"/search", "/search.html"})
-    public String index(Student student, BindingResult result, Model model) {
+    public String findStudents(Student student, BindingResult result, Model model) {
 
-        List<Student> results = new ArrayList<>();
+        List<Student> results;
 
         //build new Student object with empty (non-null) properties
         if (student.getFirstName() == null || student.getLastName() == null) {
             model.addAttribute("student", Student.builder().build());
+            model.addAttribute("selectedName", "");
+            model.addAttribute("selectedPersonalTutorName", "");
         } else {
             //proceed with the search
             log.info("Student search initiated");
@@ -70,7 +74,10 @@ public class StudentController {
                     result.rejectValue("firstName", "notFound", "Not found");
                 } else {
                     Set<Student> resultsAsSet = new HashSet<>(results);
+                    Student first = results.get(0);
                     model.addAttribute("studentsFound", resultsAsSet);
+                    model.addAttribute("selectedName", first.getFirstName() + " " + first.getLastName());
+                    model.addAttribute("selectedPersonalTutorName", first.getTeacher().getFirstName() + " " + first.getTeacher().getLastName());
                 }
             }
         }

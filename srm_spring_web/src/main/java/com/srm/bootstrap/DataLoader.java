@@ -53,6 +53,7 @@ public class DataLoader implements CommandLineRunner {
         student1.setLastName("Smith");
 
         Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
+        Student student3 = Student.builder().firstName("Helen").lastName("Jones").build();
 
         Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").build();
         teacherService.save(teacher1);
@@ -63,6 +64,7 @@ public class DataLoader implements CommandLineRunner {
         teacher2.setLastName("Adams");
         teacherService.save(teacher2);
         student2.setTeacher(teacher2);
+        student3.setTeacher(teacher2);
 
         System.out.println("Teachers loaded to DB...");
 
@@ -81,6 +83,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Guardian> student2Guardians = new HashSet<>();
         student2Guardians.add(guardian2);
         student2.setGuardians(student2Guardians);
+        student3.setGuardians(student2Guardians);
 
         System.out.println("Guardians loaded to DB...");
 
@@ -102,6 +105,7 @@ public class DataLoader implements CommandLineRunner {
 
         studentService.save(student1);
         studentService.save(student2);
+        studentService.save(student3);
         System.out.println("Students loaded to DB...");
 
         System.out.println("Finished uploading to DB");
