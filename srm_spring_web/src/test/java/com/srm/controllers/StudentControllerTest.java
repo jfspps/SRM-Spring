@@ -20,13 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-class StudentIndexControllerTest {
+class StudentControllerTest {
 
     @Mock
     StudentService studentService;
 
     @InjectMocks
-    StudentIndexController studentIndexController;
+    StudentController studentController;
 
     MockMvc mockMvc;
     //prepare DB entries
@@ -39,7 +39,7 @@ class StudentIndexControllerTest {
         studentSet.add(Student.builder().id(2L).build());
 
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(studentIndexController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
     }
 
     @Test

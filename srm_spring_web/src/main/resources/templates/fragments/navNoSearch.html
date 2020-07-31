@@ -14,24 +14,28 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">LOGOUT</a>
-                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Lists
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Database</a>
+                    <div class="dropdown-menu" aria-labelledby="dbDropdown">
+                        <div class="dropdown-header">List database entries</div>
                         <a class="dropdown-item" href="/students/">Student list</a>
                         <a class="dropdown-item" href="/guardians/">Guardian list</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/teachers/">Teacher list</a>
                         <a class="dropdown-item" href="/subjects/">Subject list</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Detailed record</div>
+                        <a class="dropdown-item" href="/students/search">Student</a>
+                        <a class="dropdown-item" href="/guardians/search">Guardian</a>
+                        <a class="dropdown-item" href="/teachers/search">Teacher</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/search">Advanced Search</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">User options</a>
+                    <div class="dropdown-menu" aria-labelledby="dbDropdown">
+                        <a class="dropdown-item" href="#">LOGOUT</a>
+                    </div>
                 </li>
             </ul>
         </div>
