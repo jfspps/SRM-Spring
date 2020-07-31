@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //all routings below proceed /subjects, not the root (see indexController)
 @RequestMapping({"/subjects"})
 @Controller
-public class SubjectIndexController {
+public class SubjectController {
 
     private final SubjectService subjectService;
 
-    public SubjectIndexController(SubjectService subjectService) {
+    public SubjectController(SubjectService subjectService) {
         this.subjectService = subjectService;
     }
 
