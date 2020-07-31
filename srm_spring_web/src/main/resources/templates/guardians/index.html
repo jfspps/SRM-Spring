@@ -12,7 +12,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form},${'Guardian Index'})">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark"
+     th:replace="fragments/navWithSearch :: nav(~{::form},${'Guardian Index'})">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,14 +69,15 @@
         </ul>
         <!--        name="lastName" must match controller listGuardians() parameter-->
         <form class="form-inline my-2 my-lg-0" th:action="@{/guardians/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Guardian last name" aria-label="Search" maxlength="50">
+            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Guardian last name"
+                   aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
+
 <!--the following is for IntelliJ-->
 <!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
-
 <div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
@@ -83,6 +85,9 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
+            <th class="px-3">Address first line</th>
+            <th class="px-3">Address second line</th>
+            <th class="px-3">Postcode</th>
         </tr>
         </thead>
         <tbody>
@@ -90,16 +95,25 @@
             <th class="px-3" th:text="${guardian.id}"></th>
             <th class="px-3" th:text="${guardian.firstName}"></th>
             <th class="px-3" th:text="${guardian.lastName}"></th>
+            <th class="px-3" th:text="${guardian.address.getFirstLine()}"></th>
+            <th class="px-3" th:text="${guardian.address.getSecondLine()}"></th>
+            <th class="px-3" th:text="${guardian.address.getPostcode()}"></th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">1</th>
             <th class="px-3">Jimmy</th>
             <th class="px-3">White</th>
+            <th class="px-3">Somewhere</th>
+            <th class="px-3">Note sure</th>
+            <th class="px-3">ABC123</th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">2</th>
             <th class="px-3">John</th>
             <th class="px-3">Smith</th>
+            <th class="px-3">Somewhere</th>
+            <th class="px-3">Note sure</th>
+            <th class="px-3">ABC123</th>
         </tr>
         </tbody>
     </table>

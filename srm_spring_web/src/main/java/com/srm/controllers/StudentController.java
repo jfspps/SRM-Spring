@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 //all routings below proceed /students, not the root (see indexController)
@@ -56,29 +58,22 @@ public class StudentController {
         //build new Student object with empty (non-null) properties
         if (student.getFirstName() == null || student.getLastName() == null) {
             model.addAttribute("student", Student.builder().build());
-            log.info("New student search started");
         } else {
             //proceed with the search
-            results = studentService.findAllByFirstNameLikeAndLastNameLike(student.getFirstName(), student.getLastName());
+            log.info("Student search initiated");
+            if (student.getFirstName().isEmpty() && student.getLastName().isEmpty()){
+                result.rejectValue("firstName", "notFound", "Enter at least one name");
+            } else {
+                results = studentService.findAllByFirstNameLikeAndLastNameLike(student.getFirstName(), student.getLastName());
+                if (results.isEmpty()) {
+                    // rejectValue(String field, String errorCode, String defaultMessage)
+                    result.rejectValue("firstName", "notFound", "Not found");
+                } else {
+                    Set<Student> resultsAsSet = new HashSet<>(results);
+                    model.addAttribute("studentsFound", resultsAsSet);
+                }
+            }
         }
-        if (results.isEmpty()) {
-            // no students found
-            // rejectValue(String field, String errorCode, String defaultMessage)
-            result.rejectValue("firstName", "notFound", "not found");
-            return "/students/search";
-        } else if (results.size() == 1) {
-            // 1 owner found
-            student = results.get(0);
-            log.info("Found one student on record");
-            return null;
-//            return "redirect:/students/" + student.getId();
-        } else {
-            // multiple owners found
-            model.addAttribute("students", results);
-            log.info("Found " + results.size() + " students on record");
-            return null;
-//            return "students/index";
-        }
+        return "/students/search";
     }
-
 }

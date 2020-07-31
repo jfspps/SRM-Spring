@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //all routings below proceed /teachers, not the root (see indexController)
 @RequestMapping({"/teachers"})
@@ -47,37 +49,31 @@ public class TeacherController {
         return "teachers/index";
     }
 
-    //on GET request, inject Student POJO as a Model to access Student properties
+    //on GET request, inject Teacher POJO as a Model to access Student properties
     @GetMapping({"/search", "/search.html"})
     public String index(Teacher teacher, BindingResult result, Model model) {
 
         List<Teacher> results = new ArrayList<>();
 
-        //build new Student object with empty (non-null) properties
+        //build new Teacher object with empty (non-null) properties
         if (teacher.getFirstName() == null || teacher.getLastName() == null) {
-            model.addAttribute("teacher", Teacher.builder().build());
-            log.info("New teacher search started");
+            model.addAttribute("teaceher", Teacher.builder().build());
         } else {
             //proceed with the search
-            results = teacherService.findAllByFirstNameLikeAndLastNameLike(teacher.getFirstName(), teacher.getLastName());
+            log.info("Teacher search initiated");
+            if (teacher.getFirstName().isEmpty() && teacher.getLastName().isEmpty()){
+                result.rejectValue("firstName", "notFound", "Enter at least one name");
+            } else {
+                results = teacherService.findAllByFirstNameLikeAndLastNameLike(teacher.getFirstName(), teacher.getLastName());
+                if (results.isEmpty()) {
+                    // rejectValue(String field, String errorCode, String defaultMessage)
+                    result.rejectValue("firstName", "notFound", "Not found");
+                } else {
+                    Set<Teacher> resultsAsSet = new HashSet<>(results);
+                    model.addAttribute("teachersFound", resultsAsSet);
+                }
+            }
         }
-        if (results.isEmpty()) {
-            // no teachers found
-            // rejectValue(String field, String errorCode, String defaultMessage)
-            result.rejectValue("firstName", "notFound", "not found");
-            return "/teachers/search";
-        } else if (results.size() == 1) {
-            // 1 owner found
-            teacher = results.get(0);
-            log.info("Found one teacher on record");
-            return null;
-//            return "redirect:/teachers/" + teacher.getId();
-        } else {
-            // multiple owners found
-            model.addAttribute("teachers", results);
-            log.info("Found " + results.size() + " teachers on record");
-            return null;
-//            return "teachers/index";
-        }
+        return "/teachers/search";
     }
 }

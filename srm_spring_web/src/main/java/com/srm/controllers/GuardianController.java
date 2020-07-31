@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //all routings below proceed /guardians, not the root (see indexController)
 @Slf4j
@@ -47,37 +49,31 @@ public class GuardianController {
         return "guardians/index";
     }
 
-    //on GET request, inject Student POJO as a Model to access Student properties
+    //on GET request, inject Guardian POJO as a Model to access Student properties
     @GetMapping({"/search", "/search.html"})
     public String index(Guardian guardian, BindingResult result, Model model) {
 
         List<Guardian> results = new ArrayList<>();
 
-        //build new Student object with empty (non-null) properties
+        //build new Guardian object with empty (non-null) properties
         if (guardian.getFirstName() == null || guardian.getLastName() == null) {
             model.addAttribute("guardian", Guardian.builder().build());
-            log.info("New Guardian search started");
         } else {
             //proceed with the search
-            results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(), guardian.getLastName());
+            log.info("Guardian search initiated");
+            if (guardian.getFirstName().isEmpty() && guardian.getLastName().isEmpty()){
+                result.rejectValue("firstName", "notFound", "Enter at least one name");
+            } else {
+                results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(), guardian.getLastName());
+                if (results.isEmpty()) {
+                    // rejectValue(String field, String errorCode, String defaultMessage)
+                    result.rejectValue("firstName", "notFound", "Not found");
+                } else {
+                    Set<Guardian> resultsAsSet = new HashSet<>(results);
+                    model.addAttribute("guardiansFound", resultsAsSet);
+                }
+            }
         }
-        if (results.isEmpty()) {
-            // no guardians found
-            // rejectValue(String field, String errorCode, String defaultMessage)
-            result.rejectValue("firstName", "notFound", "not found");
-            return "/guardians/search";
-        } else if (results.size() == 1) {
-            // 1 owner found
-            guardian = results.get(0);
-            log.info("Found one guardian on record");
-            return null;
-//            return "redirect:/guardians/" + guardian.getId();
-        } else {
-            // multiple owners found
-            model.addAttribute("guardians", results);
-            log.info("Found " + results.size() + " guardians on record");
-            return null;
-//            return "guardians/index";
-        }
+        return "/guardians/search";
     }
 }

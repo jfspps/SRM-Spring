@@ -51,38 +51,63 @@
         </ul>
     </div>
 </nav>
-
+<!--the following is for IntelliJ-->
+<!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
 <div class="container-fluid h-100">
     <div class="row h-100">
-                <div class="col-4 p-3">
-                    <!--the following is for IntelliJ-->
-                    <!--/*@thymesVar id="student" type="com.srm.model.people.Guardian"*/-->
-                    <form th:object="${guardian}" th:action="@{/guardians/search}" method="get"
-                          class="form-horizontal" id="search-guardian-form">
-                        <div class="form-group">
-                            <div class="control-group" id="guardianLastNameGroup">
-                                <label class="control-label">Guardian first name</label>
-                                <div>
-                                    <input class="form-control" th:field="*{firstName}" size="30" maxlength="80" />
-                                </div>
-                                <label class="control-label">Guardian last name</label>
-                                <div>
-                                    <input class="form-control" th:field="*{lastName}" size="30" maxlength="80" />
-                                    <span class="help-inline">
-                                        <div th:if="${#fields.hasAnyErrors()}">
-                                            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
+        <div class="col-4 p-3">
+            <form th:object="${guardian}" th:action="@{/guardians/search}" method="get"
+                  class="form-horizontal" id="search-guardian-form">
+                <div class="form-group">
+                    <div class="control-group" id="guardianLastNameGroup">
+                        <label class="control-label">Guardian first name</label>
+                        <div>
+                            <input class="form-control" th:field="*{firstName}" size="30" maxlength="80"/>
                         </div>
-                        <div class="form-group">
-                            <div>
-                                <button type="submit" class="btn btn-info">Find Guardian</button>
-                            </div>
+                        <label class="control-label">Guardian last name</label>
+                        <div>
+                            <input class="form-control" th:field="*{lastName}" size="30" maxlength="80"/>
+                            <span class="help-inline">
+                                <div th:if="${#fields.hasAnyErrors()}">
+                                    <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                                </div>
+                            </span>
                         </div>
-                    </form>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <div>
+                        <button type="submit" class="btn btn-info">Find Guardian</button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-hover table-sm table-striped my-auto mx-0">
+                <thead class="thead-light">
+                <tr>
+                    <th class="px-3">ID</th>
+                    <th class="px-3">First name</th>
+                    <th class="px-3">Last name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="guardian: ${guardiansFound}">
+                    <th class="px-3" th:text="${guardian.id}"></th>
+                    <th class="px-3" th:text="${guardian.firstName}"></th>
+                    <th class="px-3" th:text="${guardian.lastName}"></th>
+                </tr>
+                <tr th:remove="all">
+                    <th class="px-3">1</th>
+                    <th class="px-3">Jimmy</th>
+                    <th class="px-3">White</th>
+                </tr>
+                <tr th:remove="all">
+                    <th class="px-3">2</th>
+                    <th class="px-3">John</th>
+                    <th class="px-3">Smith</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -63,9 +63,9 @@
         </form>
     </div>
 </nav>
+
 <!--the following is for IntelliJ-->
 <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
-
 <div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
@@ -73,6 +73,7 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
+            <th class="px-3">Main subject</th>
         </tr>
         </thead>
         <tbody>
@@ -80,16 +81,19 @@
             <th class="px-3" th:text="${teacher.id}"></th>
             <th class="px-3" th:text="${teacher.firstName}"></th>
             <th class="px-3" th:text="${teacher.lastName}"></th>
+            <th class="px-3" th:text="${teacher.subjects.iterator().next().getSubjectName()}"></th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">1</th>
             <th class="px-3">Jimmy</th>
             <th class="px-3">White</th>
+            <th class="px-3">Digital Art</th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">2</th>
             <th class="px-3">John</th>
             <th class="px-3">Smith</th>
+            <th class="px-3">Physical Education</th>
         </tr>
         </tbody>
     </table>
