@@ -48,7 +48,7 @@
             </li>
         </ul>
         <!--        name="subjectName" must match controller listSubjects() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/new}" method="post">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/index}" method="get">
             <input class="form-control mr-sm-2" type="text" name="subjectName" placeholder="Subject name"
                    aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -66,8 +66,8 @@
         </div>
     </div>
     <br/>
-
-    <div th:object="${subject}">
+    <form th:object="${subject}" method="get"
+          th:action="@{/subjects/{id}/edit(id=${subject.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="20"><b>Subject title</b></label>
@@ -86,7 +86,13 @@
                 <label size="50" th:text="${'ID of subject is ' + subject.getId()}"></label>
             </div>
         </div>
-    </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <button class="btn btn-info" type="submit">Edit</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 

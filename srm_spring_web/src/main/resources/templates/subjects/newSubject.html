@@ -48,7 +48,7 @@
             </li>
         </ul>
         <!--        name="subjectName" must match controller listSubjects() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/new}" method="post">
+        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/index}" method="get">
             <input class="form-control mr-sm-2" type="text" name="subjectName" placeholder="Subject name"
                    aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -57,23 +57,22 @@
 </nav>
 
 <div class="container">
-    <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Add new or update current subject</h2>
+            <h2>Add new subject</h2>
         </div>
     </div>
     <br/>
-
-    <form th:object="${subject}" th:action="@{/subjects/new}" class="form-horizontal" id="add-subject-form" method="post">
+    <!--the following is for IntelliJ-->
+    <!--/*@thymesVar id="newSubject" type="com.srm.model.academic.Subject"*/-->
+    <form th:object="${newSubject}" th:action="@{/subjects/new}" method="post" class="form-horizontal" id="add-subject-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Subject title</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" th:field="*{subjectName}"/>
+                <input size="50" th:field="${newSubject.subjectName}"/>
             </div>
         </div>
         <br/>
@@ -88,10 +87,11 @@
         <br/>
         <div class="row">
             <div class="col-sm-10">
-                <button class="btn btn-info" type="submit">Submit</button>
+                    <button class="btn btn-info" type="submit">Add subject</button>
             </div>
         </div>
     </form>
+    <br />
 </div>
 
 
