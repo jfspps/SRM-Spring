@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<nav th:fragment="nav (form, centralLogo)" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+<nav th:fragment="nav (form, centralLogo, CRUDbuttons)" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <a class="navbar-brand">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
             <!--Note that text is held in single quotes and this expression lies in double quotes-->
             <a class="navbar-brand" th:text="${centralLogo}">Index Page</a>
         </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
+        <ul class="navbar-nav my-2 my-lg-0" th:replace="${CRUDbuttons}">
             <input class="btn btn-primary mr-sm-2" type="button" value="New">
             <input class="btn btn-secondary mr-sm-2 disabled" type="button" value="Update">
             <input class="btn btn-danger mr-sm-2 disabled" type="button" value="Delete">

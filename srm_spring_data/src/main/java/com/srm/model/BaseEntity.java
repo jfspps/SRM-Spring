@@ -27,4 +27,9 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // utilised by frontend to confirm if new record already exists
+    public boolean isNew() {
+        return this.id == null;
+    }
 }
