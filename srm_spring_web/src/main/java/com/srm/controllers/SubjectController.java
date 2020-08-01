@@ -5,7 +5,6 @@ import com.srm.services.academicServices.SubjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,27 +42,42 @@ public class SubjectController {
         return "subjects/index";
     }
 
+    //get to a subject's details by ID
     @GetMapping("/{subjectId}")
     public ModelAndView showSubject(@PathVariable Long subjectId) {
-        ModelAndView mav = new ModelAndView("subjects/subjectDetails");
-        mav.addObject(subjectService.findById(subjectId));
+        ModelAndView mav = new ModelAndView("/subjects/subjectDetails");
+        mav.addObject("subject", subjectService.findById(subjectId));
         return mav;
     }
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("subject", Subject.builder().build());
-        return "/subjects/newOrUpdateSubject";
+        model.addAttribute("newSubject", Subject.builder().build());
+        return "/subjects/newSubject";
     }
 
     @PostMapping("/new")
-    public String processCreationForm(@Valid Subject subject, BindingResult result) {
-        if (result.hasErrors()) {
-            log.info("Problem with submitting new subject");
-            return "/subjects/new";
+    public String processCreationForm(@Valid Subject subject) {
+        if (!subject.isNew()) {
+            log.info("Current object already exists");
+            return "/subjects/updateSubject";
         } else {
             Subject savedSubject =  subjectService.save(subject);
             return "redirect:/subjects/" + savedSubject.getId();
         }
+    }
+
+    @GetMapping("/{subjectId}/edit")
+    public String initUpdateSubjectForm(@PathVariable Long subjectId, Model model) {
+        model.addAttribute("updateSubject", subjectService.findById(subjectId));
+        return "/subjects/updateSubject";
+    }
+
+    @PostMapping("/{subjectId}/edit")
+    public String processUpdateSubjectForm(@Valid Subject subject, @PathVariable Long subjectId) {
+            //ensures a new object is not created
+            subject.setId(subjectId);
+            Subject savedSubject = subjectService.save(subject);
+            return "redirect:/subjects/" + savedSubject.getId();
     }
 }

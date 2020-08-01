@@ -79,7 +79,7 @@ class SubjectControllerTest {
         mockMvc.perform(get("/subjects/" + subject1.getId()))
                 .andExpect(status().is(200))
                 .andExpect(status().isOk())
-                .andExpect(view().name("subjects/subjectDetails"))
+                .andExpect(view().name("/subjects/subjectDetails"))
                 .andExpect(model().attribute("subject",
                         hasProperty("subjectName", is(subject1.getSubjectName()))));
     }
@@ -88,8 +88,8 @@ class SubjectControllerTest {
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/subjects/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/subjects/newOrUpdateSubject"))
-                .andExpect(model().attributeExists("subject"));
+                .andExpect(view().name("/subjects/newSubject"))
+                .andExpect(model().attributeExists("newSubject"));
     }
 
     @Test
@@ -97,6 +97,28 @@ class SubjectControllerTest {
         when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1L).build());
 
         mockMvc.perform(post("/subjects/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/subjects/1"))
+                .andExpect(model().attributeExists("subject"));
+
+        verify(subjectService).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void initUpdateSubjectForm() throws Exception {
+        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1l).build());
+
+        mockMvc.perform(get("/subjects/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/subjects/updateSubject"))
+                .andExpect(model().attributeExists("updateSubject"));
+    }
+
+    @Test
+    void processUpdateSubjectForm() throws Exception {
+        when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1l).build());
+
+        mockMvc.perform(post("/subjects/1/edit"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/subjects/1"))
                 .andExpect(model().attributeExists("subject"));
