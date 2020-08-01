@@ -92,7 +92,7 @@
         </thead>
         <tbody>
         <tr th:each="guardian: ${guardians}">
-            <th class="px-3" th:text="${guardian.id}"></th>
+            <th class="px-3"><a th:href="@{#}" th:text="${guardian.id}"></a></th>
             <th class="px-3" th:text="${guardian.firstName}"></th>
             <th class="px-3" th:text="${guardian.lastName}"></th>
             <th class="px-3" th:text="${guardian.address.getFirstLine()}"></th>

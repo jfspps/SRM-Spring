@@ -55,7 +55,7 @@
 <!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
 <div class="container-fluid h-100">
     <div class="row h-100">
-        <div class="col-4 p-3">
+        <div class="col-3 p-3">
             <form th:object="${guardian}" th:action="@{/guardians/search}" method="get"
                   class="form-horizontal" id="search-guardian-form">
                 <div class="form-group">
@@ -90,10 +90,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="guardian: ${guardiansFound}">
-                    <th class="px-3" th:text="${guardian.id}"></th>
-                    <th class="px-3" th:text="${guardian.firstName}"></th>
-                    <th class="px-3" th:text="${guardian.lastName}"></th>
+                <!--/*@thymesVar id="found" type="com.srm.model.people.Guardian"*/-->
+                <tr th:each="found: ${guardiansFound}">
+                    <th class="px-3"><a th:href="@{#}" th:text="${found.id}"></a></th>
+                    <th class="px-3" th:text="${found.firstName}"></th>
+                    <th class="px-3" th:text="${found.lastName}"></th>
                 </tr>
                 <tr th:remove="all">
                     <th class="px-3">1</th>
@@ -107,6 +108,16 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="col-9 p-3">
+            <h3>Guardian details</h3>
+            <div>
+                <p><b>Guardian name:</b> <span th:text="${selectedName}"></span></p>
+                <p><b>Student name:</b> <span th:text="${selectedStudentName}"></span></p>
+                <p><b>Guardian address:</b> <span th:text="${selectedAddress}"></span></p>
+                <p><b>Guardian mobile:</b> <span th:text="${selectedMobile}"></span></p>
+                <p><b>Guardian email:</b> <span th:text="${selectedEmail}"></span></p>
+            </div>
         </div>
     </div>
 </div>

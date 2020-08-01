@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </form>
-            <table class="table table-hover table-sm table-striped my-auto mx-0">
+            <table class="table table-sm table-striped my-auto mx-0">
                 <thead class="thead-light">
                 <tr>
                     <th class="px-3">ID</th>
@@ -95,7 +95,7 @@
                 <!--the following is for IntelliJ-->
                 <!--/*@thymesVar id="found" type="com.srm.model.people.Student"*/-->
                 <tr th:each="found: ${studentsFound}">
-                    <td class="px-3" th:text="${found.getId()}"></td>
+                    <th class="px-3"><a th:href="@{#}" th:text="${found.id}"></a></th>
                     <td class="px-3" th:text="${found.firstName}"></td>
                     <td class="px-3" th:text="${found.lastName}"></td>
                 </tr>

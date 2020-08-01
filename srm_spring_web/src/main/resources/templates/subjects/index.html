@@ -54,10 +54,9 @@
         </form>
     </div>
 </nav>
-<!--the following is for IntelliJ-->
-<!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
-
 <div class="container-fluid px-0">
+    <!--the following is for IntelliJ-->
+    <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
         <tr>
@@ -67,7 +66,7 @@
         </thead>
         <tbody>
         <tr th:each="subject: ${subjects}">
-            <th class="px-3" th:text="${subject.id}"></th>
+            <th class="px-3"><a th:href="@{#}" th:text="${subject.id}"></a></th>
             <th class="px-3" th:text="${subject.subjectName}"></th>
         </tr>
         <tr th:remove="all">
