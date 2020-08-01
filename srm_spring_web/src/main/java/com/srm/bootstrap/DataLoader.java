@@ -51,62 +51,70 @@ public class DataLoader implements CommandLineRunner {
         Student student1 = new Student();
         student1.setFirstName("John");
         student1.setLastName("Smith");
-
         Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
         Student student3 = Student.builder().firstName("Helen").lastName("Jones").build();
 
         Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").build();
-        teacherService.save(teacher1);
         student1.setTeacher(teacher1);
 
         Teacher teacher2 = new Teacher();
         teacher2.setFirstName("Julie");
         teacher2.setLastName("Adams");
-        teacherService.save(teacher2);
         student2.setTeacher(teacher2);
         student3.setTeacher(teacher2);
 
-        System.out.println("Teachers loaded to DB...");
-
         Address address1 = Address.builder().firstLine("88 Penine Way").secondLine("Farnborough").postcode("CHG9475JF").build();
         Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").address(address1).build();
-        guardianService.save(guardian1);
         Set<Guardian> student1Guardians = new HashSet<>();
         student1Guardians.add(guardian1);
         student1.setGuardians(student1Guardians);
+        Set<Student> guardian1Students = new HashSet<>();
+        guardian1Students.add(student1);
+        guardian1.setStudents(guardian1Students);
 
         Guardian guardian2 = new Guardian();
         guardian2.setFirstName("Ruth");
         guardian2.setLastName("Jones");
         guardian2.setAddress(Address.builder().firstLine("7B Gossfer Drive").secondLine("Racoon City").postcode("ZJGKF97657DD").build());
-        guardianService.save(guardian2);
+
         Set<Guardian> student2Guardians = new HashSet<>();
         student2Guardians.add(guardian2);
+        Set<Student> guardian2Students = new HashSet<>();
+        guardian2Students.add(student2);
+        guardian2.setStudents(guardian2Students);
+
         student2.setGuardians(student2Guardians);
         student3.setGuardians(student2Guardians);
 
+        guardianService.save(guardian1);
+        guardianService.save(guardian2);
         System.out.println("Guardians loaded to DB...");
+
+        studentService.save(student1);
+        studentService.save(student2);
+        studentService.save(student3);
+        System.out.println("Students loaded to DB...");
 
         Subject subject1 = new Subject();
         subject1.setSubjectName("Math");
-        subjectService.save(subject1);
         Set<Subject> teacher1subjects = new HashSet<>();
         teacher1subjects.add(subject1);
         teacher1.setSubjects(teacher1subjects);
 
         Subject subject2 = new Subject();
         subject2.setSubjectName("English");
-        subjectService.save(subject2);
+
         Set<Subject> teacher2subjects = new HashSet<>();
         teacher2subjects.add(subject2);
         teacher2.setSubjects(teacher2subjects);
 
+        subjectService.save(subject1);
+        subjectService.save(subject2);
         System.out.println("Subjects loaded to DB...");
 
-        studentService.save(student1);
-        studentService.save(student2);
-        studentService.save(student3);
-        System.out.println("Students loaded to DB...");
+        teacherService.save(teacher1);
+        teacherService.save(teacher2);
+        System.out.println("Teachers loaded to DB...");
 
         System.out.println("Finished uploading to DB");
     }

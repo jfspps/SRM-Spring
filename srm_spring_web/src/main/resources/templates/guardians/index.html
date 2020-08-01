@@ -13,7 +13,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark"
-     th:replace="fragments/navWithSearch :: nav(~{::form},${'Guardian Index'})">
+     th:replace="fragments/navWithSearch :: nav(~{::form},${'Guardian Index'}, ~{::#guardianCRUD})">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,11 +62,11 @@
             <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
             <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
         </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
-            <input class="btn btn-primary mr-sm-2" type="button" value="New">
-            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
-            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
-        </ul>
+        <div class="navbar-nav ui-button" id="guardianCRUD">
+            <a class="btn btn-primary mr-sm-2" type="button" href="#">New</a>
+            <a class="btn btn-secondary mr-sm-2 disabled" type="button">Update</a>
+            <a class="btn btn-danger mr-sm-2 disabled" type="button">Delete</a>
+        </div>
         <!--        name="lastName" must match controller listGuardians() parameter-->
         <form class="form-inline my-2 my-lg-0" th:action="@{/guardians/index}" method="get">
             <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Guardian last name"
@@ -92,7 +92,7 @@
         </thead>
         <tbody>
         <tr th:each="guardian: ${guardians}">
-            <th class="px-3" th:text="${guardian.id}"></th>
+            <th class="px-3"><a th:href="@{#}" th:text="${guardian.id}"></a></th>
             <th class="px-3" th:text="${guardian.firstName}"></th>
             <th class="px-3" th:text="${guardian.lastName}"></th>
             <th class="px-3" th:text="${guardian.address.getFirstLine()}"></th>

@@ -1,5 +1,6 @@
 package com.srm.controllers;
 
+import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.GuardianService;
@@ -58,6 +59,11 @@ public class GuardianController {
         //build new Guardian object with empty (non-null) properties
         if (guardian.getFirstName() == null || guardian.getLastName() == null) {
             model.addAttribute("guardian", Guardian.builder().build());
+            model.addAttribute("selectedName", "");
+            model.addAttribute("selectedStudentName", "");
+            model.addAttribute("selectedAddress", "");
+            model.addAttribute("selectedMobile", "");
+            model.addAttribute("selectedEmail", "");
         } else {
             //proceed with the search
             log.info("Guardian search initiated");
@@ -70,7 +76,25 @@ public class GuardianController {
                     result.rejectValue("firstName", "notFound", "Not found");
                 } else {
                     Set<Guardian> resultsAsSet = new HashSet<>(results);
+                    Guardian first = results.get(0);
                     model.addAttribute("guardiansFound", resultsAsSet);
+                    model.addAttribute("selectedName", first.getFirstName() + " " + first.getLastName());
+                    StringBuilder studentNames = new StringBuilder();
+                    for (Student student: first.getStudents()) {
+                        studentNames.append(student.getFirstName()).append(" ").append(student.getLastName()).append(";");
+                    }
+                    model.addAttribute("selectedStudentName", studentNames);
+                    StringBuilder addressString = new StringBuilder();
+                    Address address = first.getAddress();
+                    if (address != null){
+                        addressString.append(address.getFirstLine()).append(", ").append(address.getSecondLine())
+                                .append(", ").append(address.getPostcode());
+                        model.addAttribute("selectedAddress", addressString);
+                    }
+                    if (first.getContactDetail() != null){
+                        model.addAttribute("selectedMobile", first.getContactDetail().getPhoneNumber());
+                        model.addAttribute("selectedEmail", first.getContactDetail().getEmail());
+                    }
                 }
             }
         }

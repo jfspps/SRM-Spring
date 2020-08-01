@@ -11,7 +11,8 @@
     <title>SRM | Teachers</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark" th:replace="fragments/navWithSearch :: nav(~{::form},${'Teacher Index'})">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark"
+     th:replace="fragments/navWithSearch :: nav(~{::form},${'Teacher Index'}, ~{::#teacherCRUD})">
     <a class="navbar-brand" href="/">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,11 +52,11 @@
             <!--Note that text is held in single quotes and this expression lies in double quotes-->
             <a class="navbar-brand">Teacher /index</a>
         </ul>
-        <ul class="navbar-nav my-2 my-lg-0">
-            <input class="btn btn-primary mr-sm-2" type="button" value="New">
-            <input class="btn btn-secondary mr-sm-2" type="button" value="Update">
-            <input class="btn btn-danger mr-sm-2" type="button" value="Delete">
-        </ul>
+        <div class="navbar-nav ui-button" id="teacherCRUD">
+            <a class="btn btn-primary mr-sm-2" type="button" href="#">New</a>
+            <a class="btn btn-secondary mr-sm-2 disabled" type="button">Update</a>
+            <a class="btn btn-danger mr-sm-2 disabled" type="button">Delete</a>
+        </div>
         <!--        name="lastName" must match controller listTeachers() parameter-->
         <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
             <input class="form-control mr-sm-2" type="text" name="lastName"  placeholder="Teacher last name" aria-label="Search" maxlength="50">
@@ -78,7 +79,7 @@
         </thead>
         <tbody>
         <tr th:each="teacher: ${teachers}">
-            <th class="px-3" th:text="${teacher.id}"></th>
+            <th class="px-3"><a th:href="@{#}" th:text="${teacher.id}"></a></th>
             <th class="px-3" th:text="${teacher.firstName}"></th>
             <th class="px-3" th:text="${teacher.lastName}"></th>
             <th class="px-3" th:text="${teacher.subjects.iterator().next().getSubjectName()}"></th>

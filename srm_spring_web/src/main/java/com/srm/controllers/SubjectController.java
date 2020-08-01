@@ -1,14 +1,19 @@
 package com.srm.controllers;
 
+import com.srm.model.academic.Subject;
 import com.srm.services.academicServices.SubjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 //all routings below proceed /subjects, not the root (see indexController)
+@Slf4j
 @RequestMapping({"/subjects"})
 @Controller
 public class SubjectController {
@@ -36,5 +41,29 @@ public class SubjectController {
             model.addAttribute("subjects", subjectService.findBySubjectName(subjectName));
         }
         return "subjects/index";
+    }
+
+    @GetMapping("/{subjectId}")
+    public ModelAndView showSubject(@PathVariable Long subjectId) {
+        ModelAndView mav = new ModelAndView("subjects/subjectDetails");
+        mav.addObject(subjectService.findById(subjectId));
+        return mav;
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        model.addAttribute("subject", Subject.builder().build());
+        return "/subjects/newOrUpdateSubject";
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Subject subject, BindingResult result) {
+        if (result.hasErrors()) {
+            log.info("Problem with submitting new subject");
+            return "/subjects/new";
+        } else {
+            Subject savedSubject =  subjectService.save(subject);
+            return "redirect:/subjects/" + savedSubject.getId();
+        }
     }
 }
