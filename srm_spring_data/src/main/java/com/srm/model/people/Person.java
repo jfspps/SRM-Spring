@@ -29,9 +29,10 @@ public class Person extends BaseEntity {
     @OneToOne
     private ContactDetail contactDetail;
 
-    public Person(Long id, String firstName, String lastName) {
+    public Person(Long id, String firstName, String lastName, ContactDetail contactDetail) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.contactDetail = contactDetail;
     }
 }

@@ -20,8 +20,8 @@ import java.util.Set;
 public class Guardian extends Person {
 
     @Builder
-    public Guardian(Long id, String firstName, String lastName, Address address, Set<Student> students) {
-        super(id, firstName, lastName);
+    public Guardian(Long id, String firstName, String lastName, Address address, Set<Student> students, ContactDetail contactDetail) {
+        super(id, firstName, lastName, contactDetail);
         this.address = address;
         this.students = students;
     }
