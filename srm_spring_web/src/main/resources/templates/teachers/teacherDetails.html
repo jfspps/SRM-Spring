@@ -58,32 +58,77 @@
 
 <div class="container">
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
+    <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Subject details</h2>
+            <h2>Teacher details</h2>
         </div>
     </div>
     <br/>
-    <form th:object="${subject}" method="get"
-          th:action="@{/subjects/{id}/edit(id=${subject.id})}">
+    <form th:object="${teacher}" method="get"
+          th:action="@{/teachers/{id}/edit(id=${teacher.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Subject title</b></label>
+                <label class="control-label" size="30"><b>Teacher first name</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{subjectName}">Subject title to appear here</label>
+                <label size="50" th:text="*{firstName}">First name to appear here</label>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Some other variable</b></label>
+                <label class="control-label" size="30"><b>Teacher last name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{lastName}">Last name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Subject taught</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${subject1Name}">Subject name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Subject taught</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${subject2Name}">Subject name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Email address</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getEmail()}">Email address to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Phone number</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getPhoneNumber()}">Phone number to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Some other variable</b></label>
             </div>
             <div class="col-sm-8">
                 <label size="50" th:remove="all">Info about other variables goes here</label>
-                <label size="50" th:text="${'ID of subject is ' + subject.getId()}"></label>
+                <label size="50" th:text="${'ID of teacher is ' + teacher.getId()}"></label>
             </div>
         </div>
         <br/>

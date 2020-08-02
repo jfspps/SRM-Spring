@@ -1,5 +1,6 @@
 package com.srm.controllers;
 
+import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -86,9 +87,33 @@ public class StudentController {
 
     //get to a subject's details by ID
     @GetMapping("/{studentId}")
-    public ModelAndView showSubject(@PathVariable Long studentId) {
+    public ModelAndView showStudent(@PathVariable Long studentId) {
         ModelAndView mav = new ModelAndView("/students/studentDetails");
-        mav.addObject("student", studentService.findById(studentId));
+        Student student = studentService.findById(studentId);
+        mav.addObject("student", student);
+        //assume for now that there are only up to two guardians registered per student
+        List<Guardian> guardians = new ArrayList<>(student.getGuardians());
+        String guardian1Name = "";
+        String guardian2Name = "";
+
+        //may require more general refactor in the future...
+        if (guardians.size() == 1){
+            guardian1Name = guardians.get(0).getFirstName() + " " + guardians.get(0).getLastName();
+        }
+        //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
+        if (guardians.size() == 2){
+            guardian2Name = guardians.get(1).getFirstName() + " " + guardians.get(1).getLastName();
+        }
+
+        String noOfSubjectsStudied;
+        if (student.getSubjectClassLists() != null){
+            noOfSubjectsStudied = String.valueOf(student.getSubjectClassLists().size());
+        } else
+            noOfSubjectsStudied = "0";
+
+        mav.addObject("guardian1Name", guardian1Name);
+        mav.addObject("guardian2Name", guardian2Name);
+        mav.addObject("noOfSubjectsStudied", noOfSubjectsStudied);
         return mav;
     }
 }

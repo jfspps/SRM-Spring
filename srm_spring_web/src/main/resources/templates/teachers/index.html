@@ -79,7 +79,7 @@
         </thead>
         <tbody>
         <tr th:each="teacher: ${teachers}">
-            <th class="px-3"><a th:href="@{#}" th:text="${teacher.id}"></a></th>
+            <th class="px-3"><a th:href="@{/teachers/{id}(id=${teacher.id})}" th:text="${teacher.id}"></a></th>
             <th class="px-3" th:text="${teacher.firstName}"></th>
             <th class="px-3" th:text="${teacher.lastName}"></th>
             <th class="px-3" th:text="${teacher.subjects.iterator().next().getSubjectName()}"></th>

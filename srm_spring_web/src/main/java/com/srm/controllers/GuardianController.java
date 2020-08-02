@@ -105,7 +105,7 @@ public class GuardianController {
 
     //get to a subject's details by ID
     @GetMapping("/{guardianId}")
-    public ModelAndView showSubject(@PathVariable Long guardianId) {
+    public ModelAndView showGuardian(@PathVariable Long guardianId) {
         ModelAndView mav = new ModelAndView("/guardians/guardianDetails");
         Guardian guardian = guardianService.findById(guardianId);
         mav.addObject("guardian", guardian);

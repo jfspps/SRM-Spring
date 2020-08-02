@@ -51,12 +51,15 @@ public class DataLoader implements CommandLineRunner {
         Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
         Student student3 = Student.builder().firstName("Helen").lastName("Jones").build();
 
-        Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").build();
+        ContactDetail teacher1Contact = ContactDetail.builder().email("teacher1@school.com").phoneNumber("9847324").build();
+        ContactDetail teacher2Contact = ContactDetail.builder().email("teacher2@school.com").phoneNumber("4023307").build();
+        Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").contactDetail(teacher1Contact).build();
         student1.setTeacher(teacher1);
 
         Teacher teacher2 = new Teacher();
         teacher2.setFirstName("Julie");
         teacher2.setLastName("Adams");
+        teacher2.setContactDetail(teacher2Contact);
         student2.setTeacher(teacher2);
         student3.setTeacher(teacher2);
 
@@ -64,6 +67,7 @@ public class DataLoader implements CommandLineRunner {
         ContactDetail contactDetail1 = ContactDetail.builder().phoneNumber("3479324732").email("guardian1@email.com").build();
         Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").address(address1).build();
         guardian1.setContactDetail(contactDetail1);
+        student1.setContactDetail(contactDetail1);
         Set<Guardian> student1Guardians = new HashSet<>();
         student1Guardians.add(guardian1);
         student1.setGuardians(student1Guardians);
@@ -84,11 +88,24 @@ public class DataLoader implements CommandLineRunner {
         guardian2.setStudents(guardian2Students);
 
         student2.setGuardians(student2Guardians);
+        student2.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
         student3.setGuardians(student2Guardians);
+        student3.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
 
         guardianService.save(guardian1);
         guardianService.save(guardian2);
         System.out.println("Guardians loaded to DB...");
+
+        Set<Student> studentgroup1 = new HashSet<>();
+        studentgroup1.add(student1);
+        Set<Student> studentgroup2 = new HashSet<>();
+        studentgroup1.add(student2);
+        studentgroup2.add(student3);
+        FormGroupList formGroupList1 = FormGroupList.builder().studentList(studentgroup1).groupName("Group 1").teacher(teacher1).build();
+        FormGroupList formGroupList2 = FormGroupList.builder().studentList(studentgroup2).groupName("Group 2").teacher(teacher2).build();
+        student1.setFormGroupList(formGroupList1);
+        student2.setFormGroupList(formGroupList2);
+        student3.setFormGroupList(formGroupList2);
 
         studentService.save(student1);
         studentService.save(student2);

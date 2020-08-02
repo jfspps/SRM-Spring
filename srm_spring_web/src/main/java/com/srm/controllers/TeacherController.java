@@ -1,5 +1,7 @@
 package com.srm.controllers;
 
+import com.srm.model.academic.Subject;
+import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.TeacherService;
@@ -88,9 +90,26 @@ public class TeacherController {
 
     //get to a subject's details by ID
     @GetMapping("/{teacherId}")
-    public ModelAndView showSubject(@PathVariable Long teacherId) {
+    public ModelAndView showTeacher(@PathVariable Long teacherId) {
         ModelAndView mav = new ModelAndView("/teachers/teacherDetails");
-        mav.addObject("teacher", teacherService.findById(teacherId));
+        Teacher teacher = teacherService.findById(teacherId);
+        mav.addObject("teacher", teacher);
+        //assume for now that there are only up to two guardians registered per student
+        List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
+        String subject1Name = "";
+        String subject2Name = "";
+
+        //may require more general refactor in the future...
+        if (subjects.size() == 1){
+            subject1Name = subjects.get(0).getSubjectName();
+        }
+        //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
+        if (subjects.size() == 2){
+            subject2Name = subjects.get(1).getSubjectName();
+        }
+
+        mav.addObject("subject1Name", subject1Name);
+        mav.addObject("subject2Name", subject2Name);
         return mav;
     }
 }

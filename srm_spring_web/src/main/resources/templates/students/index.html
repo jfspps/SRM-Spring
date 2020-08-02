@@ -78,7 +78,7 @@
         <!--the following is for IntelliJ-->
         <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
         <tr th:each="student: ${students}">
-            <th class="px-3"><a th:href="@{#}" th:text="${student.id}"></a></th>
+            <th class="px-3"><a th:href="@{/students/{id}(id=${student.id})}" th:text="${student.id}"></a></th>
             <th class="px-3" th:text="${student.firstName}"></th>
             <th class="px-3" th:text="${student.lastName}"></th>
             <th class="px-3" th:text="${student.teacher.getFirstName() + ' ' + student.teacher.getLastName()}"></th>

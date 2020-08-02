@@ -58,32 +58,104 @@
 
 <div class="container">
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
+    <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Subject details</h2>
+            <h2>Student details</h2>
         </div>
     </div>
     <br/>
-    <form th:object="${subject}" method="get"
-          th:action="@{/subjects/{id}/edit(id=${subject.id})}">
+    <form th:object="${student}" method="get"
+          th:action="@{/students/{id}/edit(id=${student.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Subject title</b></label>
+                <label class="control-label" size="30"><b>Student first name</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{subjectName}">Subject title to appear here</label>
+                <label size="50" th:text="*{firstName}">First name to appear here</label>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Some other variable</b></label>
+                <label class="control-label" size="30"><b>Student last name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{lastName}">Last name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Guardian name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${guardian1Name}">Guardian name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Guardian name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${guardian2Name}">Guardian name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Email address</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getEmail()}">Email address to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Phone number</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getPhoneNumber()}">Phone number to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Personal tutor</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{teacher.firstName + ' ' + teacher.lastName}">Personal Tutor name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Form group</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{formGroupList.getGroupName()}">Form group name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Number of subjects studied</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${noOfSubjectsStudied}">Number of subjects studied to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Some other variable</b></label>
             </div>
             <div class="col-sm-8">
                 <label size="50" th:remove="all">Info about other variables goes here</label>
-                <label size="50" th:text="${'ID of subject is ' + subject.getId()}"></label>
+                <label size="50" th:text="${'ID of student is ' + student.getId()}"></label>
             </div>
         </div>
         <br/>
