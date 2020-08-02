@@ -61,8 +61,6 @@ public class StudentController {
         //build new Student object with empty (non-null) properties
         if (student.getFirstName() == null || student.getLastName() == null) {
             model.addAttribute("student", Student.builder().build());
-            model.addAttribute("selectedName", "");
-            model.addAttribute("selectedPersonalTutorName", "");
         } else {
             //proceed with the search
             log.info("Student search initiated");
@@ -75,10 +73,7 @@ public class StudentController {
                     result.rejectValue("firstName", "notFound", "Not found");
                 } else {
                     Set<Student> resultsAsSet = new HashSet<>(results);
-                    Student first = results.get(0);
                     model.addAttribute("studentsFound", resultsAsSet);
-                    model.addAttribute("selectedName", first.getFirstName() + " " + first.getLastName());
-                    model.addAttribute("selectedPersonalTutorName", first.getTeacher().getFirstName() + " " + first.getTeacher().getLastName());
                 }
             }
         }

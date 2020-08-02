@@ -82,6 +82,8 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="col-9 p-3">
             <table class="table table-sm table-striped my-auto mx-0">
                 <thead class="thead-light">
                 <tr>
@@ -93,7 +95,7 @@
                 <tbody>
                 <!--/*@thymesVar id="found" type="com.srm.model.people.Teacher"*/-->
                 <tr th:each="found: ${teachersFound}">
-                    <th class="px-3"><a th:href="@{#}" th:text="${found.id}"></a></th>
+                    <th class="px-3"><a th:href="@{/teachers/{id}(id=${found.id})}" th:text="${found.id}"></a></th>
                     <th class="px-3" th:text="${found.firstName}"></th>
                     <th class="px-3" th:text="${found.lastName}"></th>
                 </tr>
@@ -109,13 +111,6 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-9 p-3">
-            <h3>Teacher details</h3>
-            <div>
-                <p><b>Teacher name:</b> <span th:text="${selectedName}"></span></p>
-                <p><b>Main subject:</b> <span th:text="${selectedMainSubject}"></span></p>
-            </div>
         </div>
     </div>
 </div>

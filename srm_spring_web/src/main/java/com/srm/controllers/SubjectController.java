@@ -1,6 +1,7 @@
 package com.srm.controllers;
 
 import com.srm.model.academic.Subject;
+import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 //all routings below proceed /subjects, not the root (see indexController)
 @Slf4j
@@ -52,7 +55,8 @@ public class SubjectController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("newSubject", Subject.builder().build());
+        //avoid passing null composite objects (teachers)
+        model.addAttribute("newSubject", Subject.builder().teachers(new HashSet<>()).subjectName("").build());
         return "/subjects/newSubject";
     }
 
