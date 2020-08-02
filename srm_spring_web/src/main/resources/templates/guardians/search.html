@@ -81,6 +81,8 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="col-9 p-3">
             <table class="table table-hover table-sm table-striped my-auto mx-0">
                 <thead class="thead-light">
                 <tr>
@@ -92,7 +94,7 @@
                 <tbody>
                 <!--/*@thymesVar id="found" type="com.srm.model.people.Guardian"*/-->
                 <tr th:each="found: ${guardiansFound}">
-                    <th class="px-3"><a th:href="@{#}" th:text="${found.id}"></a></th>
+                    <th class="px-3"><a th:href="@{/guardians/{id}(id=${found.id})}" th:text="${found.id}"></a></th>
                     <th class="px-3" th:text="${found.firstName}"></th>
                     <th class="px-3" th:text="${found.lastName}"></th>
                 </tr>
@@ -108,16 +110,6 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-9 p-3">
-            <h3>Guardian details</h3>
-            <div>
-                <p><b>Guardian name:</b> <span th:text="${selectedName}"></span></p>
-                <p><b>Student name:</b> <span th:text="${selectedStudentName}"></span></p>
-                <p><b>Guardian address:</b> <span th:text="${selectedAddress}"></span></p>
-                <p><b>Guardian mobile:</b> <span th:text="${selectedMobile}"></span></p>
-                <p><b>Guardian email:</b> <span th:text="${selectedEmail}"></span></p>
-            </div>
         </div>
     </div>
 </div>

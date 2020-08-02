@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 
 //all routings below proceed /subjects, not the root (see indexController)
 @Slf4j
@@ -52,7 +53,8 @@ public class SubjectController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("newSubject", Subject.builder().build());
+        //avoid passing null composite objects (teachers)
+        model.addAttribute("newSubject", Subject.builder().teachers(new HashSet<>()).subjectName("").build());
         return "/subjects/newSubject";
     }
 

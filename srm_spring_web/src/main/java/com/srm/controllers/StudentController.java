@@ -1,7 +1,6 @@
 package com.srm.controllers;
 
-import com.srm.model.people.Guardian;
-import com.srm.model.people.Student;
+import com.srm.model.people.*;
 import com.srm.services.peopleServices.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -61,8 +60,6 @@ public class StudentController {
         //build new Student object with empty (non-null) properties
         if (student.getFirstName() == null || student.getLastName() == null) {
             model.addAttribute("student", Student.builder().build());
-            model.addAttribute("selectedName", "");
-            model.addAttribute("selectedPersonalTutorName", "");
         } else {
             //proceed with the search
             log.info("Student search initiated");
@@ -75,10 +72,7 @@ public class StudentController {
                     result.rejectValue("firstName", "notFound", "Not found");
                 } else {
                     Set<Student> resultsAsSet = new HashSet<>(results);
-                    Student first = results.get(0);
                     model.addAttribute("studentsFound", resultsAsSet);
-                    model.addAttribute("selectedName", first.getFirstName() + " " + first.getLastName());
-                    model.addAttribute("selectedPersonalTutorName", first.getTeacher().getFirstName() + " " + first.getTeacher().getLastName());
                 }
             }
         }
@@ -115,5 +109,19 @@ public class StudentController {
         mav.addObject("guardian2Name", guardian2Name);
         mav.addObject("noOfSubjectsStudied", noOfSubjectsStudied);
         return mav;
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        //avoid passing null composite objects (contactDetail, formGroup, guardians, personal tutor and subject list)
+        model.addAttribute("newStudent",
+                Student.builder().firstName("").lastName("")
+                .contactDetail(ContactDetail.builder().build())
+                .formGroupList(FormGroupList.builder().build())
+                .guardians(new HashSet<>())
+                .personalTutor(Teacher.builder().build())
+                .subjectClassLists(new HashSet<>())
+                .build());
+        return "/students/newStudent";
     }
 }

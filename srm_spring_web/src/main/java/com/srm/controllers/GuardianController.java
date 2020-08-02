@@ -1,6 +1,8 @@
 package com.srm.controllers;
 
+import com.srm.model.academic.Subject;
 import com.srm.model.people.Address;
+import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.GuardianService;
@@ -126,5 +128,17 @@ public class GuardianController {
         mav.addObject("student1Name", student1Name);
         mav.addObject("student2Name", student2Name);
         return mav;
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        //avoid passing null composite objects (address, contactDetails, students)
+        model.addAttribute("newGuardian",
+                Guardian.builder().firstName("").lastName("")
+                        .address(Address.builder().build())
+                        .contactDetail(ContactDetail.builder().build())
+                        .students(new HashSet<>())
+                        .build());
+        return "/guardians/newGuardian";
     }
 }
