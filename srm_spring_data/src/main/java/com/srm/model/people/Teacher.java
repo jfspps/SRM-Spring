@@ -19,8 +19,8 @@ import java.util.Set;
 public class Teacher extends Person {
 
     @Builder
-    public Teacher(Long id, String firstName, String lastName, Set<Subject> subjects) {
-        super(id, firstName, lastName);
+    public Teacher(Long id, String firstName, String lastName, Set<Subject> subjects, ContactDetail contactDetail) {
+        super(id, firstName, lastName, contactDetail);
         this.subjects = subjects;
     }
 

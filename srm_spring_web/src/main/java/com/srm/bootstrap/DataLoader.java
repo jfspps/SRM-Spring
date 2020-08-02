@@ -1,10 +1,7 @@
 package com.srm.bootstrap;
 
 import com.srm.model.academic.Subject;
-import com.srm.model.people.Address;
-import com.srm.model.people.Guardian;
-import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
+import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
@@ -64,7 +61,9 @@ public class DataLoader implements CommandLineRunner {
         student3.setTeacher(teacher2);
 
         Address address1 = Address.builder().firstLine("88 Penine Way").secondLine("Farnborough").postcode("CHG9475JF").build();
+        ContactDetail contactDetail1 = ContactDetail.builder().phoneNumber("3479324732").email("guardian1@email.com").build();
         Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").address(address1).build();
+        guardian1.setContactDetail(contactDetail1);
         Set<Guardian> student1Guardians = new HashSet<>();
         student1Guardians.add(guardian1);
         student1.setGuardians(student1Guardians);
@@ -75,6 +74,7 @@ public class DataLoader implements CommandLineRunner {
         Guardian guardian2 = new Guardian();
         guardian2.setFirstName("Ruth");
         guardian2.setLastName("Jones");
+        guardian2.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
         guardian2.setAddress(Address.builder().firstLine("7B Gossfer Drive").secondLine("Racoon City").postcode("ZJGKF97657DD").build());
 
         Set<Guardian> student2Guardians = new HashSet<>();

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Subject details </title>
+    <title>SRM | Guardian details </title>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -47,9 +47,9 @@
                 </div>
             </li>
         </ul>
-        <!--        name="subjectName" must match controller listSubjects() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/subjects/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="subjectName" placeholder="Subject name"
+        <!--        name="lastName" must match controller listGuardians() parameter-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/guardians/index}" method="get">
+            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Guardian last name"
                    aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -58,32 +58,104 @@
 
 <div class="container">
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
+    <!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Subject details</h2>
+            <h2>Guardian details</h2>
         </div>
     </div>
     <br/>
-    <form th:object="${subject}" method="get"
-          th:action="@{/subjects/{id}/edit(id=${subject.id})}">
+    <form th:object="${guardian}" method="get"
+          th:action="@{/guardians/{id}/edit(id=${guardian.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Subject title</b></label>
+                <label class="control-label" size="30"><b>Guardian first name</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{subjectName}">Subject title to appear here</label>
+                <label size="50" th:text="*{firstName}">First name to appear here</label>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="20"><b>Some other variable</b></label>
+                <label class="control-label" size="30"><b>Guardian last name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{lastName}">Last name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Student name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${student1Name}">Student name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Student name</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="${student2Name}">Student name to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Address line 1</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{address.getFirstLine()}">First line of address to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Address line 2</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{address.getSecondLine()}">Second line of address to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Address postcode</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{address.getPostcode()}">Postcode to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Phone number</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getPhoneNumber()}">Phone number to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Email address</b></label>
+            </div>
+            <div class="col-sm-8">
+                <label size="50" th:text="*{contactDetail.getEmail()}">Email to appear here</label>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label" size="30"><b>Some other variable</b></label>
             </div>
             <div class="col-sm-8">
                 <label size="50" th:remove="all">Info about other variables goes here</label>
-                <label size="50" th:text="${'ID of subject is ' + subject.getId()}"></label>
+                <label size="50" th:text="${'ID of subject is ' + guardian.getId()}"></label>
             </div>
         </div>
         <br/>

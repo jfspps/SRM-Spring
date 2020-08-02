@@ -11,7 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -99,5 +101,30 @@ public class GuardianController {
             }
         }
         return "/guardians/search";
+    }
+
+    //get to a subject's details by ID
+    @GetMapping("/{guardianId}")
+    public ModelAndView showSubject(@PathVariable Long guardianId) {
+        ModelAndView mav = new ModelAndView("/guardians/guardianDetails");
+        Guardian guardian = guardianService.findById(guardianId);
+        mav.addObject("guardian", guardian);
+        //assume for now that there are only up to two students registered per guardian
+        List<Student> students = new ArrayList<>(guardian.getStudents());
+        String student1Name = "";
+        String student2Name = "";
+
+        //may require more general refactor in the future...
+        if (students.size() == 1){
+            student1Name = students.get(0).getFirstName() + " " + students.get(0).getLastName();
+        }
+        //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
+        if (students.size() == 2){
+            student2Name = students.get(1).getFirstName() + " " + students.get(1).getLastName();
+        }
+
+        mav.addObject("student1Name", student1Name);
+        mav.addObject("student2Name", student2Name);
+        return mav;
     }
 }

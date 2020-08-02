@@ -53,12 +53,13 @@
             <a class="navbar-brand">Teacher /index</a>
         </ul>
         <div class="navbar-nav ui-button" id="teacherCRUD">
-            <a class="btn btn-primary mr-sm-2" type="button" href="#">New</a>
+            <a class="btn btn-primary mr-sm-2" type="button" href="@{/teachers/new}">New</a>
             <a class="btn btn-danger mr-sm-2 disabled" type="button">Delete</a>
         </div>
         <!--        name="lastName" must match controller listTeachers() parameter-->
         <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName"  placeholder="Teacher last name" aria-label="Search" maxlength="50">
+            <input class="form-control mr-sm-2" type="text" name="lastName"  placeholder="Teacher last name"
+                   aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

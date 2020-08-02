@@ -18,8 +18,8 @@ public class Student extends Person {
 
     @Builder
     public Student(Long id, String firstName, String lastName, Set<Guardian> guardians, Teacher personalTutor,
-                   Set<SubjectClassList> subjectClassLists, FormGroupList formGroupList) {
-        super(id, firstName, lastName);
+                   Set<SubjectClassList> subjectClassLists, FormGroupList formGroupList, ContactDetail contactDetail) {
+        super(id, firstName, lastName, contactDetail);
         this.guardians = guardians;
         this.teacher = personalTutor;
         this.subjectClassLists = subjectClassLists;

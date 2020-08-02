@@ -83,4 +83,12 @@ public class StudentController {
         }
         return "/students/search";
     }
+
+    //get to a subject's details by ID
+    @GetMapping("/{studentId}")
+    public ModelAndView showSubject(@PathVariable Long studentId) {
+        ModelAndView mav = new ModelAndView("/students/studentDetails");
+        mav.addObject("student", studentService.findById(studentId));
+        return mav;
+    }
 }

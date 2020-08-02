@@ -10,7 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -82,5 +84,13 @@ public class TeacherController {
             }
         }
         return "/teachers/search";
+    }
+
+    //get to a subject's details by ID
+    @GetMapping("/{teacherId}")
+    public ModelAndView showSubject(@PathVariable Long teacherId) {
+        ModelAndView mav = new ModelAndView("/teachers/teacherDetails");
+        mav.addObject("teacher", teacherService.findById(teacherId));
+        return mav;
     }
 }
