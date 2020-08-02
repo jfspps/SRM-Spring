@@ -187,5 +187,11 @@ class StudentControllerTest {
         assertEquals(1, studentService.findById(23L).getGuardians().size());
     }
 
-    //todo: implement controller and tests which handle null DB records (address second line or second guardian etc.)
+    @Test
+    void initCreationForm() throws Exception {
+        mockMvc.perform(get("/students/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/newStudent"))
+                .andExpect(model().attributeExists("newStudent"));
+    }
 }

@@ -107,4 +107,12 @@ class TeacherControllerTest {
                 .andExpect(model().attribute("teacher",
                         hasProperty("contactDetail", is(testTeacher.getContactDetail()))));
     }
+
+    @Test
+    void initCreationForm() throws Exception {
+        mockMvc.perform(get("/teachers/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"))
+                .andExpect(model().attributeExists("newTeacher"));
+    }
 }

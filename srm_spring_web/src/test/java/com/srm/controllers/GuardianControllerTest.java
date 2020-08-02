@@ -125,4 +125,12 @@ class GuardianControllerTest {
                 .andExpect(model().attribute("guardian",
                         hasProperty("students", Matchers.is(kids))));
     }
+
+    @Test
+    void initCreationForm() throws Exception {
+        mockMvc.perform(get("/guardians/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/newGuardian"))
+                .andExpect(model().attributeExists("newGuardian"));
+    }
 }

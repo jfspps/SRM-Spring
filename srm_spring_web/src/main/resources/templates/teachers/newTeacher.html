@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Students</title>
+    <title>SRM | New Teacher </title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark"
-     th:replace="fragments/navWithSearch :: nav(~{::form},${'Student Index'}, ~{::#studentCRUD})">
-    <a class="navbar-brand" href="/">SRM</a>
+<nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand">SRM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -34,10 +33,10 @@
                     <a class="dropdown-item" href="/teachers/">Teacher list</a>
                     <a class="dropdown-item" href="/subjects/">Subject list</a>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-header">Advanced search</div>
-                    <a class="dropdown-item" href="/students/search">Student search</a>
-                    <a class="dropdown-item" href="/guardians/search">Guardian search</a>
-                    <a class="dropdown-item" href="/teachers/search">Teacher search</a>
+                    <div class="dropdown-header">Detailed record</div>
+                    <a class="dropdown-item" href="/students/search">Student</a>
+                    <a class="dropdown-item" href="/guardians/search">Guardian</a>
+                    <a class="dropdown-item" href="/teachers/search">Teacher</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -48,55 +47,75 @@
                 </div>
             </li>
         </ul>
-        <ul class="navbar-nav mr-auto">
-            <!--Note that text is held in single quotes and this expression lies in double quotes-->
-            <a class="navbar-brand">Student /index</a>
-        </ul>
-        <div class="navbar-nav ui-button" id="studentCRUD">
-            <a class="btn btn-primary mr-sm-2" type="button" th:href="@{/students/new}">New</a>
-            <a class="btn btn-danger mr-sm-2 disabled" type="button">Delete</a>
-        </div>
-        <!--        name="lastName" must match controller listStudents() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/students/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Student last name" aria-label="Search" maxlength="50">
+        <!--        name="lastName" must match controller listGuardians() parameter-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
+            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Teacher last name"
+                   aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
 
-<div class="container-fluid px-0">
-    <table class="table table-hover table-sm table-striped my-auto mx-0">
-        <thead class="thead-light">
-        <tr>
-            <th class="px-3">ID</th>
-            <th class="px-3">First name</th>
-            <th class="px-3">Last name</th>
-            <th class="px-3">Personal Tutor</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--the following is for IntelliJ-->
-        <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
-        <tr th:each="student: ${students}">
-            <th class="px-3"><a th:href="@{/students/{id}(id=${student.id})}" th:text="${student.id}"></a></th>
-            <th class="px-3" th:text="${student.firstName}"></th>
-            <th class="px-3" th:text="${student.lastName}"></th>
-            <th class="px-3" th:text="${student.teacher.getFirstName() + ' ' + student.teacher.getLastName()}"></th>
-        </tr>
-        <tr th:remove="all">
-            <th class="px-3">1</th>
-            <th class="px-3">Jimmy</th>
-            <th class="px-3">White</th>
-            <th class="px-3">Tim Brown</th>
-        </tr>
-        <tr th:remove="all">
-            <th class="px-3">2</th>
-            <th class="px-3">John</th>
-            <th class="px-3">Smith</th>
-            <th class="px-3">Janet Turner</th>
-        </tr>
-        </tbody>
-    </table>
+<div class="container">
+    <br/>
+    <div class="row">
+        <div class="col">
+            <h2>Add new teacher</h2>
+        </div>
+    </div>
+    <br/>
+    <!--the following is for IntelliJ-->
+    <!--/*@thymesVar id="newTeacher" type="com.srm.model.people.Teacher"*/-->
+    <form th:object="${newTeacher}" th:action="@{/teachers/new}" method="post" class="form-horizontal" id="add-subject-form">
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label">Teacher name</label>
+            </div>
+            <div class="col-sm-8">
+                <input size="50" placeholder="First name" th:field="${newTeacher.firstName}"/>
+                <input size="50" placeholder="Last name" th:field="${newTeacher.lastName}"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label">Subject(s) taught</label>
+            </div>
+            <div class="col-sm-8">
+                <input size="50" type="text" name="subject1Name" placeholder="Subject title"/>
+                <input size="50" type="text" name="subject2Name" placeholder="Subject title"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label">Contact details</label>
+            </div>
+            <div class="col-sm-8">
+                <input size="50" type="text" name="email" placeholder="Email address"/>
+                <input size="50" type="text" name="phoneNumber" placeholder="Phone number"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">Some other variable</label>
+            </div>
+            <div class="col-sm-8">
+                <input size="50"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-10">
+                    <button class="btn btn-info" type="submit">Add teacher</button>
+            </div>
+        </div>
+    </form>
+    <br />
+</div>
+
+
 </div>
 
 <footer th:replace="fragments/footer :: footer">

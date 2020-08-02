@@ -1,9 +1,7 @@
 package com.srm.controllers;
 
 import com.srm.model.academic.Subject;
-import com.srm.model.people.Guardian;
-import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
+import com.srm.model.people.*;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -111,5 +109,16 @@ public class TeacherController {
         mav.addObject("subject1Name", subject1Name);
         mav.addObject("subject2Name", subject2Name);
         return mav;
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        //avoid passing null composite objects (address, contactDetails, students)
+        model.addAttribute("newTeacher",
+                Teacher.builder().firstName("").lastName("")
+                .contactDetail(ContactDetail.builder().build())
+                .subjects(new HashSet<>())
+                .build());
+        return "/teachers/newTeacher";
     }
 }
