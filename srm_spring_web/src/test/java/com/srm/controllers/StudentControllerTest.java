@@ -7,6 +7,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,8 +22,10 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -191,7 +194,42 @@ class StudentControllerTest {
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/students/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/students/newStudent"))
-                .andExpect(model().attributeExists("newStudent"));
+                .andExpect(view().name("/students/newUpdateStudent"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
+    void processCreationForm() throws Exception {
+//        //todo re-test after form validation
+//        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1L).build());
+//
+//        mockMvc.perform(post("/students/new"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name("redirect:/students/1"))
+//                .andExpect(model().attributeExists("student"));
+//
+//        verify(studentService).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void initUpdateStudentForm() throws Exception {
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().id(1l).build());
+
+        mockMvc.perform(get("/students/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/newUpdateStudent"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
+    void processUpdateStudentForm() throws Exception {
+        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1l).build());
+
+        mockMvc.perform(post("/students/1/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/students/1"))
+                .andExpect(model().attributeExists("student"));
+
+        verify(studentService).save(ArgumentMatchers.any());
     }
 }

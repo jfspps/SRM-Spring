@@ -13,6 +13,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -108,7 +109,7 @@ public class StudentController {
     public ModelAndView showStudent(@PathVariable Long studentId) {
         ModelAndView mav = new ModelAndView("/students/studentDetails");
         Student student = studentService.findById(studentId);
-        mav.addObject("student", student);
+
         //assume for now that there are only up to two guardians registered per student
         List<Guardian> guardians = new ArrayList<>(student.getGuardians());
         String guardian1Name = "";
@@ -129,23 +130,69 @@ public class StudentController {
         } else
             noOfSubjectsStudied = "0";
 
+        if (student.getContactDetail() == null) {
+            student.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
+        }
+        if (student.getTeacher() == null) {
+            student.setTeacher(Teacher.builder().firstName("").lastName("").build());
+        }
+        if (student.getFormGroupList() == null){
+            student.setFormGroupList(FormGroupList.builder().groupName("").build());
+        }
         mav.addObject("guardian1Name", guardian1Name);
         mav.addObject("guardian2Name", guardian2Name);
         mav.addObject("noOfSubjectsStudied", noOfSubjectsStudied);
+        mav.addObject("student", student);
         return mav;
     }
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        //avoid passing null composite objects (contactDetail, formGroup, guardians, personal tutor and subject list)
-        model.addAttribute("newStudent",
-                Student.builder().firstName("").lastName("")
-                .contactDetail(ContactDetail.builder().build())
-                .formGroupList(FormGroupList.builder().build())
-                .guardians(new HashSet<>())
-                .personalTutor(Teacher.builder().build())
-                .subjectClassLists(new HashSet<>())
-                .build());
-        return "/students/newStudent";
+        model.addAttribute("newStudent", Student.builder().build());
+        model.addAttribute("tutorFound", 0);
+        model.addAttribute("contactsFound", 0);
+        return "/students/newUpdateStudent";
+    }
+
+    // also note that student.id is effectively null at this point because the template is not allowed to set id
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Student student) {
+        if (student.getLastName().isBlank() || student.getFirstName().isBlank()){
+            //todo: impl form validation
+            log.info("Enter both names");
+            return "redirect:/students/new/";
+        }
+        // save() handles the id allocation (no further intervention needed for new saves)
+        if (student.isNew()) {
+            Student savedStudent = studentService.save(student);
+            return "redirect:/students/" + savedStudent.getId();
+        } else {
+            log.info("Current object already exists");
+            return "/students/newUpdateStudent";
+        }
+    }
+
+    @GetMapping("/{studentId}/edit")
+    public String initUpdateForm(@PathVariable Long studentId, Model model) {
+        Student studentFound = studentService.findById(studentId);
+        if (studentFound.getTeacher() == null) {
+            model.addAttribute("tutorFound", 0);
+        } else
+            model.addAttribute("tutorFound", 1);
+
+        if (studentFound.getContactDetail() == null) {
+            model.addAttribute("contactsFound", 0);
+        } else
+            model.addAttribute("contactsFound", 1);
+
+        model.addAttribute("student", studentFound);
+        return "/students/newUpdateStudent";
+    }
+
+    @PostMapping("/{studentId}/edit")
+    public String processUpdateOwnerForm(@Valid Student student, @PathVariable Long studentId) {
+        student.setId(studentId);
+        Student savedStudent = studentService.save(student);
+        return "redirect:/students/" + savedStudent.getId();
     }
 }

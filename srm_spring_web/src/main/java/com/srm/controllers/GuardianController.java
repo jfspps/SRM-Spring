@@ -117,7 +117,7 @@ public class GuardianController {
     public ModelAndView showGuardian(@PathVariable Long guardianId) {
         ModelAndView mav = new ModelAndView("/guardians/guardianDetails");
         Guardian guardian = guardianService.findById(guardianId);
-        mav.addObject("guardian", guardian);
+
         //assume for now that there are only up to two students registered per guardian
         List<Student> students = new ArrayList<>(guardian.getStudents());
         String student1Name = "";
@@ -141,6 +141,7 @@ public class GuardianController {
         }
         mav.addObject("student1Name", student1Name);
         mav.addObject("student2Name", student2Name);
+        mav.addObject("guardian", guardian);
         return mav;
     }
 
