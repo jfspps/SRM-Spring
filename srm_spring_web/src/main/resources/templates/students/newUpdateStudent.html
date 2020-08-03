@@ -47,7 +47,7 @@
                 </div>
             </li>
         </ul>
-        <!--        name="lastName" must match controller listGuardians() parameter-->
+        <!--        name="lastName" must match controller listStudents() parameter-->
         <form class="form-inline my-2 my-lg-0" th:action="@{/students/index}" method="get">
             <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Student last name"
                    aria-label="Search" maxlength="50">
@@ -65,37 +65,28 @@
     </div>
     <br/>
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="newStudent" type="com.srm.model.people.Student"*/-->
-    <form th:object="${newStudent}" th:action="@{/students/new}" method="post" class="form-horizontal" id="add-subject-form">
+    <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
+    <form th:object="${student}" method="post" class="form-horizontal" id="add-student-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Student name</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" placeholder="First name" th:field="${newStudent.firstName}"/>
-                <input size="50" placeholder="Last name" th:field="${newStudent.lastName}"/>
+                <input size="50" placeholder="First name" th:field="*{firstName}"/>
+                <input size="50" placeholder="Last name" th:field="*{lastName}"/>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Guardian name</label>
+                <label class="control-label">Guardian records</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" type="text" name="guardian1FirstName" placeholder="First name"/>
-                <input size="50" type="text" name="guardian1LastName" placeholder="Last name"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find guardian</a>
-            </div>
-        </div>
-        <br/>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label">Guardian name (second on record)</label>
-            </div>
-            <div class="col-sm-8">
-                <input size="50" type="text" name="guardian2FirstName" placeholder="First name"/>
-                <input size="50" type="text" name="guardian2LastName" placeholder="Last name"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find guardian</a>
+                <span th:if="${student.getGuardians() == null}">
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add guardian</a></span>
+                <span th:unless="${student.getGuardians() == null}">
+                    <label size="50" th:text="${student.getGuardians().size()} + ' guardians(s) on file'">Number of guardians</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit guardian(s)</a></span>
             </div>
         </div>
         <br/>
@@ -104,9 +95,20 @@
                 <label class="control-label">Contact details</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" type="text" name="email" placeholder="Email address"/>
-                <input size="50" type="text" name="phoneNumber" placeholder="Phone number"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find contact details</a>
+                <div>
+                    <span th:if="${contactsFound == 0}">
+                        <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
+                    <span th:unless="${contactsFound == 0}">
+                        <label size="50" th:text="${'Email: ' + student.contactDetail.email}">Email</label><br/></span>
+                </div>
+                <div>
+                    <span th:if="${contactsFound == 0}">
+                        <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
+                    <span th:unless="${contactsFound == 0}">
+                        <label size="50"
+                               th:text="${'Phone no: ' + student.contactDetail.phoneNumber}">Number</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                </div>
             </div>
         </div>
         <br/>
@@ -115,28 +117,24 @@
                 <label class="control-label">Personal tutor</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" type="text" name="tutorFirstName" placeholder="First name"/>
-                <input size="50" type="text" name="tutorLastName" placeholder="Last name"/>
-                <input size="50" type="text" name="groupName" placeholder="Pastoral group name"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find address</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="control-label">Some other variable</label>
-            </div>
-            <div class="col-sm-8">
-                <input size="50"/>
+                    <span th:if="${tutorFound == 0}">
+                        <label size="50" th:text="${'Not registered with a tutor'}">Note</label><br/>
+                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Choose a tutor</a></span>
+                        <span th:unless="${tutorFound == 0}">
+                        <label size="50" th:text="${'Personal tutor: ' + student.teacher.firstName + ' '
+                         + student.teacher.lastName}">Name</label><br/>
+                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Change tutor</a></span>
             </div>
         </div>
         <br/>
-        <div class="row">
-            <div class="col-sm-10">
-                    <button class="btn btn-info" type="submit">Add student</button>
-            </div>
+        <div class="col-sm-10">
+            <button class="btn btn-info" type="submit"
+                    th:with="text=${student['new']} ? 'Add Student' : 'Update Student'"
+                    th:text="${text}">Add student
+            </button>
         </div>
     </form>
-    <br />
+    <br/>
 </div>
 
 

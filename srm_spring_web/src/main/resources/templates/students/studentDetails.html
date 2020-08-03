@@ -70,17 +70,10 @@
           th:action="@{/students/{id}/edit(id=${student.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Student first name</b></label>
+                <label class="control-label" size="30"><b>Student name</b></label>
             </div>
             <div class="col-sm-8">
                 <label size="50" th:text="*{firstName}">First name to appear here</label>
-            </div>
-        </div>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Student last name</b></label>
-            </div>
-            <div class="col-sm-8">
                 <label size="50" th:text="*{lastName}">Last name to appear here</label>
             </div>
         </div>
@@ -107,7 +100,7 @@
                 <label class="control-label" size="30"><b>Email address</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.getEmail()}">Email address to appear here</label>
+                <label size="50" th:text="*{contactDetail.email}">Email address to appear here</label>
             </div>
         </div>
         <br/>
@@ -116,7 +109,7 @@
                 <label class="control-label" size="30"><b>Phone number</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.getPhoneNumber()}">Phone number to appear here</label>
+                <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
             </div>
         </div>
         <br/>
@@ -125,7 +118,7 @@
                 <label class="control-label" size="30"><b>Personal tutor</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{teacher.firstName + ' ' + teacher.lastName}">Personal Tutor name to appear here</label>
+                <label size="50" th:text="${student.teacher.firstName + ' ' + student.teacher.lastName}">Personal Tutor name to appear here</label>
             </div>
         </div>
         <div class="row align-items-start">
@@ -133,7 +126,7 @@
                 <label class="control-label" size="30"><b>Form group</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{formGroupList.getGroupName()}">Form group name to appear here</label>
+                <label size="50" th:text="*{formGroupList.groupName}">Form group name to appear here</label>
             </div>
         </div>
         <br/>
