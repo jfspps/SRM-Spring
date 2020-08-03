@@ -23,7 +23,9 @@ public class Guardian extends Person {
     public Guardian(Long id, String firstName, String lastName, Address address, Set<Student> students, ContactDetail contactDetail) {
         super(id, firstName, lastName, contactDetail);
         this.address = address;
-        this.students = students;
+        if (students != null){
+            this.students = students;
+        }
     }
 
     @ManyToOne

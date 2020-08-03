@@ -1,5 +1,6 @@
 package com.srm.controllers;
 
+import com.srm.model.academic.Subject;
 import com.srm.model.people.Address;
 import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
@@ -9,6 +10,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,8 +24,10 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -132,5 +136,17 @@ class GuardianControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/guardians/newGuardian"))
                 .andExpect(model().attributeExists("newGuardian"));
+    }
+
+    @Test
+    void processCreationFormBlank() throws Exception {
+        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
+
+        mockMvc.perform(post("/guardians/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/guardians/1"))
+                .andExpect(model().attributeExists("guardian"));
+
+        verify(guardianService).save(ArgumentMatchers.any());
     }
 }

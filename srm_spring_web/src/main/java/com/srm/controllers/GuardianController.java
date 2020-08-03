@@ -1,22 +1,20 @@
 package com.srm.controllers;
 
-import com.srm.model.academic.Subject;
 import com.srm.model.people.Address;
 import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.GuardianService;
+import com.srm.services.peopleServices.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,10 +27,12 @@ import java.util.Set;
 public class GuardianController {
 
     private final GuardianService guardianService;
+    private final StudentService studentService;
 
     //constructor service injection; when GuardianIndexController is instantiated, it is injected with a one-time GuardianService
-    public GuardianController(GuardianService guardianService) {
+    public GuardianController(GuardianService guardianService, StudentService studentService) {
         this.guardianService = guardianService;
+        this.studentService = studentService;
     }
 
     //prevent the HTTP form POST from editing listed properties
@@ -115,16 +115,23 @@ public class GuardianController {
         List<Student> students = new ArrayList<>(guardian.getStudents());
         String student1Name = "";
         String student2Name = "";
-
-        //may require more general refactor in the future...
-        if (students.size() == 1){
-            student1Name = students.get(0).getFirstName() + " " + students.get(0).getLastName();
+        if (guardian.getStudents() != null){
+            //may require more general refactor in the future...
+            if (students.size() == 1){
+                student1Name = students.get(0).getFirstName() + " " + students.get(0).getLastName();
+            }
+            //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
+            if (students.size() == 2){
+                student2Name = students.get(1).getFirstName() + " " + students.get(1).getLastName();
+            }
         }
-        //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
-        if (students.size() == 2){
-            student2Name = students.get(1).getFirstName() + " " + students.get(1).getLastName();
-        }
 
+        if (guardian.getAddress() == null){
+            guardian.setAddress(Address.builder().firstLine("").secondLine("").postcode("").build());
+        }
+        if (guardian.getContactDetail() == null){
+            guardian.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
+        }
         mav.addObject("student1Name", student1Name);
         mav.addObject("student2Name", student2Name);
         return mav;
@@ -132,13 +139,31 @@ public class GuardianController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        //avoid passing null composite objects (address, contactDetails, students)
+        //todo associate the composites with guardian before rendering newGuardian e.g. PetController (Owner is a paramter)
+
+        /**
+         * Pet pet = new Pet();
+         *         owner.getPets().add(pet);
+         *         pet.setOwner(owner);
+         *         model.addAttribute("pet", pet);*/
+
         model.addAttribute("newGuardian",
                 Guardian.builder().firstName("").lastName("")
-                        .address(Address.builder().build())
-                        .contactDetail(ContactDetail.builder().build())
-                        .students(new HashSet<>())
                         .build());
         return "/guardians/newGuardian";
+    }
+
+    // several "text" parameters related to students are passed from newGuardian not part of Guardian guardian
+    // also note that guardian.id is effectively null at this point because the template is not allowed to set id
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Guardian guardian) {
+        // save() handles the id allocation (no further intervention needed for new saves)
+        if (guardian.isNew()) {
+            Guardian savedGuardian =  guardianService.save(guardian);
+            return "redirect:/guardians/" + savedGuardian.getId();
+        } else {
+            log.info("Current object already exists");
+            return "/guardians/updateGuardian";
+        }
     }
 }

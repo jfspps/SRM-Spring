@@ -107,7 +107,7 @@
                 <label class="control-label" size="30"><b>Address line 1</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{address.getFirstLine()}">First line of address to appear here</label>
+                <label size="50" th:text="*{address.firstLine}">First line of address to appear here</label>
             </div>
         </div>
         <div class="row align-items-start">
@@ -115,7 +115,7 @@
                 <label class="control-label" size="30"><b>Address line 2</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{address.getSecondLine()}">Second line of address to appear here</label>
+                <label size="50" th:text="*{address.secondLine}">Second line of address to appear here</label>
             </div>
         </div>
         <div class="row align-items-start">
@@ -123,7 +123,7 @@
                 <label class="control-label" size="30"><b>Address postcode</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{address.getPostcode()}">Postcode to appear here</label>
+                <label size="50" th:text="*{address.postcode}">Postcode to appear here</label>
             </div>
         </div>
         <br/>
@@ -132,7 +132,7 @@
                 <label class="control-label" size="30"><b>Phone number</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.getPhoneNumber()}">Phone number to appear here</label>
+                <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
             </div>
         </div>
         <div class="row align-items-start">
@@ -140,7 +140,7 @@
                 <label class="control-label" size="30"><b>Email address</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.getEmail()}">Email to appear here</label>
+                <label size="50" th:text="*{contactDetail.email}">Email to appear here</label>
             </div>
         </div>
         <br/>

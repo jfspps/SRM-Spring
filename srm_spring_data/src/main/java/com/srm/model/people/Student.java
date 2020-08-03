@@ -20,9 +20,15 @@ public class Student extends Person {
     public Student(Long id, String firstName, String lastName, Set<Guardian> guardians, Teacher personalTutor,
                    Set<SubjectClassList> subjectClassLists, FormGroupList formGroupList, ContactDetail contactDetail) {
         super(id, firstName, lastName, contactDetail);
-        this.guardians = guardians;
+
+        if(guardians != null){
+            this.guardians = guardians;
+        }
         this.teacher = personalTutor;
-        this.subjectClassLists = subjectClassLists;
+
+        if(subjectClassLists != null){
+            this.subjectClassLists = subjectClassLists;
+        }
         this.formGroupList = formGroupList;
     }
 
