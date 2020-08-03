@@ -16,7 +16,6 @@ class StudentMapServiceTest {
     final String firstName = "James";
     final String lastName = "Apps";
     Long id = 1L;
-    List<Student> studentList = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
@@ -82,6 +81,16 @@ class StudentMapServiceTest {
         assertEquals(lastName, studentFullName.getLastName());
         assertEquals(firstName, studentFullName.getFirstName());
     }
+
+    @Test
+    void findByBlankFirstOnlyLastName() {
+        Student saved = studentMapService.save(Student.builder().firstName("").lastName(lastName).build());
+
+        Student studentFullName = studentMapService.findByFirstAndLastName("", lastName);
+        assertEquals(saved, studentFullName);
+    }
+
+
 
     @Test
     void findByLastNameLike(){

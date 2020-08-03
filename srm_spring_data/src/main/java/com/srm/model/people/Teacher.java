@@ -21,7 +21,9 @@ public class Teacher extends Person {
     @Builder
     public Teacher(Long id, String firstName, String lastName, Set<Subject> subjects, ContactDetail contactDetail) {
         super(id, firstName, lastName, contactDetail);
-        this.subjects = subjects;
+        if(subjects != null){
+            this.subjects = subjects;
+        }
     }
 
     @JoinTable(name = "teacher_subject",

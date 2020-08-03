@@ -25,7 +25,9 @@ public class Subject extends BaseEntity {
     public Subject(Long id, String subjectName, Set<Teacher> teachers) {
         super(id);
         this.subjectName = subjectName;
-        this.teachers = teachers;
+        if (teachers != null){
+            this.teachers = teachers;
+        }
     }
 
     @Column(name = "subject_name")

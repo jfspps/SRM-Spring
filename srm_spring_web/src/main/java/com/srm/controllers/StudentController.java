@@ -1,16 +1,16 @@
 package com.srm.controllers;
 
 import com.srm.model.people.*;
+import com.srm.services.academicServices.SubjectService;
+import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
+import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -25,10 +25,16 @@ import java.util.Set;
 public class StudentController {
 
     private final StudentService studentService;
+    private final GuardianService guardianService;
+    private final TeacherService teacherService;
+    private final SubjectService subjectService;
 
     //constructor service injection; when StudentIndexController is instantiated, it is injected with a one-time StudentService
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, GuardianService guardianService, TeacherService teacherService, SubjectService subjectService) {
         this.studentService = studentService;
+        this.guardianService = guardianService;
+        this.teacherService = teacherService;
+        this.subjectService = subjectService;
     }
 
     //prevent the HTTP form POST from editing listed properties
@@ -36,6 +42,24 @@ public class StudentController {
     public void setAllowedFields(WebDataBinder dataBinder){
         dataBinder.setDisallowedFields("id");
     }
+
+    //the following are automatically added to Model model in StudentController, identified in template by " "
+    @ModelAttribute("guardians")
+    public Set<Guardian> populateGuardians(Student student){
+        return student.getGuardians();
+    }
+
+    @ModelAttribute("teacher")
+    public Teacher populatePersonalTutor(Student student){
+        return student.getTeacher();
+    }
+
+    @ModelAttribute("contactDetails")
+    public ContactDetail populateContactDetails(Student student){
+        return student.getContactDetail();
+    }
+
+    // routing ====================================================================================================
 
     @GetMapping({"", "/", "/index", "/index.html"})
     public String listStudents(Model model, String lastName) {

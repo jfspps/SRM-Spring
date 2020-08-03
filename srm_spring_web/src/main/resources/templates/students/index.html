@@ -71,7 +71,7 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
-            <th class="px-3">Personal Tutor</th>
+            <th class="px-3">Tutor's last name</th>
         </tr>
         </thead>
         <tbody>
@@ -81,19 +81,19 @@
             <th class="px-3"><a th:href="@{/students/{id}(id=${student.id})}" th:text="${student.id}"></a></th>
             <th class="px-3" th:text="${student.firstName}"></th>
             <th class="px-3" th:text="${student.lastName}"></th>
-            <th class="px-3" th:text="${student.teacher.getFirstName() + ' ' + student.teacher.getLastName()}"></th>
+            <th class="px-3" th:text="${student.getTeacher().getLastName()}?:'No tutor details'"></th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">1</th>
             <th class="px-3">Jimmy</th>
             <th class="px-3">White</th>
-            <th class="px-3">Tim Brown</th>
+            <th class="px-3">Brown</th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">2</th>
             <th class="px-3">John</th>
             <th class="px-3">Smith</th>
-            <th class="px-3">Janet Turner</th>
+            <th class="px-3">Turner</th>
         </tr>
         </tbody>
     </table>
