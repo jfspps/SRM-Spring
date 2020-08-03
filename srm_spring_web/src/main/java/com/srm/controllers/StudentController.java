@@ -1,6 +1,5 @@
 package com.srm.controllers;
 
-import com.srm.model.academic.Subject;
 import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.GuardianService;

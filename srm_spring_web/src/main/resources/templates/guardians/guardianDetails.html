@@ -70,17 +70,10 @@
           th:action="@{/guardians/{id}/edit(id=${guardian.id})}">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Guardian first name</b></label>
+                <label class="control-label" size="30"><b>Guardian name</b></label>
             </div>
             <div class="col-sm-8">
                 <label size="50" th:text="*{firstName}">First name to appear here</label>
-            </div>
-        </div>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Guardian last name</b></label>
-            </div>
-            <div class="col-sm-8">
                 <label size="50" th:text="*{lastName}">Last name to appear here</label>
             </div>
         </div>
