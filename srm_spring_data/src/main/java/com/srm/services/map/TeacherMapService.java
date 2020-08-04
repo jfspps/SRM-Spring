@@ -89,4 +89,12 @@ public class TeacherMapService extends AbstractMapService<Teacher, Long> impleme
                 .filter(teacher -> teacher.getLastName().toLowerCase().contains(lastName.toLowerCase()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Teacher> findAllByDepartment(String department) {
+        return this.findAll()
+                .stream()
+                .filter(teacher -> teacher.getDepartment().toLowerCase().contains(department.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

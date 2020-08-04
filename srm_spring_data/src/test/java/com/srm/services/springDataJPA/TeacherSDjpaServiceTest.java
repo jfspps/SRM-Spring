@@ -10,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -35,12 +33,13 @@ class TeacherSDjpaServiceTest {
     Subject subject1 = new Subject();
     Subject subject2 = new Subject();
     final Long id = 1L;
+    String department = "Religious studies";
 
     @BeforeEach
     void setUp() {
         subjectSet.add(subject1);
         subjectSet.add(subject2);
-        teacher = Teacher.builder().id(id).firstName(firstName).lastName(lastName).subjects(subjectSet).build();
+        teacher = Teacher.builder().id(id).firstName(firstName).lastName(lastName).department(department).subjects(subjectSet).build();
     }
 
     @Test
@@ -61,6 +60,18 @@ class TeacherSDjpaServiceTest {
         assertEquals(lastName, testTeacher.getLastName());
         assertEquals(firstName, testTeacher.getFirstName());
         verify(teacherRepository, times(1)).findByFirstNameAndLastName(anyString(), anyString());
+    }
+
+    @Test
+    void findAllByDepartmentLike(){
+        List<Teacher> teacherList = new ArrayList<>();
+        teacherList.add(teacher);
+        when(teacherRepository.findAllByDepartmentLike(anyString())).thenReturn(teacherList);
+
+        List<Teacher> foundTeachers = teacherSDjpaService.findAllByDepartment(department);
+        assertEquals(1, foundTeachers.size());
+        assertEquals(department, foundTeachers.get(0).getDepartment());
+        verify(teacherRepository, times(1)).findAllByDepartmentLike(anyString());
     }
 
     @Test

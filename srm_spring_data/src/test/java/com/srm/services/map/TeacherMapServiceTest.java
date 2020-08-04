@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,13 +21,14 @@ class TeacherMapServiceTest {
     Subject subject1 = new Subject();
     Subject subject2 = new Subject();
     final Long id = 1L;
+    String department = "Religious studies";
 
     @BeforeEach
     void setUp() {
         teacherMapService = new TeacherMapService();
         subjectSet.add(subject1);
         subjectSet.add(subject2);
-        teacher = Teacher.builder().id(id).firstName(firstName).lastName(lastName).subjects(subjectSet).build();
+        teacher = Teacher.builder().id(id).firstName(firstName).lastName(lastName).department(department).subjects(subjectSet).build();
         teacherMapService.save(teacher);
     }
 
@@ -83,5 +85,11 @@ class TeacherMapServiceTest {
         Teacher teacherFullName = teacherMapService.findByFirstAndLastName(firstName, lastName);
         assertEquals(lastName, teacherFullName.getLastName());
         assertEquals(firstName, teacherFullName.getFirstName());
+    }
+
+    @Test
+    void findAllByDepartment(){
+        List<Teacher> teacherList = teacherMapService.findAllByDepartment(department);
+        assertEquals(department, teacherList.get(0).getDepartment());
     }
 }

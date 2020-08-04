@@ -19,10 +19,12 @@ import java.util.Set;
 public class Teacher extends Person {
 
     @Builder
-    public Teacher(Long id, String firstName, String lastName, Set<Subject> subjects, ContactDetail contactDetail) {
+    public Teacher(Long id, String firstName, String lastName, Set<Subject> subjects, ContactDetail contactDetail,
+                   String department) {
         super(id, firstName, lastName, contactDetail);
         if(subjects != null){
             this.subjects = subjects;
+            this.department = department;
         }
     }
 
@@ -31,4 +33,5 @@ public class Teacher extends Person {
     @ManyToMany
     private Set<Subject> subjects = new HashSet<>();
 
+    private String department;
 }
