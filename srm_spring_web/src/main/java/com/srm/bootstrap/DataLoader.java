@@ -117,6 +117,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Subject> teacher1subjects = new HashSet<>();
         teacher1subjects.add(subject1);
         teacher1.setSubjects(teacher1subjects);
+        teacher1.setDepartment("Mathematics");
 
         Subject subject2 = new Subject();
         subject2.setSubjectName("English");
@@ -124,6 +125,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Subject> teacher2subjects = new HashSet<>();
         teacher2subjects.add(subject2);
         teacher2.setSubjects(teacher2subjects);
+        teacher2.setDepartment("English Lit and Lang");
 
         subjectService.save(subject1);
         subjectService.save(subject2);

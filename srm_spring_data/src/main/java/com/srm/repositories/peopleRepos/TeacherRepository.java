@@ -18,4 +18,6 @@ public interface TeacherRepository extends CrudRepository<Teacher, Long> {
     List<Teacher> findAllByLastNameLike(String lastName);
 
     List<Teacher> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName);
+
+    List<Teacher> findAllByDepartmentLike(String department);
 }

@@ -61,6 +61,11 @@ public class TeacherSDjpaService implements TeacherService {
     }
 
     @Override
+    public List<Teacher> findAllByDepartment(String department) {
+        return teacherRepository.findAllByDepartmentLike(department);
+    }
+
+    @Override
     public void delete(Teacher objectT) {
         teacherRepository.delete(objectT);
     }

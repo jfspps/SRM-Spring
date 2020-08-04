@@ -72,7 +72,7 @@
         <!--the following is for IntelliJ-->
         <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
         <tr th:each="subject: ${subjects}">
-            <th class="px-3"><a th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.getId()}"></a></th>
+            <th class="px-3"><a th:href="@{/subjects/{id}/edit(id=${subject.id})}" th:text="${subject.getId()}"></a></th>
             <th class="px-3" th:text="${subject.getSubjectName()}"></th>
         </tr>
         <tr th:remove="all">
