@@ -1,7 +1,6 @@
 package com.srm.controllers;
 
 import com.srm.model.people.Address;
-import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.AddressService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,8 +32,9 @@ public class GuardianController {
     private final AddressService addressService;
     private final ContactDetailService contactDetailService;
 
-    //constructor service injection; when GuardianIndexController is instantiated, it is injected with a one-time GuardianService
-    public GuardianController(GuardianService guardianService, StudentService studentService, AddressService addressService, ContactDetailService contactDetailService) {
+    //constructor service injection; when GuardianController is instantiated, it is injected with a one-time services
+    public GuardianController(GuardianService guardianService, StudentService studentService,
+                              AddressService addressService, ContactDetailService contactDetailService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.addressService = addressService;
@@ -63,49 +62,24 @@ public class GuardianController {
 
     //on GET request, inject Guardian POJO as a Model to access Student properties
     @GetMapping({"/search", "/search.html"})
-    public String index(Guardian guardian, BindingResult result, Model model) {
+    public String searchGuardians(Guardian guardian, BindingResult result, Model model) {
 
-        List<Guardian> results = new ArrayList<>();
-
-        //build new Guardian object with empty (non-null) properties
         if (guardian.getFirstName() == null || guardian.getLastName() == null) {
+            //run on first entry
             model.addAttribute("guardian", Guardian.builder().build());
-            model.addAttribute("selectedName", "");
-            model.addAttribute("selectedStudentName", "");
-            model.addAttribute("selectedAddress", "");
-            model.addAttribute("selectedMobile", "");
-            model.addAttribute("selectedEmail", "");
         } else {
             //proceed with the search
-            log.info("Guardian search initiated");
             if (guardian.getFirstName().isEmpty() && guardian.getLastName().isEmpty()) {
                 result.rejectValue("firstName", "notFound", "Enter at least one name");
             } else {
-                results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(), guardian.getLastName());
+                List<Guardian> results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(),
+                        guardian.getLastName());
                 if (results.isEmpty()) {
                     // rejectValue(String field, String errorCode, String defaultMessage)
                     result.rejectValue("firstName", "notFound", "Not found");
                 } else {
                     Set<Guardian> resultsAsSet = new HashSet<>(results);
-                    Guardian first = results.get(0);
                     model.addAttribute("guardiansFound", resultsAsSet);
-                    model.addAttribute("selectedName", first.getFirstName() + " " + first.getLastName());
-                    StringBuilder studentNames = new StringBuilder();
-                    for (Student student : first.getStudents()) {
-                        studentNames.append(student.getFirstName()).append(" ").append(student.getLastName()).append(";");
-                    }
-                    model.addAttribute("selectedStudentName", studentNames);
-                    StringBuilder addressString = new StringBuilder();
-                    Address address = first.getAddress();
-                    if (address != null) {
-                        addressString.append(address.getFirstLine()).append(", ").append(address.getSecondLine())
-                                .append(", ").append(address.getPostcode());
-                        model.addAttribute("selectedAddress", addressString);
-                    }
-                    if (first.getContactDetail() != null) {
-                        model.addAttribute("selectedMobile", first.getContactDetail().getPhoneNumber());
-                        model.addAttribute("selectedEmail", first.getContactDetail().getEmail());
-                    }
                 }
             }
         }
@@ -133,12 +107,6 @@ public class GuardianController {
             }
         }
 
-        if (guardian.getAddress() == null) {
-            guardian.setAddress(Address.builder().firstLine("").secondLine("").postcode("").build());
-        }
-        if (guardian.getContactDetail() == null) {
-            guardian.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
-        }
         mav.addObject("student1Name", student1Name);
         mav.addObject("student2Name", student2Name);
         mav.addObject("guardian", guardian);
@@ -147,53 +115,33 @@ public class GuardianController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        //todo associate the composites with guardian before rendering newGuardian e.g. PetController (Owner is a paramter)
-
-        /**
-         * Pet pet = new Pet();
-         *         owner.getPets().add(pet);
-         *         pet.setOwner(owner);
-         *         model.addAttribute("pet", pet);*/
-
         model.addAttribute("guardian", Guardian.builder().build());
-        model.addAttribute("addressFound", 0);
-        model.addAttribute("contactsFound", 0);
-        return "/guardians/newUpdateGuardian";
+        return "/guardians/newGuardian";
     }
 
     // also note that guardian.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
     public String processCreationForm(@Valid Guardian guardian) {
-        if (guardian.getLastName().isBlank() || guardian.getFirstName().isBlank()){
+        if (guardian.getLastName().isBlank() || guardian.getFirstName().isBlank()) {
             //todo: impl form validation
             log.info("Enter both names");
             return "redirect:/guardians/new/";
         }
-            // save() handles the id allocation (no further intervention needed for new saves)
-            if (guardian.isNew()) {
-                Guardian savedGuardian = guardianService.save(guardian);
-                return "redirect:/guardians/" + savedGuardian.getId();
-            } else {
-                log.info("Current object already exists");
-                return "/guardians/updateGuardian";
-            }
+        // save() handles the id allocation (no further intervention needed for new saves)
+        if (guardian.isNew()) {
+            Guardian savedGuardian = guardianService.save(guardian);
+            return "redirect:/guardians/" + savedGuardian.getId() + "/edit";
+        } else {
+            log.info("Current object already exists");
+            return "/guardians/updateGuardian";
+        }
     }
 
     @GetMapping("/{guardianId}/edit")
     public String initUpdateForm(@PathVariable Long guardianId, Model model) {
         Guardian guardianFound = guardianService.findById(guardianId);
-        if (guardianFound.getAddress() == null) {
-            model.addAttribute("addressFound", 0);
-        } else
-            model.addAttribute("addressFound", 1);
-
-        if (guardianFound.getContactDetail() == null) {
-            model.addAttribute("contactsFound", 0);
-        } else
-            model.addAttribute("contactsFound", 1);
-
         model.addAttribute("guardian", guardianFound);
-        return "/guardians/newUpdateGuardian";
+        return "/guardians/updateGuardian";
     }
 
     @PostMapping("/{guardianId}/edit")

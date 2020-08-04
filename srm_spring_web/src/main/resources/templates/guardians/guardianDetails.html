@@ -95,37 +95,57 @@
             </div>
         </div>
         <br/>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Address line 1</b></label>
+
+        <span th:if="${guardian.getAddress() == null}">
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>No address on file</b></label>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <label size="50" th:text="*{address.firstLine}">First line of address to appear here</label>
+        </span>
+        <span th:unless="${guardian.getAddress() == null}">
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>Address line 1</b></label>
+                </div>
+                <div class="col-sm-8">
+                    <label size="50" th:text="*{address.firstLine}">First line of address to appear here</label>
+                </div>
             </div>
-        </div>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Address line 2</b></label>
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>Address line 2</b></label>
+                </div>
+                <div class="col-sm-8">
+                    <label size="50" th:text="*{address.secondLine}">Second line of address to appear here</label>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <label size="50" th:text="*{address.secondLine}">Second line of address to appear here</label>
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>Address postcode</b></label>
+                </div>
+                <div class="col-sm-8">
+                    <label size="50" th:text="*{address.postcode}">Postcode to appear here</label>
+                </div>
             </div>
-        </div>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Address postcode</b></label>
-            </div>
-            <div class="col-sm-8">
-                <label size="50" th:text="*{address.postcode}">Postcode to appear here</label>
-            </div>
-        </div>
+        </span>
+
         <br/>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label" size="30"><b>Phone number</b></label>
+
+        <span th:if="${guardian.contactDetail == null}">
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>No contact details on file</b></label>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
+        </span>
+        <span th:unless="${guardian.contactDetail == null}">
+            <div class="row align-items-start">
+                <div class="col-sm-2">
+                    <label class="control-label" size="30"><b>Phone number</b></label>
+                </div>
+                <div class="col-sm-8">
+                    <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
             </div>
         </div>
         <div class="row align-items-start">
@@ -136,6 +156,8 @@
                 <label size="50" th:text="*{contactDetail.email}">Email to appear here</label>
             </div>
         </div>
+        </span>
+
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">

@@ -78,6 +78,7 @@
             </div>
         </div>
         <br/>
+
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Guardian name</b></label>
@@ -94,13 +95,19 @@
                 <label size="50" th:text="${guardian2Name}">Guardian name to appear here</label>
             </div>
         </div>
+
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Email address</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.email}">Email address to appear here</label>
+                <span th:if="${student.contactDetail == null}">
+                    <label size="50">No email address on record</label>
+                </span>
+                <span th:unless="${student.contactDetail == null}">
+                    <label size="50" th:text="*{contactDetail.email}">Email address to appear here</label>
+                </span>
             </div>
         </div>
         <br/>
@@ -109,33 +116,56 @@
                 <label class="control-label" size="30"><b>Phone number</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
+                <span th:if="${student.contactDetail == null}">
+                    <label size="50">No phone number on record</label>
+                </span>
+                <span th:unless="${student.contactDetail == null}">
+                    <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
+                </span>
             </div>
         </div>
         <br/>
+
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Personal tutor</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="${student.teacher.firstName + ' ' + student.teacher.lastName}">Name</label>
+                <span th:if="${student.teacher == null}">
+                    <label size="50" >Not assigned to a tutor</label>
+                </span>
+                <span th:unless="${student.teacher == null}">
+                    <label size="50" th:text="${student.teacher.firstName + ' ' + student.teacher.lastName}">Name</label>
+                </span>
             </div>
         </div>
+
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Form group</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{formGroupList.groupName}">Form group name to appear here</label>
+                <span th:if="${student.formGroupList == null}">
+                    <label size="50">Not assigned to a group</label>
+                </span>
+                <span th:unless="${student.formGroupList == null}">
+                    <label size="50" th:text="*{formGroupList.groupName}">Form group name to appear here</label>
+                </span>
             </div>
         </div>
         <br/>
+
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Number of subjects studied</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="${noOfSubjectsStudied}">Number of subjects studied to appear here</label>
+                <span th:if="${student.getSubjectClassLists() == null}">
+                    <label size="50">0</label>
+                </span>
+                <span th:unless="${student.getSubjectClassLists() == null}">
+                    <label size="50" th:text="${student.getSubjectClassLists().size()}">Number of subjects studied to appear here</label>
+                </span>
             </div>
         </div>
         <br/>

@@ -80,18 +80,16 @@ public class StudentController {
     @GetMapping({"/search", "/search.html"})
     public String findStudents(Student student, BindingResult result, Model model) {
 
-        List<Student> results;
-
         //build new Student object with empty (non-null) properties
         if (student.getFirstName() == null || student.getLastName() == null) {
             model.addAttribute("student", Student.builder().build());
         } else {
             //proceed with the search
-            log.info("Student search initiated");
             if (student.getFirstName().isEmpty() && student.getLastName().isEmpty()){
                 result.rejectValue("firstName", "notFound", "Enter at least one name");
             } else {
-                results = studentService.findAllByFirstNameLikeAndLastNameLike(student.getFirstName(), student.getLastName());
+                List<Student> results = studentService.findAllByFirstNameLikeAndLastNameLike(student.getFirstName(),
+                        student.getLastName());
                 if (results.isEmpty()) {
                     // rejectValue(String field, String errorCode, String defaultMessage)
                     result.rejectValue("firstName", "notFound", "Not found");
@@ -123,35 +121,16 @@ public class StudentController {
         if (guardians.size() == 2){
             guardian2Name = guardians.get(1).getFirstName() + " " + guardians.get(1).getLastName();
         }
-
-        String noOfSubjectsStudied;
-        if (student.getSubjectClassLists() != null){
-            noOfSubjectsStudied = String.valueOf(student.getSubjectClassLists().size());
-        } else
-            noOfSubjectsStudied = "0";
-
-        if (student.getContactDetail() == null) {
-            student.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
-        }
-        if (student.getTeacher() == null) {
-            student.setTeacher(Teacher.builder().firstName("").lastName("").build());
-        }
-        if (student.getFormGroupList() == null){
-            student.setFormGroupList(FormGroupList.builder().groupName("").build());
-        }
         mav.addObject("guardian1Name", guardian1Name);
         mav.addObject("guardian2Name", guardian2Name);
-        mav.addObject("noOfSubjectsStudied", noOfSubjectsStudied);
         mav.addObject("student", student);
         return mav;
     }
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("newStudent", Student.builder().build());
-        model.addAttribute("tutorFound", 0);
-        model.addAttribute("contactsFound", 0);
-        return "/students/newUpdateStudent";
+        model.addAttribute("student", Student.builder().build());
+        return "/students/newStudent";
     }
 
     // also note that student.id is effectively null at this point because the template is not allowed to set id
@@ -165,28 +144,18 @@ public class StudentController {
         // save() handles the id allocation (no further intervention needed for new saves)
         if (student.isNew()) {
             Student savedStudent = studentService.save(student);
-            return "redirect:/students/" + savedStudent.getId();
+            return "redirect:/students/" + savedStudent.getId() + "/edit";
         } else {
             log.info("Current object already exists");
-            return "/students/newUpdateStudent";
+            return "/students/updateStudent";
         }
     }
 
     @GetMapping("/{studentId}/edit")
     public String initUpdateForm(@PathVariable Long studentId, Model model) {
         Student studentFound = studentService.findById(studentId);
-        if (studentFound.getTeacher() == null) {
-            model.addAttribute("tutorFound", 0);
-        } else
-            model.addAttribute("tutorFound", 1);
-
-        if (studentFound.getContactDetail() == null) {
-            model.addAttribute("contactsFound", 0);
-        } else
-            model.addAttribute("contactsFound", 1);
-
         model.addAttribute("student", studentFound);
-        return "/students/newUpdateStudent";
+        return "/students/updateStudent";
     }
 
     @PostMapping("/{studentId}/edit")

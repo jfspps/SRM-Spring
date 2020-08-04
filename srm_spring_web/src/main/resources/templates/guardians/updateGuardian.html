@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | New Guardian </title>
+    <title>SRM | Update guardian </title>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -64,7 +64,7 @@
         </div>
     </div>
     <br/>
-<!--    the appropriate th:action seems to be recognised by Spring depending on the prior GET request-->
+    <!--    the appropriate th:action seems to be recognised by Spring depending on the prior GET request-->
     <!--the following is for IntelliJ-->
     <!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
     <form th:object="${guardian}" method="post" class="form-horizontal" id="add-guardian-form">
@@ -83,27 +83,33 @@
                 <label class="control-label">Student records</label>
             </div>
             <div class="col-sm-8">
-                <span th:if="${guardian.getStudents() == null}">
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add student</a></span>
+                    <span th:if="${guardian.getStudents() == null}">
+                        <label size="50" th:text="'No students on file'">Number of students</label><br/>
+                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add student</a></span>
                 <span th:unless="${guardian.getStudents() == null}">
-                    <label size="50" th:text="${guardian.getStudents().size()} + ' student(s) on file'">Number of students</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit student(s)</a></span>
+                        <label size="50" th:text="${guardian.getStudents().size()} + ' student(s) on file'">Number of students</label><br/>
+                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit student(s)</a></span>
             </div>
         </div>
         <br/>
+        <!--the following is for IntelliJ-->
+        <!--/*@thymesVar id="addressFound" type="com.srm.model.people.Address"*/-->
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Address</label>
             </div>
             <div class="col-sm-8">
-                <span th:if="${addressFound == 0}">
-                    <label size="50" th:text="${'No address on file'}">Note</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add address</a></span>
-                <span th:unless="${addressFound == 0}">
-                    <label size="50" th:text="${guardian.address.firstLine}">First line</label><br/>
-                    <label size="50" th:text="${guardian.address.secondLine}">Second line</label><br/>
-                    <label size="50" th:text="${guardian.address.postcode}">Postcode</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit address</a></span>
+                    <span th:if="${guardian.getAddress() == null}">
+                        <label size="50" th:text="${'No address on file'}">Note</label><br/>
+                        <a th:href="@{/guardians/{id}/address/new(id=${guardian.id})}"
+                           class="btn btn-sm btn-outline-info">Add address</a></span>
+                <span th:unless="${guardian.getAddress() == null}">
+                        <label size="50" th:text="${guardian.getAddress().firstLine}">First line</label><br/>
+                        <label size="50" th:text="${guardian.getAddress().secondLine}">Second line</label><br/>
+                        <label size="50" th:text="${guardian.getAddress().postcode}">Postcode</label><br/>
+                        <a th:href="@{/guardians/{guardianId}/address/{addressId}/edit
+                        (guardianId=${guardian.getId()},addressId=${guardian.getAddress().getId()})}"
+                           class="btn btn-sm btn-outline-info">Edit address</a></span>
             </div>
         </div>
         <br/>
@@ -113,30 +119,29 @@
             </div>
             <div class="col-sm-8">
                 <div>
-                    <span th:if="${contactsFound == 0}">
-                        <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
-                    <span th:unless="${contactsFound == 0}">
-                        <label size="50" th:text="${'Email: ' + guardian.contactDetail.email}">Email</label><br/></span>
+                        <span th:if="${guardian.getContactDetail() == null}">
+                            <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
+                    <span th:unless="${guardian.getContactDetail() == null}">
+                            <label size="50"
+                                   th:text="${'Email: ' + guardian.contactDetail.email}">Email</label><br/></span>
                 </div>
                 <div>
-                    <span th:if="${contactsFound == 0}">
-                        <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
-                    <span th:unless="${contactsFound == 0}">
-                        <label size="50"
-                               th:text="${'Phone no: ' + guardian.contactDetail.phoneNumber}">Number</label><br/></span>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                        <span th:if="${guardian.getContactDetail() == null}">
+                            <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
+                    <span th:unless="${guardian.getContactDetail() == null}">
+                            <label size="50"
+                                   th:text="${'Phone no: ' + guardian.contactDetail.phoneNumber}">Number</label><br/></span>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a>
                 </div>
             </div>
             <br/>
-            <div class="col-sm-10">
-                <button class="btn btn-info" type="submit"
-                        th:with="text=${guardian['new']} ? 'Add Guardian' : 'Update Guardian'"
-                        th:text="${text}">Add guardian
-                </button>
+        </div>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <button class="btn btn-info" type="submit">Update guardian</button>
             </div>
         </div>
     </form>
-    <br/>
 </div>
 
 

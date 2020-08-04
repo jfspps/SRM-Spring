@@ -32,7 +32,7 @@ public class TeacherController {
 
     //prevent the HTTP form POST from editing listed properties
     @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder){
+    public void setAllowedFields(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
     }
 
@@ -40,7 +40,7 @@ public class TeacherController {
     public String listTeachers(Model model, String lastName) {
         //model is handled by Spring
 
-        if(lastName == null || lastName.isEmpty()){
+        if (lastName == null || lastName.isEmpty()) {
             //execute findAll() and assign Set to Thymeleaf "teachers" at corresponding index.html
             model.addAttribute("teachers", teacherService.findAll());
         } else {
@@ -53,8 +53,6 @@ public class TeacherController {
     @GetMapping({"/search", "/search.html"})
     public String index(Teacher teacher, BindingResult result, Model model) {
 
-        List<Teacher> results = new ArrayList<>();
-
         //build new Teacher object with empty (non-null) properties
         if (teacher.getFirstName() == null || teacher.getLastName() == null) {
             model.addAttribute("teacher", Teacher.builder().build());
@@ -63,10 +61,11 @@ public class TeacherController {
         } else {
             //proceed with the search
             log.info("Teacher search initiated");
-            if (teacher.getFirstName().isEmpty() && teacher.getLastName().isEmpty()){
+            if (teacher.getFirstName().isEmpty() && teacher.getLastName().isEmpty()) {
                 result.rejectValue("firstName", "notFound", "Enter at least one name");
             } else {
-                results = teacherService.findAllByFirstNameLikeAndLastNameLike(teacher.getFirstName(), teacher.getLastName());
+                List<Teacher> results = teacherService.findAllByFirstNameLikeAndLastNameLike(teacher.getFirstName(),
+                        teacher.getLastName());
                 if (results.isEmpty()) {
                     // rejectValue(String field, String errorCode, String defaultMessage)
                     result.rejectValue("firstName", "notFound", "Not found");
@@ -91,42 +90,36 @@ public class TeacherController {
         Teacher teacher = teacherService.findById(teacherId);
 
         //assume for now that there are only up to two guardians registered per student
-        List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
-        String subject1Name = "";
-        String subject2Name = "";
+        List<Subject> subjectsTaught = new ArrayList<>(teacher.getSubjects());
 
-        //may require more general refactor in the future...
-        if (subjects.size() == 1){
-            subject1Name = subjects.get(0).getSubjectName();
-        }
-        //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
-        if (subjects.size() == 2){
-            subject2Name = subjects.get(1).getSubjectName();
+        if (!subjectsTaught.isEmpty()) {
+            if (subjectsTaught.size() == 1) {
+                mav.addObject("subject1Name", subjectsTaught.get(0).getSubjectName());
+                mav.addObject("subject2Name", "(no second subject recorded)");
+            } else if (subjectsTaught.size() == 2) {
+                mav.addObject("subject1Name", subjectsTaught.get(0).getSubjectName());
+                mav.addObject("subject2Name", subjectsTaught.get(1).getSubjectName());
+            } else {
+                mav.addObject("subject1Name", "(no record)");
+                mav.addObject("subject2Name", "(no record)");
+            }
         }
 
-        if (teacher.getContactDetail() == null) {
-            teacher.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
-        }
-        mav.addObject("subject1Name", subject1Name);
-        mav.addObject("subject2Name", subject2Name);
+        mav.addObject("subjectsTaught", subjectsTaught);
         mav.addObject("teacher", teacher);
         return mav;
     }
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("subject1Name", "");
-        model.addAttribute("subject2Name", "");
-        model.addAttribute("contactsFound", 0);
-        model.addAttribute("teacher",
-                Teacher.builder().build());
-        return "/teachers/newUpdateTeacher";
+        model.addAttribute("teacher", Teacher.builder().build());
+        return "/teachers/newTeacher";
     }
 
     // also note that teacher.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
     public String processCreationForm(@Valid Teacher teacher) {
-        if (teacher.getLastName().isBlank() || teacher.getFirstName().isBlank()){
+        if (teacher.getLastName().isBlank() || teacher.getFirstName().isBlank()) {
             //todo: impl form validation
             log.info("Enter both names");
             return "redirect:/teachers/new/";
@@ -134,42 +127,33 @@ public class TeacherController {
         // save() handles the id allocation (no further intervention needed for new saves)
         if (teacher.isNew()) {
             Teacher savedTeacher = teacherService.save(teacher);
-            return "redirect:/teachers/" + savedTeacher.getId();
+            return "redirect:/teachers/" + savedTeacher.getId() + "/edit";
         } else {
             log.info("Current object already exists");
-            return "/teachers/newUpdateTeacher";
+            return "/teachers/updateTeacher";
         }
     }
 
     @GetMapping("/{teacherId}/edit")
     public String initUpdateForm(@PathVariable Long teacherId, Model model) {
         Teacher teacherFound = teacherService.findById(teacherId);
-        String subject1Name = "";
-        String subject2Name = "";
 
-        if (teacherFound.getSubjects() == null) {
-            model.addAttribute("subject1Name", "");
-            model.addAttribute("subject2Name", "");
-        }
-        else {
-            List<Subject> subjects = new ArrayList<>(teacherFound.getSubjects());
-            if (subjects.size() == 1){
-                subject1Name = subjects.get(0).getSubjectName();
+        //assume for now that there are only up to two guardians registered per student
+        List<Subject> subjectsTaught = new ArrayList<>(teacherFound.getSubjects());
+
+        if (!subjectsTaught.isEmpty()) {
+            if (subjectsTaught.size() == 1) {
+                model.addAttribute("subject1Name", subjectsTaught.get(0).getSubjectName());
+                model.addAttribute("subject2Name", "(no second subject recorded)");
+            } else if (subjectsTaught.size() == 2) {
+                model.addAttribute("subject1Name", subjectsTaught.get(0).getSubjectName());
+                model.addAttribute("subject2Name", subjectsTaught.get(1).getSubjectName());
             }
-            if (subjects.size() == 2){
-                subject2Name = subjects.get(1).getSubjectName();
-            }
+            //template handles if subjectsTaught isEmpty
         }
-
-        if (teacherFound.getContactDetail() == null) {
-            model.addAttribute("contactsFound", 0);
-        } else
-            model.addAttribute("contactsFound", 1);
-
-        model.addAttribute("subject1Name", subject1Name);
-        model.addAttribute("subject2Name", subject2Name);
+        model.addAttribute("subjectsTaught", subjectsTaught);
         model.addAttribute("teacher", teacherFound);
-        return "/teachers/newUpdateTeacher";
+        return "/teachers/updateTeacher";
     }
 
     @PostMapping("/{teacherId}/edit")

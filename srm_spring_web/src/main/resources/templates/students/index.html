@@ -71,29 +71,41 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
-            <th class="px-3">Tutor's last name</th>
+            <th class="px-3">Tutor's name</th>
         </tr>
         </thead>
         <tbody>
         <!--the following is for IntelliJ-->
         <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
         <tr th:each="student: ${students}">
-            <th class="px-3"><a th:href="@{/students/{id}/edit(id=${student.id})}" th:text="${student.id}"></a></th>
-            <th class="px-3" th:text="${student.firstName}"></th>
-            <th class="px-3" th:text="${student.lastName}"></th>
-            <th class="px-3" th:text="${student.getTeacher().getLastName()}?:'No tutor details'"></th>
+            <span th:if="${student == null}">
+                <th class="px-3"></th>
+                <td class="px-3">(No students on record)</td>
+                <td class="px-3"></td>
+            </span>
+            <span th:unless="${students == null}">
+                <th class="px-3"><a th:href="@{/students/{id}/edit(id=${student.id})}" th:text="${student.id}"></a></th>
+                <td class="px-3" th:text="${student.firstName}"></td>
+                <td class="px-3" th:text="${student.lastName}"></td>
+            </span>
+            <span th:if="${student.teacher == null}">
+                <td class="px-3">Not assigned a tutor</td>
+            </span>
+            <span th:unless="${student.teacher == null}">
+                <td class="px-3" th:text="${student.getTeacher().getFirstName() + ' ' + student.getTeacher().getLastName()}"></td>
+            </span>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">1</th>
-            <th class="px-3">Jimmy</th>
-            <th class="px-3">White</th>
-            <th class="px-3">Brown</th>
+            <td class="px-3">1</td>
+            <td class="px-3">Jimmy</td>
+            <td class="px-3">White</td>
+            <td class="px-3">Brown</td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">2</th>
-            <th class="px-3">John</th>
-            <th class="px-3">Smith</th>
-            <th class="px-3">Turner</th>
+            <td class="px-3">2</td>
+            <td class="px-3">John</td>
+            <td class="px-3">Smith</td>
+            <td class="px-3">Turner</td>
         </tr>
         </tbody>
     </table>
