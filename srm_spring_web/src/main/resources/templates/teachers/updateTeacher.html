@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Update student </title>
+    <title>SRM | Update teacher </title>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -47,9 +47,9 @@
                 </div>
             </li>
         </ul>
-        <!--        name="lastName" must match controller listStudents() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/students/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Student last name"
+        <!--        name="lastName" must match controller listGuardians() parameter-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
+            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Teacher last name"
                    aria-label="Search" maxlength="50">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -60,16 +60,16 @@
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Student details</h2>
+            <h2>Teacher details</h2>
         </div>
     </div>
     <br/>
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="student" type="com.srm.model.people.Student"*/-->
-    <form th:object="${student}" method="post" class="form-horizontal" id="add-student-form">
+    <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
+    <form th:object="${teacher}" method="post" class="form-horizontal" id="add-subject-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Student name</label>
+                <label class="control-label">Teacher name</label>
             </div>
             <div class="col-sm-8">
                 <input size="50" placeholder="First name" th:field="*{firstName}"/>
@@ -79,14 +79,24 @@
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Guardian records</label>
+                <label class="control-label">Department</label>
             </div>
             <div class="col-sm-8">
-                <span th:if="${student.getGuardians() == null}">
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add guardian</a></span>
-                <span th:unless="${student.getGuardians() == null}">
-                    <label size="50" th:text="${student.getGuardians().size()} + ' guardians(s) on file'">Number of guardians</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit guardian(s)</a></span>
+                <input size="50" placeholder="Department name" th:field="*{department}"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start" th:object="${subjectsTaught}">
+            <div class="col-sm-2">
+                <label class="control-label">Subject(s) taught</label>
+            </div>
+            <div class="col-sm-8">
+                <span th:if="${subjectsTaught.isEmpty()}">
+                    <label size="50" th:text="${'No subjects on file'}">Subject(s)</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add subject</a></span>
+                <span th:unless="${subjectsTaught.isEmpty()}">
+                    <label size="50" th:text="${subject1Name + ', ' + subject2Name}">Subject(s)</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit subject(s)</a></span>
             </div>
         </div>
         <br/>
@@ -96,40 +106,25 @@
             </div>
             <div class="col-sm-8">
                 <div>
-                    <span th:if="${student.contactDetail == null}">
+                    <span th:if="${teacher.contactDetail == null}">
                         <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
-                    <span th:unless="${student.contactDetail == null}">
-                        <label size="50" th:text="${'Email: ' + student.contactDetail.email}">Email</label><br/></span>
+                    <span th:unless="${teacher.contactDetail == null}">
+                        <label size="50" th:text="${'Email: ' + teacher.contactDetail.email}">Email</label><br/></span>
                 </div>
                 <div>
-                    <span th:if="${student.contactDetail == null}">
+                    <span th:if="${teacher.contactDetail == null}">
                         <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
-                    <span th:unless="${student.contactDetail == null}">
+                    <span th:unless="${teacher.contactDetail == null}">
                         <label size="50"
-                               th:text="${'Phone no: ' + student.contactDetail.phoneNumber}">Number</label><br/></span>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a>
+                               th:text="${'Phone no: ' + teacher.contactDetail.phoneNumber}">Number</label><br/></span>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
                 </div>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Personal tutor</label>
-            </div>
-            <div class="col-sm-8">
-                    <span th:if="${student.teacher == null}">
-                        <label size="50" th:text="${'Not registered with a tutor'}">Note</label><br/>
-                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Choose a tutor</a></span>
-                <span th:unless="${student.teacher == null}">
-                        <label size="50" th:text="${'Personal tutor: ' + student.teacher.firstName + ' '
-                         + student.teacher.lastName}">Name</label><br/>
-                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Change tutor</a></span>
-            </div>
-        </div>
-        <br/>
-        <div class="row align-items-start">
-            <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Update student</button>
+                <button class="btn btn-info" type="submit">Update teacher</button>
             </div>
         </div>
     </form>

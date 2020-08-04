@@ -109,7 +109,12 @@
                 <label class="control-label" size="30"><b>Email address</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.email}">Email address to appear here</label>
+                <span th:if="${teacher.contactDetail == null}">
+                    <label size="50">No email address on record</label>
+                </span>
+                <span th:unless="${teacher.contactDetail == null}">
+                    <label size="50" th:text="*{contactDetail.email}">Email address to appear here</label>
+                </span>
             </div>
         </div>
         <br/>
@@ -118,7 +123,12 @@
                 <label class="control-label" size="30"><b>Phone number</b></label>
             </div>
             <div class="col-sm-8">
-                <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
+                <span th:if="${teacher.contactDetail == null}">
+                    <label size="50">No phone number on record</label>
+                </span>
+                <span th:unless="${teacher.contactDetail == null}">
+                    <label size="50" th:text="*{contactDetail.phoneNumber}">Phone number to appear here</label>
+                </span>
             </div>
         </div>
         <br/>
