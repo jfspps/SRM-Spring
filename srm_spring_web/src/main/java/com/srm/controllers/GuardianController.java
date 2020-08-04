@@ -16,7 +16,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -133,12 +132,6 @@ public class GuardianController {
             }
         }
 
-        if (guardian.getAddress() == null) {
-            guardian.setAddress(Address.builder().firstLine("").secondLine("").postcode("").build());
-        }
-        if (guardian.getContactDetail() == null) {
-            guardian.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
-        }
         mav.addObject("student1Name", student1Name);
         mav.addObject("student2Name", student2Name);
         mav.addObject("guardian", guardian);
@@ -147,18 +140,8 @@ public class GuardianController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        //todo associate the composites with guardian before rendering newGuardian e.g. PetController (Owner is a paramter)
-
-        /**
-         * Pet pet = new Pet();
-         *         owner.getPets().add(pet);
-         *         pet.setOwner(owner);
-         *         model.addAttribute("pet", pet);*/
-
         model.addAttribute("guardian", Guardian.builder().build());
-        model.addAttribute("addressFound", 0);
-        model.addAttribute("contactsFound", 0);
-        return "/guardians/newUpdateGuardian";
+        return "/guardians/newGuardian";
     }
 
     // also note that guardian.id is effectively null at this point because the template is not allowed to set id
@@ -172,7 +155,7 @@ public class GuardianController {
             // save() handles the id allocation (no further intervention needed for new saves)
             if (guardian.isNew()) {
                 Guardian savedGuardian = guardianService.save(guardian);
-                return "redirect:/guardians/" + savedGuardian.getId();
+                return "redirect:/guardians/" + savedGuardian.getId() + "/edit";
             } else {
                 log.info("Current object already exists");
                 return "/guardians/updateGuardian";
@@ -182,18 +165,10 @@ public class GuardianController {
     @GetMapping("/{guardianId}/edit")
     public String initUpdateForm(@PathVariable Long guardianId, Model model) {
         Guardian guardianFound = guardianService.findById(guardianId);
-        if (guardianFound.getAddress() == null) {
-            model.addAttribute("addressFound", 0);
-        } else
-            model.addAttribute("addressFound", 1);
-
-        if (guardianFound.getContactDetail() == null) {
-            model.addAttribute("contactsFound", 0);
-        } else
-            model.addAttribute("contactsFound", 1);
-
+        Address address = guardianFound.getAddress();
+//        model.addAttribute("addressFound", address);
         model.addAttribute("guardian", guardianFound);
-        return "/guardians/newUpdateGuardian";
+        return "/guardians/updateGuardian";
     }
 
     @PostMapping("/{guardianId}/edit")

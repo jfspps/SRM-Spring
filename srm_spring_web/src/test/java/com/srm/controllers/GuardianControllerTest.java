@@ -134,7 +134,7 @@ class GuardianControllerTest {
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/guardians/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/guardians/newUpdateGuardian"))
+                .andExpect(view().name("/guardians/newGuardian"))
                 .andExpect(model().attributeExists("guardian"));
     }
 
@@ -157,7 +157,7 @@ class GuardianControllerTest {
 
         mockMvc.perform(get("/guardians/1/edit"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/guardians/newUpdateGuardian"))
+                .andExpect(view().name("/guardians/updateGuardian"))
                 .andExpect(model().attributeExists("guardian"));
     }
 

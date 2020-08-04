@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Add or update teacher </title>
+    <title>SRM | Add or update address </title>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -47,12 +47,6 @@
                 </div>
             </li>
         </ul>
-        <!--        name="lastName" must match controller listGuardians() parameter-->
-        <form class="form-inline my-2 my-lg-0" th:action="@{/teachers/index}" method="get">
-            <input class="form-control mr-sm-2" type="text" name="lastName" placeholder="Teacher last name"
-                   aria-label="Search" maxlength="50">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
 
@@ -60,76 +54,52 @@
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Teacher details</h2>
+            <h2>Address details</h2>
         </div>
     </div>
     <br/>
+    <p th:object="${guardian}" th:text="${'Address details for ' + guardian.getFirstName() + ' ' + guardian.getLastName()}">Guardian name</p>
+    <!--    the appropriate th:action seems to be recognised by Spring depending on the prior GET request-->
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
-    <form th:object="${teacher}" method="post" class="form-horizontal" id="add-subject-form">
+    <!--/*@thymesVar id="address" type="com.srm.model.people.Address"*/-->
+    <form th:object="${address}" method="post" class="form-horizontal" id="add-address-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Teacher name</label>
+                <label class="control-label">First line</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" placeholder="First name" th:field="*{firstName}"/>
-                <input size="50" placeholder="Last name" th:field="*{lastName}"/>
+                <input size="50" placeholder="First line" th:field="*{firstLine}"/>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Department</label>
+                <label class="control-label">Second line</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" placeholder="Department name" th:field="*{department}"/>
+                <input size="50" placeholder="Second line" th:field="*{secondLine}"/>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Subject(s) taught</label>
+                <label class="control-label">Address</label>
             </div>
             <div class="col-sm-8">
-                <span th:if="${teacher.getSubjects() == null}">
-                    <label size="50" th:text="${'No subjects on file'}">Number of subjects</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add subject</a></span>
-                <span th:unless="${teacher.getSubjects() == null}">
-                    <label size="50" th:text="${teacher.getSubjects().size()} + ' subjects(s) on file'">Number of subjects</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit subject(s)</a></span>
+                <input size="50" placeholder="Postcode" th:field="*{postcode}"/>
             </div>
         </div>
         <br/>
         <div class="row align-items-start">
-            <div class="col-sm-2">
-                <label class="control-label">Contact details</label>
+            <div class="col-sm-10">
+                <button class="btn btn-info" type="submit"
+                        th:with="text=${address['new']} ? 'Add Address' : 'Update Address'"
+                        th:text="${text}">Add address
+                </button>
             </div>
-            <div class="col-sm-8">
-                <div>
-                    <span th:if="${contactsFound == 0}">
-                        <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
-                    <span th:unless="${contactsFound == 0}">
-                        <label size="50" th:text="${'Email: ' + teacher.contactDetail.email}">Email</label><br/></span>
-                </div>
-                <div>
-                    <span th:if="${contactsFound == 0}">
-                        <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
-                    <span th:unless="${contactsFound == 0}">
-                        <label size="50"
-                               th:text="${'Phone no: ' + teacher.contactDetail.phoneNumber}">Number</label><br/></span>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
-                </div>
-            </div>
-        </div>
-        <br/>
-        <div class="col-sm-10">
-            <button class="btn btn-info" type="submit"
-                    th:with="text=${teacher['new']} ? 'Add Teacher' : 'Update Teacher'"
-                    th:text="${text}">Add teacher
-            </button>
         </div>
     </form>
-    <br />
+    <br/>
 </div>
 
 

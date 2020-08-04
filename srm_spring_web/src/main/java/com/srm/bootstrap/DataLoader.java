@@ -3,9 +3,7 @@ package com.srm.bootstrap;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
-import com.srm.services.peopleServices.GuardianService;
-import com.srm.services.peopleServices.StudentService;
-import com.srm.services.peopleServices.TeacherService;
+import com.srm.services.peopleServices.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +19,20 @@ public class DataLoader implements CommandLineRunner {
     private final StudentService studentService;
     private final TeacherService teacherService;
     private final SubjectService subjectService;
+    private final AddressService addressService;
+    private final ContactDetailService contactDetailService;
+    private final FormGroupListService formGroupListService;
 
     //implement dependency inversion (@Autowired annotation not required) offered since each service is annotated
     public DataLoader(GuardianService guardianService, StudentService studentService, TeacherService teacherService,
-                      SubjectService subjectService) {
+                      SubjectService subjectService, AddressService addressService, ContactDetailService contactDetailService, FormGroupListService formGroupListService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
+        this.addressService = addressService;
+        this.contactDetailService = contactDetailService;
+        this.formGroupListService = formGroupListService;
     }
 
     @Override
@@ -42,86 +46,91 @@ public class DataLoader implements CommandLineRunner {
 
     private void loadData() {
         //build a temporary POJO from Student, Teacher and Guardian classes and add (inject) to each respective service
+        //three students, two teachers and two guardians
 
-        //note below, some POJOs employ Lombok's Builder Pattern
+        //contact details
+        ContactDetail teacher1Contact = ContactDetail.builder().email("teacher1@school.com").phoneNumber("9847324").build();
+        ContactDetail teacher2Contact = ContactDetail.builder().email("teacher2@school.com").phoneNumber("4023307").build();
+        contactDetailService.save(teacher1Contact);
+        contactDetailService.save(teacher2Contact);
 
-        Student student1 = new Student();
-        student1.setFirstName("John");
-        student1.setLastName("Smith");
+        ContactDetail guardianContactDetail1 = ContactDetail.builder().phoneNumber("3479324732").email("guardian1@email.com").build();
+        contactDetailService.save(guardianContactDetail1);
+        ContactDetail guardianContactDetail2 = ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build();
+        contactDetailService.save(guardianContactDetail2);
+
+        //addresses
+        Address address1 = Address.builder().firstLine("88 Penine Way").secondLine("Farnborough").postcode("CHG9475JF").build();
+        addressService.save(address1);
+        Address address2 = Address.builder().firstLine("7B Gossfer Drive").secondLine("Racoon City").postcode("ZJGKF97657DD").build();
+        addressService.save(address2);
+
+        Student student1 = Student.builder().firstName("John").lastName("Smith").build();
         Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
         Student student3 = Student.builder().firstName("Helen").lastName("Jones").build();
 
-        ContactDetail teacher1Contact = ContactDetail.builder().email("teacher1@school.com").phoneNumber("9847324").build();
-        ContactDetail teacher2Contact = ContactDetail.builder().email("teacher2@school.com").phoneNumber("4023307").build();
         Teacher teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").contactDetail(teacher1Contact).build();
-        student1.setTeacher(teacher1);
+        Teacher teacher2 = Teacher.builder().firstName("Julie").lastName("Adams").contactDetail(teacher2Contact).build();
 
-        Teacher teacher2 = new Teacher();
-        teacher2.setFirstName("Julie");
-        teacher2.setLastName("Adams");
-        teacher2.setContactDetail(teacher2Contact);
+        Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").address(address1).contactDetail(guardianContactDetail1).build();
+        Guardian guardian2 = Guardian.builder().firstName("Ruth").lastName("Jones").address(address2).contactDetail(guardianContactDetail2).build();
+
+        //set students' tutors
+        student1.setTeacher(teacher1);
         student2.setTeacher(teacher2);
         student3.setTeacher(teacher2);
 
-        Address address1 = Address.builder().firstLine("88 Penine Way").secondLine("Farnborough").postcode("CHG9475JF").build();
-        ContactDetail contactDetail1 = ContactDetail.builder().phoneNumber("3479324732").email("guardian1@email.com").build();
-        Guardian guardian1 = Guardian.builder().firstName("Alan").lastName("Smith").address(address1).build();
-        guardian1.setContactDetail(contactDetail1);
-        student1.setContactDetail(contactDetail1);
+        //set students' contact details and guardians
+        student1.setContactDetail(guardianContactDetail1);
+        student2.setContactDetail(guardianContactDetail2);
+        student3.setContactDetail(guardianContactDetail2);
+
+        //set Guardian 1 and student 1 relationships
         Set<Guardian> student1Guardians = new HashSet<>();
         student1Guardians.add(guardian1);
         student1.setGuardians(student1Guardians);
+
         Set<Student> guardian1Students = new HashSet<>();
         guardian1Students.add(student1);
         guardian1.setStudents(guardian1Students);
 
-        Guardian guardian2 = new Guardian();
-        guardian2.setFirstName("Ruth");
-        guardian2.setLastName("Jones");
-        guardian2.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
-        guardian2.setAddress(Address.builder().firstLine("7B Gossfer Drive").secondLine("Racoon City").postcode("ZJGKF97657DD").build());
-
+        //set Guardian 2 and students 2&3 relationships
         Set<Guardian> student2Guardians = new HashSet<>();
-        student2Guardians.add(guardian2);
         Set<Student> guardian2Students = new HashSet<>();
-        guardian2Students.add(student2);
-        guardian2.setStudents(guardian2Students);
-
+        student2Guardians.add(guardian2);
         student2.setGuardians(student2Guardians);
-        student2.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
         student3.setGuardians(student2Guardians);
-        student3.setContactDetail(ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build());
+
+        guardian2Students.add(student2);
+        guardian2Students.add(student3);
+        guardian2.setStudents(guardian2Students);
 
         guardianService.save(guardian1);
         guardianService.save(guardian2);
         System.out.println("Guardians loaded to DB...");
 
-        Set<Student> studentgroup1 = new HashSet<>();
-        studentgroup1.add(student1);
-        Set<Student> studentgroup2 = new HashSet<>();
-        studentgroup1.add(student2);
-        studentgroup2.add(student3);
-        FormGroupList formGroupList1 = FormGroupList.builder().studentList(studentgroup1).groupName("Group 1").teacher(teacher1).build();
-        FormGroupList formGroupList2 = FormGroupList.builder().studentList(studentgroup2).groupName("Group 2").teacher(teacher2).build();
+        //Pastoral (form) groups
+        Set<Student> studentGroup1 = new HashSet<>();
+        studentGroup1.add(student1);
+        Set<Student> studentGroup2 = new HashSet<>();
+        studentGroup1.add(student2);
+        studentGroup2.add(student3);
+        FormGroupList formGroupList1 = FormGroupList.builder().studentList(studentGroup1).groupName("Group 1").teacher(teacher1).build();
+        FormGroupList formGroupList2 = FormGroupList.builder().studentList(studentGroup2).groupName("Group 2").teacher(teacher2).build();
         student1.setFormGroupList(formGroupList1);
         student2.setFormGroupList(formGroupList2);
         student3.setFormGroupList(formGroupList2);
+        formGroupListService.save(formGroupList1);
+        formGroupListService.save(formGroupList2);
 
-        studentService.save(student1);
-        studentService.save(student2);
-        studentService.save(student3);
-        System.out.println("Students loaded to DB...");
-
-        Subject subject1 = new Subject();
-        subject1.setSubjectName("Math");
+        //academic details
+        Subject subject1 = Subject.builder().subjectName("Math").build();
         Set<Subject> teacher1subjects = new HashSet<>();
         teacher1subjects.add(subject1);
         teacher1.setSubjects(teacher1subjects);
         teacher1.setDepartment("Mathematics");
 
-        Subject subject2 = new Subject();
-        subject2.setSubjectName("English");
-
+        Subject subject2 = Subject.builder().subjectName("English").build();
         Set<Subject> teacher2subjects = new HashSet<>();
         teacher2subjects.add(subject2);
         teacher2.setSubjects(teacher2subjects);
@@ -134,6 +143,11 @@ public class DataLoader implements CommandLineRunner {
         teacherService.save(teacher1);
         teacherService.save(teacher2);
         System.out.println("Teachers loaded to DB...");
+
+        studentService.save(student1);
+        studentService.save(student2);
+        studentService.save(student3);
+        System.out.println("Students loaded to DB...");
 
         System.out.println("Finished uploading to DB");
     }
