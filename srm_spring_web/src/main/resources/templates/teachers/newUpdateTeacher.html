@@ -60,7 +60,7 @@
     <br/>
     <div class="row">
         <div class="col">
-            <h2>Add new teacher</h2>
+            <h2>Teacher details</h2>
         </div>
     </div>
     <br/>
@@ -74,6 +74,15 @@
             <div class="col-sm-8">
                 <input size="50" placeholder="First name" th:field="*{firstName}"/>
                 <input size="50" placeholder="Last name" th:field="*{lastName}"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label">Department</label>
+            </div>
+            <div class="col-sm-8">
+                <input size="50" placeholder="Department name" th:field="*{department}"/>
             </div>
         </div>
         <br/>
