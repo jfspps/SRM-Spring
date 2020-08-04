@@ -60,12 +60,12 @@ public class SubjectController {
 
     @PostMapping("/new")
     public String processCreationForm(@Valid Subject subject) {
-        if (!subject.isNew()) {
-            log.info("Current object already exists");
-            return "/subjects/updateSubject";
-        } else {
+        if (subject.isNew()) {
             Subject savedSubject =  subjectService.save(subject);
             return "redirect:/subjects/" + savedSubject.getId();
+        } else {
+            log.info("Current object already exists");
+            return "/subjects/updateSubject";
         }
     }
 

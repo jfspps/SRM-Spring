@@ -74,7 +74,6 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
-            <th class="px-3">Main subject</th>
         </tr>
         </thead>
         <tbody>
@@ -82,19 +81,16 @@
             <th class="px-3"><a th:href="@{/teachers/{id}(id=${teacher.id})}" th:text="${teacher.id}"></a></th>
             <th class="px-3" th:text="${teacher.firstName}"></th>
             <th class="px-3" th:text="${teacher.lastName}"></th>
-            <th class="px-3" th:text="${teacher.subjects.iterator().next().getSubjectName()}"></th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">1</th>
             <th class="px-3">Jimmy</th>
             <th class="px-3">White</th>
-            <th class="px-3">Digital Art</th>
         </tr>
         <tr th:remove="all">
             <th class="px-3">2</th>
             <th class="px-3">John</th>
             <th class="px-3">Smith</th>
-            <th class="px-3">Physical Education</th>
         </tr>
         </tbody>
     </table>
