@@ -129,10 +129,8 @@ public class StudentController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("newStudent", Student.builder().build());
-        model.addAttribute("tutorFound", 0);
-        model.addAttribute("contactsFound", 0);
-        return "/students/newUpdateStudent";
+        model.addAttribute("student", Student.builder().build());
+        return "/students/newStudent";
     }
 
     // also note that student.id is effectively null at this point because the template is not allowed to set id
@@ -146,28 +144,18 @@ public class StudentController {
         // save() handles the id allocation (no further intervention needed for new saves)
         if (student.isNew()) {
             Student savedStudent = studentService.save(student);
-            return "redirect:/students/" + savedStudent.getId();
+            return "redirect:/students/" + savedStudent.getId() + "/edit";
         } else {
             log.info("Current object already exists");
-            return "/students/newUpdateStudent";
+            return "/students/updateStudent";
         }
     }
 
     @GetMapping("/{studentId}/edit")
     public String initUpdateForm(@PathVariable Long studentId, Model model) {
         Student studentFound = studentService.findById(studentId);
-        if (studentFound.getTeacher() == null) {
-            model.addAttribute("tutorFound", 0);
-        } else
-            model.addAttribute("tutorFound", 1);
-
-        if (studentFound.getContactDetail() == null) {
-            model.addAttribute("contactsFound", 0);
-        } else
-            model.addAttribute("contactsFound", 1);
-
         model.addAttribute("student", studentFound);
-        return "/students/newUpdateStudent";
+        return "/students/updateStudent";
     }
 
     @PostMapping("/{studentId}/edit")

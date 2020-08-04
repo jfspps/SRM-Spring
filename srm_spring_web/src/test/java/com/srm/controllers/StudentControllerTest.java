@@ -194,7 +194,7 @@ class StudentControllerTest {
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/students/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/students/newUpdateStudent"))
+                .andExpect(view().name("/students/newStudent"))
                 .andExpect(model().attributeExists("student"));
     }
 
@@ -217,7 +217,7 @@ class StudentControllerTest {
 
         mockMvc.perform(get("/students/1/edit"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/students/newUpdateStudent"))
+                .andExpect(view().name("/students/updateStudent"))
                 .andExpect(model().attributeExists("student"));
     }
 

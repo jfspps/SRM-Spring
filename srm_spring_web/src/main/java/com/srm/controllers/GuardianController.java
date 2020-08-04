@@ -140,8 +140,6 @@ public class GuardianController {
     @GetMapping("/{guardianId}/edit")
     public String initUpdateForm(@PathVariable Long guardianId, Model model) {
         Guardian guardianFound = guardianService.findById(guardianId);
-        Address address = guardianFound.getAddress();
-//        model.addAttribute("addressFound", address);
         model.addAttribute("guardian", guardianFound);
         return "/guardians/updateGuardian";
     }
