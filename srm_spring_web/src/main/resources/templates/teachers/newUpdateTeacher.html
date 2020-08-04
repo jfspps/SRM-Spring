@@ -65,15 +65,15 @@
     </div>
     <br/>
     <!--the following is for IntelliJ-->
-    <!--/*@thymesVar id="newTeacher" type="com.srm.model.people.Teacher"*/-->
-    <form th:object="${newTeacher}" th:action="@{/teachers/new}" method="post" class="form-horizontal" id="add-subject-form">
+    <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
+    <form th:object="${teacher}" method="post" class="form-horizontal" id="add-subject-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Teacher name</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" placeholder="First name" th:field="${newTeacher.firstName}"/>
-                <input size="50" placeholder="Last name" th:field="${newTeacher.lastName}"/>
+                <input size="50" placeholder="First name" th:field="*{firstName}"/>
+                <input size="50" placeholder="Last name" th:field="*{lastName}"/>
             </div>
         </div>
         <br/>
@@ -82,10 +82,12 @@
                 <label class="control-label">Subject(s) taught</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" type="text" name="subject1Name" placeholder="Subject title"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find subject</a>
-                <input size="50" type="text" name="subject2Name" placeholder="Subject title"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find subject</a>
+                <span th:if="${teacher.getSubjects() == null}">
+                    <label size="50" th:text="${'No subjects on file'}">Number of subjects</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add subject</a></span>
+                <span th:unless="${teacher.getSubjects() == null}">
+                    <label size="50" th:text="${teacher.getSubjects().size()} + ' subjects(s) on file'">Number of subjects</label><br/>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit subject(s)</a></span>
             </div>
         </div>
         <br/>
@@ -94,25 +96,28 @@
                 <label class="control-label">Contact details</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" type="text" name="email" placeholder="Email address"/>
-                <input size="50" type="text" name="phoneNumber" placeholder="Phone number"/>
-                <a th:href="@{#}" class="btn btn-sm btn-outline-info">Find contact details</a>
+                <div>
+                    <span th:if="${contactsFound == 0}">
+                        <label size="50" th:text="${'No email address on file'}">Note</label><br/></span>
+                    <span th:unless="${contactsFound == 0}">
+                        <label size="50" th:text="${'Email: ' + teacher.contactDetail.email}">Email</label><br/></span>
+                </div>
+                <div>
+                    <span th:if="${contactsFound == 0}">
+                        <label size="50" th:text="${'No phone number on file'}">Note</label><br/></span>
+                    <span th:unless="${contactsFound == 0}">
+                        <label size="50"
+                               th:text="${'Phone no: ' + teacher.contactDetail.phoneNumber}">Number</label><br/></span>
+                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                </div>
             </div>
         </div>
         <br/>
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="control-label">Some other variable</label>
-            </div>
-            <div class="col-sm-8">
-                <input size="50"/>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <div class="col-sm-10">
-                    <button class="btn btn-info" type="submit">Add teacher</button>
-            </div>
+        <div class="col-sm-10">
+            <button class="btn btn-info" type="submit"
+                    th:with="text=${teacher['new']} ? 'Add Teacher' : 'Update Teacher'"
+                    th:text="${text}">Add teacher
+            </button>
         </div>
     </form>
     <br />

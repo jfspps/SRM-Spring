@@ -8,12 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -91,7 +89,7 @@ public class TeacherController {
     public ModelAndView showTeacher(@PathVariable Long teacherId) {
         ModelAndView mav = new ModelAndView("/teachers/teacherDetails");
         Teacher teacher = teacherService.findById(teacherId);
-        mav.addObject("teacher", teacher);
+
         //assume for now that there are only up to two guardians registered per student
         List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
         String subject1Name = "";
@@ -106,19 +104,78 @@ public class TeacherController {
             subject2Name = subjects.get(1).getSubjectName();
         }
 
+        if (teacher.getContactDetail() == null) {
+            teacher.setContactDetail(ContactDetail.builder().email("").phoneNumber("").build());
+        }
         mav.addObject("subject1Name", subject1Name);
         mav.addObject("subject2Name", subject2Name);
+        mav.addObject("teacher", teacher);
         return mav;
     }
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        //avoid passing null composite objects (address, contactDetails, students)
-        model.addAttribute("newTeacher",
-                Teacher.builder().firstName("").lastName("")
-                .contactDetail(ContactDetail.builder().build())
-                .subjects(new HashSet<>())
-                .build());
-        return "/teachers/newTeacher";
+        model.addAttribute("subject1Name", "");
+        model.addAttribute("subject2Name", "");
+        model.addAttribute("contactsFound", 0);
+        model.addAttribute("teacher",
+                Teacher.builder().build());
+        return "/teachers/newUpdateTeacher";
+    }
+
+    // also note that teacher.id is effectively null at this point because the template is not allowed to set id
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Teacher teacher) {
+        if (teacher.getLastName().isBlank() || teacher.getFirstName().isBlank()){
+            //todo: impl form validation
+            log.info("Enter both names");
+            return "redirect:/teachers/new/";
+        }
+        // save() handles the id allocation (no further intervention needed for new saves)
+        if (teacher.isNew()) {
+            Teacher savedTeacher = teacherService.save(teacher);
+            return "redirect:/teachers/" + savedTeacher.getId();
+        } else {
+            log.info("Current object already exists");
+            return "/teachers/newUpdateTeacher";
+        }
+    }
+
+    @GetMapping("/{teacherId}/edit")
+    public String initUpdateForm(@PathVariable Long teacherId, Model model) {
+        Teacher teacherFound = teacherService.findById(teacherId);
+        String subject1Name = "";
+        String subject2Name = "";
+
+        if (teacherFound.getSubjects() == null) {
+            model.addAttribute("subject1Name", "");
+            model.addAttribute("subject2Name", "");
+        }
+        else {
+            List<Subject> subjects = new ArrayList<>(teacherFound.getSubjects());
+            if (subjects.size() == 1){
+                subject1Name = subjects.get(0).getSubjectName();
+            }
+            if (subjects.size() == 2){
+                subject2Name = subjects.get(1).getSubjectName();
+            }
+        }
+
+        if (teacherFound.getContactDetail() == null) {
+            model.addAttribute("contactsFound", 0);
+        } else
+            model.addAttribute("contactsFound", 1);
+
+        model.addAttribute("subject1Name", subject1Name);
+        model.addAttribute("subject2Name", subject2Name);
+        model.addAttribute("teacher", teacherFound);
+        return "/teachers/newUpdateTeacher";
+    }
+
+    @PostMapping("/{teacherId}/edit")
+    public String processUpdateOwnerForm(@Valid Teacher teacher, @PathVariable Long teacherId) {
+        teacher.setId(teacherId);
+        Teacher savedTeacher = teacherService.save(teacher);
+        return "redirect:/teachers/" + savedTeacher.getId();
     }
 }
