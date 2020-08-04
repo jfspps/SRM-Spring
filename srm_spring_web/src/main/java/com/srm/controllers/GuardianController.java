@@ -1,7 +1,6 @@
 package com.srm.controllers;
 
 import com.srm.model.people.Address;
-import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.AddressService;
@@ -33,8 +32,9 @@ public class GuardianController {
     private final AddressService addressService;
     private final ContactDetailService contactDetailService;
 
-    //constructor service injection; when GuardianIndexController is instantiated, it is injected with a one-time GuardianService
-    public GuardianController(GuardianService guardianService, StudentService studentService, AddressService addressService, ContactDetailService contactDetailService) {
+    //constructor service injection; when GuardianController is instantiated, it is injected with a one-time services
+    public GuardianController(GuardianService guardianService, StudentService studentService,
+                              AddressService addressService, ContactDetailService contactDetailService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.addressService = addressService;
@@ -72,7 +72,8 @@ public class GuardianController {
             if (guardian.getFirstName().isEmpty() && guardian.getLastName().isEmpty()) {
                 result.rejectValue("firstName", "notFound", "Enter at least one name");
             } else {
-                List<Guardian> results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(), guardian.getLastName());
+                List<Guardian> results = guardianService.findAllByFirstNameLikeAndLastNameLike(guardian.getFirstName(),
+                        guardian.getLastName());
                 if (results.isEmpty()) {
                     // rejectValue(String field, String errorCode, String defaultMessage)
                     result.rejectValue("firstName", "notFound", "Not found");

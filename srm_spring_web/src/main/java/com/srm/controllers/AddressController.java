@@ -47,6 +47,7 @@ public class AddressController {
 
     @PostMapping("/address/new")
     public String processCreationForm(@Valid Address address, Guardian guardian) {
+        //todo impl form validation
         guardian.setAddress(address);
         //Guardian to Address is many to one (no DB relationship from Address to Guardian)
         addressService.save(address);
@@ -63,6 +64,7 @@ public class AddressController {
 
     @PostMapping("/address/{addressId}/edit")
     public String processUpdateForm(@Valid Address address, Guardian guardian, @PathVariable Long addressId) {
+        //todo impl form validation
         guardian.setAddress(address);
         address.setId(addressId);
         //Guardian to Address is many to one (no DB relationship from Address to Guardian)

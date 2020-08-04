@@ -66,8 +66,6 @@
     </div>
 </nav>
 
-<!--the following is for IntelliJ-->
-<!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
 <div class="container-fluid px-0">
     <table class="table table-hover table-sm table-striped">
         <thead class="thead-light">
@@ -81,10 +79,19 @@
         </tr>
         </thead>
         <tbody>
+        <!--the following is for IntelliJ-->
+        <!--/*@thymesVar id="guardian" type="com.srm.model.people.Guardian"*/-->
         <tr th:each="guardian: ${guardians}">
-            <th class="px-3"><a th:href="@{/guardians/{id}/edit(id=${guardian.id})}" th:text="${guardian.id}"></a></th>
-            <td class="px-3" th:text="${guardian.firstName}"></td>
-            <td class="px-3" th:text="${guardian.lastName}"></td>
+            <span th:if="${guardian == null}">
+                <th class="px-3"></th>
+                <td class="px-3">(No guardians on record)</td>
+                <td class="px-3"></td>
+            </span>
+            <span th:unless="${guardian == null}">
+                <th class="px-3"><a th:href="@{/guardians/{id}/edit(id=${guardian.id})}" th:text="${guardian.id}"></a></th>
+                <td class="px-3" th:text="${guardian.firstName}"></td>
+                <td class="px-3" th:text="${guardian.lastName}"></td>
+            </span>
             <span th:if="${guardian.contactDetail == null}">
                 <td class="px-3" >(No record)</td>
                 <td class="px-3" >(No record)</td>
