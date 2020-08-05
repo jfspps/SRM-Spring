@@ -133,4 +133,64 @@ class ContactDetailsControllerTest {
 
         verify(contactDetailService).save(any());
     }
+
+    @Test
+    void initUpdateFormGuardian() throws Exception {
+        when(guardianService.findById(anyLong())).thenReturn(guardian);
+
+        mockMvc.perform(get("/guardians/2/contacts/3/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/contacts/newUpdateGuardianContact"))
+                .andExpect(model().attributeExists("guardian"));
+    }
+
+    @Test
+    void processUpdateFormGuardian() throws Exception {
+        when(guardianService.findById(anyLong())).thenReturn(guardian);
+
+        mockMvc.perform(post("/guardians/2/contacts/3/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/guardians/2/edit"));
+        verify(contactDetailService).save(any());
+    }
+
+    @Test
+    void initUpdateFormStudent() throws Exception {
+        when(studentService.findById(anyLong())).thenReturn(student);
+
+        mockMvc.perform(get("/students/2/contacts/3/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/contacts/newUpdateStudentContact"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
+    void processUpdateFormStudent() throws Exception {
+        when(studentService.findById(anyLong())).thenReturn(student);
+
+        mockMvc.perform(post("/students/2/contacts/3/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/students/2/edit"));
+        verify(contactDetailService).save(any());
+    }
+
+    @Test
+    void initUpdateFormTeacher() throws Exception {
+        when(teacherService.findById(anyLong())).thenReturn(teacher);
+
+        mockMvc.perform(get("/teachers/2/contacts/3/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/contacts/newUpdateTeacherContact"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processUpdateFormTeacher() throws Exception {
+        when(teacherService.findById(anyLong())).thenReturn(teacher);
+
+        mockMvc.perform(post("/teachers/2/contacts/3/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/teachers/2/edit"));
+        verify(contactDetailService).save(any());
+    }
 }

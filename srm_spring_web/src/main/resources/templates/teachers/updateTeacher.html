@@ -116,7 +116,7 @@
                                    th:text="${'Email: ' + teacher.contactDetail.email}">Email</label><br/>
                             <label size="50"
                                    th:text="${'Phone no: ' + teacher.contactDetail.phoneNumber}">Number</label><br/>
-                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                        <a th:href="@{/teachers/{id1}/contacts/{id2}/edit(id1=${teacher.id},id2=${teacher.contactDetail.id})}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
                 </div>
             </div>
         </div>

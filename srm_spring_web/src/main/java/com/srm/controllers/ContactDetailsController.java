@@ -58,6 +58,30 @@ public class ContactDetailsController {
         return "redirect:/guardians/" + guardianId + "/edit";
     }
 
+    @GetMapping("/guardians/{guardianId}/contacts/{contactId}/edit")
+    public String initUpdateFormGuardian(@PathVariable Long guardianId, @PathVariable Long contactId, Model model) {
+
+        ContactDetail contactDetail = contactDetailService.findById(contactId);
+        Guardian guardian = guardianService.findById(guardianId);
+
+        model.addAttribute("guardian", guardian);
+        model.addAttribute("contact", contactDetail);
+        return "/contacts/newUpdateGuardianContact";
+    }
+
+    @PostMapping("/guardians/{guardianId}/contacts/{contactId}/edit")
+    public String processUpdateFormGuardian(@PathVariable Long guardianId, @Valid ContactDetail contact) {
+        //todo impl form validation
+
+        Guardian guardian = guardianService.findById(guardianId);
+        guardian.setContactDetail(contact);
+
+        contact.setId(contact.getId());
+        contactDetailService.save(contact);
+
+        return "redirect:/guardians/" + guardianId + "/edit";
+    }
+
     // student contact details ========================================================================
     @GetMapping("/students/{studentId}/contacts/new")
     public String initCreationFormStudent(@PathVariable Long studentId, Model model) {
@@ -80,6 +104,29 @@ public class ContactDetailsController {
         return "redirect:/students/" + studentId + "/edit";
     }
 
+    @GetMapping("/students/{studentId}/contacts/{contactId}/edit")
+    public String initUpdateFormStudent(@PathVariable Long studentId, @PathVariable Long contactId, Model model) {
+
+        ContactDetail contactDetail = contactDetailService.findById(contactId);
+        Student student = studentService.findById(studentId);
+
+        model.addAttribute("student", student);
+        model.addAttribute("contact", contactDetail);
+        return "/contacts/newUpdateStudentContact";
+    }
+
+    @PostMapping("students/{studentId}/contacts/{contactId}/edit")
+    public String processUpdateFormStudent(@Valid ContactDetail contact, @PathVariable Long studentId) {
+        //todo impl form validation
+        Student student = studentService.findById(studentId);
+        student.setContactDetail(contact);
+
+        contact.setId(contact.getId());
+        contactDetailService.save(contact);
+
+        return "redirect:/students/" + studentId + "/edit";
+    }
+
     // teacher contact details ========================================================================
     @GetMapping("/teachers/{teacherId}/contacts/new")
     public String initCreationFormTeacher(@PathVariable Long teacherId, Model model) {
@@ -99,6 +146,30 @@ public class ContactDetailsController {
         teacher.setContactDetail(contactDetail);
 
         contactDetailService.save(contactDetail);
+        return "redirect:/teachers/" + teacherId + "/edit";
+    }
+
+    @GetMapping("/teachers/{teacherId}/contacts/{contactId}/edit")
+    public String initUpdateFormTeacher(@PathVariable Long teacherId, @PathVariable Long contactId, Model model) {
+
+        ContactDetail contactDetail = contactDetailService.findById(contactId);
+        Teacher teacher = teacherService.findById(teacherId);
+
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("contact", contactDetail);
+        return "/contacts/newUpdateTeacherContact";
+    }
+
+    @PostMapping("/teachers/{teacherId}/contacts/{contactId}/edit")
+    public String processUpdateFormTeacher(@PathVariable Long teacherId, @Valid ContactDetail contact) {
+        //todo impl form validation
+
+        Teacher teacher = teacherService.findById(teacherId);
+        teacher.setContactDetail(contact);
+
+        contact.setId(contact.getId());
+        contactDetailService.save(contact);
+
         return "redirect:/teachers/" + teacherId + "/edit";
     }
 }

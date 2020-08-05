@@ -92,8 +92,6 @@
             </div>
         </div>
         <br/>
-        <!--the following is for IntelliJ-->
-        <!--/*@thymesVar id="addressFound" type="com.srm.model.people.Address"*/-->
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Address</label>
@@ -129,7 +127,7 @@
                                    th:text="${'Email: ' + guardian.contactDetail.email}">Email</label><br/>
                             <label size="50"
                                    th:text="${'Phone no: ' + guardian.contactDetail.phoneNumber}">Number</label><br/>
-                        <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                        <a th:href="@{/guardians/{id1}/contacts/{id2}/edit(id1=${guardian.id},id2=${guardian.contactDetail.id})}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
                 </div>
             </div>
             <br/>
