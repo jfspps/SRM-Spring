@@ -1,9 +1,7 @@
 package com.srm.controllers;
 
-import com.srm.model.people.ContactDetail;
-import com.srm.model.people.Guardian;
-import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
+import com.srm.model.people.*;
+import com.srm.services.peopleServices.ContactDetailService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import com.srm.services.peopleServices.TeacherService;
@@ -11,12 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Guard;
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -25,12 +20,14 @@ public class ContactDetailsController {
     private final GuardianService guardianService;
     private final StudentService studentService;
     private final TeacherService teacherService;
+    private final ContactDetailService contactDetailService;
 
     public ContactDetailsController(GuardianService guardianService, StudentService studentService,
-                                    TeacherService teacherService) {
+                                    TeacherService teacherService, ContactDetailService contactDetailService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.teacherService = teacherService;
+        this.contactDetailService = contactDetailService;
     }
 
     //prevent the HTTP form POST from editing listed properties
@@ -39,7 +36,7 @@ public class ContactDetailsController {
         dataBinder.setDisallowedFields("id");
     }
 
-    // guardian contact details
+    // guardian contact details ========================================================================
     @GetMapping("/guardians/{guardianId}/contacts/new")
     public String initCreationFormGuardian(@PathVariable Long guardianId, Model model) {
         ContactDetail contactDetail = ContactDetail.builder().build();
@@ -51,7 +48,17 @@ public class ContactDetailsController {
         return "/contacts/newUpdateGuardianContact";
     }
 
-    // student contact details
+    @PostMapping("/guardians/{guardianId}/contacts/new")
+    public String processCreationFormGuardian(@PathVariable Long guardianId, @Valid ContactDetail contactDetail) {
+        //todo impl form validation
+        Guardian guardian = guardianService.findById(guardianId);
+        guardian.setContactDetail(contactDetail);
+
+        contactDetailService.save(contactDetail);
+        return "redirect:/guardians/" + guardianId + "/edit";
+    }
+
+    // student contact details ========================================================================
     @GetMapping("/students/{studentId}/contacts/new")
     public String initCreationFormStudent(@PathVariable Long studentId, Model model) {
         ContactDetail contactDetail = ContactDetail.builder().build();
@@ -63,7 +70,17 @@ public class ContactDetailsController {
         return "/contacts/newUpdateStudentContact";
     }
 
-    // teacher contact details
+    @PostMapping("/students/{studentId}/contacts/new")
+    public String processCreationFormStudent(@PathVariable Long studentId, @Valid ContactDetail contactDetail) {
+        //todo impl form validation
+        Student student = studentService.findById(studentId);
+        student.setContactDetail(contactDetail);
+
+        contactDetailService.save(contactDetail);
+        return "redirect:/students/" + studentId + "/edit";
+    }
+
+    // teacher contact details ========================================================================
     @GetMapping("/teachers/{teacherId}/contacts/new")
     public String initCreationFormTeacher(@PathVariable Long teacherId, Model model) {
         ContactDetail contactDetail = ContactDetail.builder().build();
@@ -75,5 +92,13 @@ public class ContactDetailsController {
         return "/contacts/newUpdateTeacherContact";
     }
 
+    @PostMapping("/teachers/{teacherId}/contacts/new")
+    public String processCreationFormTeacher(@PathVariable Long teacherId, @Valid ContactDetail contactDetail) {
+        //todo impl form validation
+        Teacher teacher = teacherService.findById(teacherId);
+        teacher.setContactDetail(contactDetail);
 
+        contactDetailService.save(contactDetail);
+        return "redirect:/teachers/" + teacherId + "/edit";
+    }
 }

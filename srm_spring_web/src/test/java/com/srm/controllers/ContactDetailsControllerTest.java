@@ -1,6 +1,7 @@
 package com.srm.controllers;
 
 import com.srm.model.people.*;
+import com.srm.services.peopleServices.ContactDetailService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import com.srm.services.peopleServices.TeacherService;
@@ -11,12 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
@@ -32,6 +37,9 @@ class ContactDetailsControllerTest {
     @Mock
     TeacherService teacherService;
 
+    @Mock
+    ContactDetailService contactDetailService;
+
     @InjectMocks
     ContactDetailsController contactDetailsController;
 
@@ -44,9 +52,9 @@ class ContactDetailsControllerTest {
     @BeforeEach
     void setUp() {
         contactDetail = ContactDetail.builder().build();
-        guardian = Guardian.builder().build();
-        student = Student.builder().build();
-        teacher = Teacher.builder().build();
+        guardian = Guardian.builder().id(2L).build();
+        student = Student.builder().id(2L).build();
+        teacher = Teacher.builder().id(2L).build();
 
         //provides each test method with a mock controller based on studentIndexController
         mockMvc = MockMvcBuilders.standaloneSetup(contactDetailsController).build();
@@ -86,5 +94,43 @@ class ContactDetailsControllerTest {
                 .andExpect(view().name("/contacts/newUpdateTeacherContact"))
                 .andExpect(model().attributeExists("contact"))
                 .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processCreationFormGuardian() throws Exception{
+        //2L is needed for routing
+
+        when(guardianService.findById(anyLong())).thenReturn(guardian);
+
+        mockMvc.perform(post("/guardians/2/contacts/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/guardians/2/edit"))
+                .andDo(MockMvcResultHandlers.print());
+
+        verify(contactDetailService).save(any());
+    }
+
+    @Test
+    void processCreationFormStudent() throws Exception{
+        // 2L is needed for routing
+        when(studentService.findById(anyLong())).thenReturn(student);
+
+        mockMvc.perform(post("/students/2/contacts/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/students/2/edit"));
+
+        verify(contactDetailService).save(any());
+    }
+
+    @Test
+    void processCreationFormTeacher() throws Exception{
+        // 2L is needed for routing
+        when(teacherService.findById(anyLong())).thenReturn(teacher);
+
+        mockMvc.perform(post("/teachers/2/contacts/new"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/teachers/2/edit"));
+
+        verify(contactDetailService).save(any());
     }
 }
