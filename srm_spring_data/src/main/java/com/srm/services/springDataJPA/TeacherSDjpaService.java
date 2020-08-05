@@ -44,6 +44,11 @@ public class TeacherSDjpaService implements TeacherService {
     }
 
     @Override
+    public Teacher findByFirstNameAndLastNameAndDepartment(String firstName, String lastName, String department) {
+        return teacherRepository.findByFirstNameAndLastNameAndDepartment(firstName, lastName, department);
+    }
+
+    @Override
     public Teacher save(Teacher object) {
         return teacherRepository.save(object);
     }

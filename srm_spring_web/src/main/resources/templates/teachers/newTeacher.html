@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/login.css">
-    <title>SRM | Add teacher </title>
+    <title>SRM | Add or update teacher </title>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
@@ -88,7 +88,8 @@
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Add teacher</button>
+                <button class="btn btn-info" type="submit" th:with="text=${teacher['new']} ? 'Add teacher' : 'Update teacher'"
+                        th:text="${text}">Add teacher</button>
             </div>
         </div>
     </form>

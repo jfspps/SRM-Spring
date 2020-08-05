@@ -92,4 +92,12 @@ class TeacherMapServiceTest {
         List<Teacher> teacherList = teacherMapService.findAllByDepartment(department);
         assertEquals(department, teacherList.get(0).getDepartment());
     }
+
+    @Test
+    void findByFirstNameAndLastNameAndDepartment(){
+        Teacher found = teacherMapService.findByFirstNameAndLastNameAndDepartment(firstName, lastName, department);
+        assertEquals(firstName, found.getFirstName());
+        assertEquals(lastName, found.getLastName());
+        assertEquals(department, found.getDepartment());
+    }
 }

@@ -2,6 +2,7 @@ package com.srm.controllers;
 
 import com.srm.model.people.*;
 import com.srm.services.peopleServices.StudentService;
+import com.srm.services.peopleServices.TeacherService;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +35,9 @@ class StudentControllerTest {
 
     @Mock
     StudentService studentService;
+
+    @Mock
+    TeacherService teacherService;
 
     @InjectMocks
     StudentController studentController;
@@ -223,13 +228,37 @@ class StudentControllerTest {
 
     @Test
     void processUpdateStudentForm() throws Exception {
-        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1l).build());
+        when(studentService.save(any())).thenReturn(Student.builder().id(1l).build());
 
         mockMvc.perform(post("/students/1/edit"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/students/1"))
                 .andExpect(model().attributeExists("student"));
 
-        verify(studentService).save(ArgumentMatchers.any());
+        verify(studentService).save(any());
+    }
+
+    @Test
+    void initUpdateTutorForm() throws Exception{
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().build());
+
+        mockMvc.perform(get("/students/3/tutor/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processUpdateTutorForm() throws Exception{
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().build());
+        when(studentService.save(any())).thenReturn(Student.builder().id(3L).build());
+        when(teacherService.save(any())).thenReturn(Teacher.builder().build());
+
+        mockMvc.perform(post("/students/3/tutor/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/students/3/edit"));
+
+        //teacherService does not always run if the teacher already exists on file
+        verify(studentService).save(any());
     }
 }

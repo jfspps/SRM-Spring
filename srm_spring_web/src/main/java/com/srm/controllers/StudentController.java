@@ -50,10 +50,10 @@ public class StudentController {
         return student.getGuardians();
     }
 
-    @ModelAttribute("teacher")
-    public Teacher populatePersonalTutor(Student student){
-        return student.getTeacher();
-    }
+//    @ModelAttribute("teacher")
+//    public Teacher populatePersonalTutor(Student student){
+//        return student.getTeacher();
+//    }
 
     @ModelAttribute("contactDetails")
     public ContactDetail populateContactDetails(Student student){
@@ -163,5 +163,36 @@ public class StudentController {
         student.setId(studentId);
         Student savedStudent = studentService.save(student);
         return "redirect:/students/" + savedStudent.getId();
+    }
+
+    @GetMapping("/{studentId}/tutor/edit")
+    public String initUpdateTutorForm(@PathVariable Long studentId, Model model){
+        Student student = studentService.findById(studentId);
+        if (student.getTeacher() == null){
+            model.addAttribute("teacher", Teacher.builder().build());
+        } else {
+            model.addAttribute("teacher", student.getTeacher());
+        }
+        return "/teachers/newTeacher";
+    }
+
+    @PostMapping("/{studentId}/tutor/edit")
+    public String processUpdateTutorForm(@Valid Teacher teacher, @PathVariable Long studentId){
+        //todo form validation
+        Student student = studentService.findById(studentId);
+        //user must fill in all fields (query is case insensitive)
+        Teacher found = teacherService.findByFirstNameAndLastNameAndDepartment(
+                teacher.getFirstName(), teacher.getLastName(), teacher.getDepartment());
+        if (found != null){
+            student.setTeacher(found);
+            //todo update formGroupList
+        } else {
+            //new teacher, save() handles id
+            Teacher savedTeacher = teacherService.save(teacher);
+            student.setTeacher(savedTeacher);
+        }
+        student.setId(studentId);
+        Student savedStudent = studentService.save(student);
+        return "redirect:/students/" + savedStudent.getId() + "/edit";
     }
 }

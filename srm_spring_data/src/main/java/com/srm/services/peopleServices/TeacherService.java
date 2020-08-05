@@ -19,4 +19,7 @@ public interface TeacherService extends CrudService<Teacher, Long> {
     List<Teacher> findAllByFirstNameLikeAndLastNameLike(String firstName, String lastName);
 
     List<Teacher> findAllByDepartment(String department);
+
+    //assume two teachers with the same name do not teach in the same department!
+    Teacher findByFirstNameAndLastNameAndDepartment(String firstName, String lastName, String department);
 }
