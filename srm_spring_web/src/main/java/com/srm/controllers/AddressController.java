@@ -26,7 +26,7 @@ public class AddressController {
     }
 
     //prevent the HTTP form POST from editing listed properties
-    @InitBinder("guardian")
+    @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
     }
