@@ -125,12 +125,18 @@ public class DataLoader implements CommandLineRunner {
 
         //academic details
         Subject subject1 = Subject.builder().subjectName("Math").build();
+        Set<Teacher> teachers1 = new HashSet<>();
+        teachers1.add(teacher1);
+        subject1.setTeachers(teachers1);
         Set<Subject> teacher1subjects = new HashSet<>();
         teacher1subjects.add(subject1);
         teacher1.setSubjects(teacher1subjects);
         teacher1.setDepartment("Mathematics");
 
         Subject subject2 = Subject.builder().subjectName("English").build();
+        Set<Teacher> teachers2 = new HashSet<>();
+        teachers2.add(teacher2);
+        subject2.setTeachers(teachers2);
         Set<Subject> teacher2subjects = new HashSet<>();
         teacher2subjects.add(subject2);
         teacher2.setSubjects(teacher2subjects);

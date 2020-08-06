@@ -8,8 +8,9 @@ import java.util.*;
 
 public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {
 
-    //this class provides a map-based (Python dictionary) service (an alternative to JPA and JDBC models)
-    //maps are located by a key (in this case ID) and contain a value (in this case T)
+    // this class provides a map-based (Python dictionary) service (an alternative to JPA and JDBC models)
+    // maps are located by a key (in this case ID) and contain a value (in this case T)
+    // "map" stores everything
 
     protected Map<Long, T> map = new HashMap<>();
 

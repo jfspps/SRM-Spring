@@ -68,7 +68,7 @@ class SubjectControllerTest {
         mockMvc.perform(get("/subjects"))
                 .andExpect(status().is(200))
                 .andExpect(status().isOk())
-                .andExpect(view().name("subjects/index"))
+                .andExpect(view().name("/subjects/index"))
                 .andExpect(model().attribute("subjects", hasSize(2)));  //two records in findAll() Set
     }
 
@@ -98,7 +98,7 @@ class SubjectControllerTest {
 
         mockMvc.perform(post("/subjects/new"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/subjects/1"))
+                .andExpect(view().name("redirect:/subjects/index"))
                 .andExpect(model().attributeExists("subject"));
 
         verify(subjectService).save(ArgumentMatchers.any());
@@ -114,15 +114,15 @@ class SubjectControllerTest {
                 .andExpect(model().attributeExists("updateSubject"));
     }
 
-    @Test
-    void processUpdateSubjectForm() throws Exception {
-        when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1l).build());
-
-        mockMvc.perform(post("/subjects/1/edit"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/subjects/1"))
-                .andExpect(model().attributeExists("subject"));
-
-        verify(subjectService).save(ArgumentMatchers.any());
-    }
+//    @Test
+//    void processUpdateSubjectForm() throws Exception {
+//        when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1l).build());
+//
+//        mockMvc.perform(post("/subjects/1/edit"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name("redirect:/subjects/1"))
+//                .andExpect(model().attributeExists("subject"));
+//
+//        verify(subjectService).save(ArgumentMatchers.any());
+//    }
 }

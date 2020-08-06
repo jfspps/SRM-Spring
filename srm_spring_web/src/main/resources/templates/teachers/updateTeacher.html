@@ -66,7 +66,7 @@
     <br/>
     <!--the following is for IntelliJ-->
     <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
-    <form th:object="${teacher}" method="post" class="form-horizontal" id="add-subject-form">
+    <form th:object="${teacher}" method="post" class="form-horizontal" id="add-teacher-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Teacher name</label>
@@ -86,17 +86,42 @@
             </div>
         </div>
         <br/>
-        <div class="row align-items-start" th:object="${subjectsTaught}">
+        <div class="row align-items-start">
             <div class="col-sm-2">
-                <label class="control-label">Subject(s) taught</label>
+                <label class="control-label">Subject 1 title</label>
+            </div>
+            <!--the following is for IntelliJ-->
+            <!--/*@thymesVar id="subject1" type="com.srm.model.academic.Subject"*/-->
+            <div class="col-sm-8" th:object="${subject1}">
+                <span th:if="${subject1.getSubjectName() == null}">
+                    <label size="50">(no subject on file)</label>
+                </span>
+                <span th:unless="${subject1.getSubjectName() == null}">
+                    <label size="50" th:text="${subject1.getSubjectName()}">Subject 1 title goes here</label>
+                </span>
+            </div>
+        </div>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
+                <label class="control-label">Subject 2 title</label>
+            </div>
+            <!--the following is for IntelliJ-->
+            <!--/*@thymesVar id="subject2" type="com.srm.model.academic.Subject"*/-->
+            <div class="col-sm-8" th:object="${subject2}">
+                <span th:if="${subject2.getSubjectName() == null}">
+                    <label size="50">(no subject on file)</label>
+                </span>
+                <span th:unless="${subject2.getSubjectName() == null}">
+                    <label size="50" th:text="${subject2.getSubjectName()}">Subject 2 title goes here</label>
+                </span>
+            </div>
+        </div>
+        <div class="row align-items-start">
+            <div class="col-sm-2">
             </div>
             <div class="col-sm-8">
-                <span th:if="${subjectsTaught.isEmpty()}">
-                    <label size="50" th:text="${'No subjects on file'}">Subject(s)</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Add subject</a></span>
-                <span th:unless="${subjectsTaught.isEmpty()}">
-                    <label size="50" th:text="${subject1Name + ', ' + subject2Name}">Subject(s)</label><br/>
-                    <a th:href="@{#}" class="btn btn-sm btn-outline-info">Edit subject(s)</a></span>
+                <a class="btn btn-sm btn-outline-info"
+                   th:href="@{#}">Update subject(s)</a>
             </div>
         </div>
         <br/>
@@ -116,7 +141,8 @@
                                    th:text="${'Email: ' + teacher.contactDetail.email}">Email</label><br/>
                             <label size="50"
                                    th:text="${'Phone no: ' + teacher.contactDetail.phoneNumber}">Number</label><br/>
-                        <a th:href="@{/teachers/{id1}/contacts/{id2}/edit(id1=${teacher.id},id2=${teacher.contactDetail.id})}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
+                        <a th:href="@{/teachers/{id1}/contacts/{id2}/edit(id1=${teacher.id},id2=${teacher.contactDetail.id})}"
+                           class="btn btn-sm btn-outline-info">Edit contact details</a></span>
                 </div>
             </div>
         </div>
