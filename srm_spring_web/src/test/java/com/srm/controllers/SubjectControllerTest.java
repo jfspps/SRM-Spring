@@ -20,6 +20,7 @@ import java.util.Set;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -50,6 +51,8 @@ class SubjectControllerTest {
     Subject subject1;
     Subject subject2;
 
+    String[] strings;
+
     @BeforeEach
     void setUp() {
         teachers1.add(teacher1);
@@ -60,6 +63,8 @@ class SubjectControllerTest {
         String subject2name = "PE";
         subject2 = Subject.builder().id(2L).subjectName(subject2name).teachers(teachers2).build();
         subjects.add(subject2);
+
+        String[] strings = new String[5];
 
         //provides each test method with a mock controller based on studentIndexController
         mockMvc = MockMvcBuilders.standaloneSetup(subjectController).build();
@@ -128,5 +133,22 @@ class SubjectControllerTest {
                 .andExpect(model().attributeExists("subject1"))
                 .andExpect(model().attributeExists("subject2"))
                 .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processUpdateSubjectSetForm() throws Exception{
+
+//        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().subjects(subjects).build());
+//        when(teacherService.save(any())).thenReturn(Teacher.builder().subjects(subjects).build());
+//        when(subjectService.findBySubjectName(anyString())).thenReturn(subject1);
+//
+//        //when() requires mocks as argument; Strings (final class) cannot be mocked
+//        when(subject1.getSubjectName().split(",")).thenReturn(strings);
+//
+//        mockMvc.perform(post("/subjects/teacher/1/edit"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name("redirect:/teachers/1/edit"));
+//
+//        verify(subjectService).save(any());
     }
 }
