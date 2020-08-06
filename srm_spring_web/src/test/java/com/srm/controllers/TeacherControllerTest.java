@@ -134,17 +134,19 @@ class TeacherControllerTest {
 
     @Test
     void initUpdateTeacherForm() throws Exception {
-        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().id(1l).build());
+        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().id(1L).build());
 
         mockMvc.perform(get("/teachers/1/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/teachers/updateTeacher"))
-                .andExpect(model().attributeExists("teacher"));
+                .andExpect(model().attributeExists("teacher"))
+                .andExpect(model().attributeExists("subject1"))
+                .andExpect(model().attributeExists("subject2"));
     }
 
     @Test
     void processUpdateTeacherForm() throws Exception {
-        when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1l).build());
+        when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1L).build());
 
         mockMvc.perform(post("/teachers/1/edit"))
                 .andExpect(status().is3xxRedirection())

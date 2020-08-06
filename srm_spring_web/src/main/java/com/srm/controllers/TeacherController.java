@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 //all routings below proceed /teachers, not the root (see indexController)
 @RequestMapping({"/teachers"})
@@ -112,7 +109,8 @@ public class TeacherController {
 
     @GetMapping("/new")
     public String initCreationForm(Model model) {
-        model.addAttribute("teacher", Teacher.builder().build());
+        //avoid rendering null subjectSets in the future
+        model.addAttribute("teacher", Teacher.builder().subjects(new HashSet<>()).build());
         return "/teachers/newTeacher";
     }
 
@@ -138,20 +136,24 @@ public class TeacherController {
     public String initUpdateForm(@PathVariable Long teacherId, Model model) {
         Teacher teacherFound = teacherService.findById(teacherId);
 
-        //assume for now that there are only up to two guardians registered per student
-        List<Subject> subjectsTaught = new ArrayList<>(teacherFound.getSubjects());
+        // assume for now that there are only up to two subjects registered per teacher
+        // and subject1 is always assigned before subject2
 
-        if (!subjectsTaught.isEmpty()) {
-            if (subjectsTaught.size() == 1) {
-                model.addAttribute("subject1Name", subjectsTaught.get(0).getSubjectName());
-                model.addAttribute("subject2Name", "(no second subject recorded)");
-            } else if (subjectsTaught.size() == 2) {
-                model.addAttribute("subject1Name", subjectsTaught.get(0).getSubjectName());
-                model.addAttribute("subject2Name", subjectsTaught.get(1).getSubjectName());
-            }
-            //template handles if subjectsTaught isEmpty
+        List<Subject> subjectList = new ArrayList<>(teacherFound.getSubjects());
+
+        Subject temp1 = Subject.builder().build();
+        Subject temp2 = Subject.builder().build();
+
+        if (teacherFound.getSubjects().isEmpty()) {
+            model.addAttribute("subject1", temp1);
+            model.addAttribute("subject2", temp2);
+        } else if (teacherFound.getSubjects().size() == 1) {
+            model.addAttribute("subject1", subjectList.get(0));
+            model.addAttribute("subject2", temp2);
+        } else if (teacherFound.getSubjects().size() == 2) {
+            model.addAttribute("subject1", subjectList.get(0));
+            model.addAttribute("subject2", subjectList.get(1));
         }
-        model.addAttribute("subjectsTaught", subjectsTaught);
         model.addAttribute("teacher", teacherFound);
         return "/teachers/updateTeacher";
     }
