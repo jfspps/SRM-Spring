@@ -7,6 +7,8 @@ import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,5 +87,69 @@ public class SubjectController {
         subject.setId(subjectId);
         subjectService.save(subject);
         return "redirect:/subjects/index";
+    }
+
+    @GetMapping("/teacher/{teacherId}/edit")
+    public String initUpdateSubjectSetForm(@PathVariable Long teacherId, ModelMap model) {
+        Teacher teacher = teacherService.findById(teacherId);
+        List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
+        if (subjects.size() == 1){
+            model.addAttribute("teacher", teacher)
+                    .addAttribute("subject1", subjects.get(0))
+                    .addAttribute("subject2", Subject.builder().build());
+        } else {
+            model.addAttribute("teacher", teacher)
+                    .addAttribute("subject1", subjects.get(0))
+                    .addAttribute("subject2", subjects.get(1));
+        }
+        log.info(subjects.get(0).getSubjectName());
+        return "/subjects/updateSubjectSet";
+    }
+
+    @PostMapping("/teacher/{teacherId}/edit")
+    public String processUpdateSubjectSetForm(@PathVariable Long teacherId, @Valid Subject subject1) {
+        //this is a hack: it seems subject1 is actually a comma-separated List<Subject> (getSubjectName uses default toString()?)
+        log.info(subject1.getSubjectName());
+
+        //here is the hack to accommodate this for now:
+        Teacher teacher = teacherService.findById(teacherId);
+        List<Subject> savedSubjects = new ArrayList<>();
+        String[] subjects = subject1.getSubjectName().split(",");
+
+        if (!subjects[0].isBlank() || !subjects[0].equals("null")){
+            Subject foundOne = subjectService.findBySubjectName(subjects[0]);
+            if (foundOne == null){
+                //subjectOne is not on the DB
+                foundOne = subjectService.save(Subject.builder().subjectName(subjects[0]).build());
+            }
+            savedSubjects.add(foundOne);
+        }
+
+        if (subjects.length > 1){
+            if (!subjects[1].isBlank() || !subjects[1].equals("null")){
+                Subject foundAnother = subjectService.findBySubjectName(subjects[1]);
+                if (foundAnother == null){
+                    // not on the DB
+                    foundAnother = subjectService.save(Subject.builder().subjectName(subjects[1]).build());
+                }
+                savedSubjects.add(foundAnother);
+            }
+            log.info("Saved subjects is currently: " + savedSubjects.toString());
+            // from functional testing, we need to reverse the subject order in savedSubjects if unique IDs are not
+            // set for the <input> tags of updateSubjectSet.html (currently no need at present)
+
+//            Subject temp = savedSubjects.get(0);
+//            Subject temp2 = savedSubjects.get(1);
+//            savedSubjects.clear();
+//            savedSubjects.add(temp2);
+//            savedSubjects.add(temp);
+//            log.info("Saved subjects is now: " + savedSubjects.toString());
+        }
+
+        teacher.setSubjects(new HashSet<>(savedSubjects));
+        teacher.setId(teacherId);
+        Teacher savedTeacher = teacherService.save(teacher);
+
+        return "redirect:/teachers/" + savedTeacher.getId() + "/edit";
     }
 }

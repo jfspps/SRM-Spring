@@ -3,6 +3,7 @@ package com.srm.controllers;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
+import com.srm.services.peopleServices.TeacherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,7 @@ import java.util.Set;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +32,9 @@ class SubjectControllerTest {
 
     @Mock
     SubjectService subjectService;
+
+    @Mock
+    TeacherService teacherService;
 
     @InjectMocks
     SubjectController subjectController;
@@ -46,6 +51,8 @@ class SubjectControllerTest {
     Subject subject1;
     Subject subject2;
 
+    String[] strings;
+
     @BeforeEach
     void setUp() {
         teachers1.add(teacher1);
@@ -56,6 +63,8 @@ class SubjectControllerTest {
         String subject2name = "PE";
         subject2 = Subject.builder().id(2L).subjectName(subject2name).teachers(teachers2).build();
         subjects.add(subject2);
+
+        String[] strings = new String[5];
 
         //provides each test method with a mock controller based on studentIndexController
         mockMvc = MockMvcBuilders.standaloneSetup(subjectController).build();
@@ -114,15 +123,32 @@ class SubjectControllerTest {
                 .andExpect(model().attributeExists("updateSubject"));
     }
 
-//    @Test
-//    void processUpdateSubjectForm() throws Exception {
-//        when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1l).build());
+    @Test
+    void initUpdateSubjectSetForm() throws Exception {
+        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().subjects(subjects).build());
+
+        mockMvc.perform(get("/subjects/teacher/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/subjects/updateSubjectSet"))
+                .andExpect(model().attributeExists("subject1"))
+                .andExpect(model().attributeExists("subject2"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processUpdateSubjectSetForm() throws Exception{
+
+//        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().subjects(subjects).build());
+//        when(teacherService.save(any())).thenReturn(Teacher.builder().subjects(subjects).build());
+//        when(subjectService.findBySubjectName(anyString())).thenReturn(subject1);
 //
-//        mockMvc.perform(post("/subjects/1/edit"))
+//        //when() requires mocks as argument; Strings (final class) cannot be mocked
+//        when(subject1.getSubjectName().split(",")).thenReturn(strings);
+//
+//        mockMvc.perform(post("/subjects/teacher/1/edit"))
 //                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/subjects/1"))
-//                .andExpect(model().attributeExists("subject"));
+//                .andExpect(view().name("redirect:/teachers/1/edit"));
 //
-//        verify(subjectService).save(ArgumentMatchers.any());
-//    }
+//        verify(subjectService).save(any());
+    }
 }
