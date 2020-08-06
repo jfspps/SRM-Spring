@@ -3,6 +3,7 @@ package com.srm.controllers;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
+import com.srm.services.peopleServices.TeacherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,9 @@ class SubjectControllerTest {
 
     @Mock
     SubjectService subjectService;
+
+    @Mock
+    TeacherService teacherService;
 
     @InjectMocks
     SubjectController subjectController;
@@ -114,15 +118,15 @@ class SubjectControllerTest {
                 .andExpect(model().attributeExists("updateSubject"));
     }
 
-//    @Test
-//    void processUpdateSubjectForm() throws Exception {
-//        when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1l).build());
-//
-//        mockMvc.perform(post("/subjects/1/edit"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/subjects/1"))
-//                .andExpect(model().attributeExists("subject"));
-//
-//        verify(subjectService).save(ArgumentMatchers.any());
-//    }
+    @Test
+    void initUpdateSubjectSetForm() throws Exception {
+        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().subjects(subjects).build());
+
+        mockMvc.perform(get("/subjects/teacher/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/subjects/updateSubjectSet"))
+                .andExpect(model().attributeExists("subject1"))
+                .andExpect(model().attributeExists("subject2"))
+                .andExpect(model().attributeExists("teacher"));
+    }
 }

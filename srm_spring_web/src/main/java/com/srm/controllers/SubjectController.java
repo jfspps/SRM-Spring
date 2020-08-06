@@ -7,6 +7,7 @@ import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -86,4 +87,22 @@ public class SubjectController {
         subjectService.save(subject);
         return "redirect:/subjects/index";
     }
+
+    @GetMapping("/teacher/{teacherId}/edit")
+    public String initUpdateSubjectSetForm(@PathVariable Long teacherId, ModelMap model) {
+        Teacher teacher = teacherService.findById(teacherId);
+        List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
+        if (subjects.size() == 1){
+            model.addAttribute("teacher", teacher)
+                    .addAttribute("subject1", subjects.get(0))
+                    .addAttribute("subject2", Subject.builder().build());
+        } else {
+            model.addAttribute("teacher", teacher)
+                    .addAttribute("subject1", subjects.get(0))
+                    .addAttribute("subject2", subjects.get(1));
+        }
+        return "/subjects/updateSubjectSet";
+    }
+
+
 }
