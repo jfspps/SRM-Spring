@@ -1,11 +1,11 @@
 package com.srm.controllers;
 
-import com.srm.model.academic.Subject;
 import com.srm.model.people.Address;
 import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.GuardianService;
+import com.srm.services.peopleServices.StudentService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,6 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,6 +35,9 @@ class GuardianControllerTest {
     @Mock
     GuardianService guardianService;
 
+    @Mock
+    StudentService studentService;
+
     @InjectMocks
     GuardianController guardianController;
 
@@ -44,8 +46,10 @@ class GuardianControllerTest {
     Address address;
     ContactDetail contactDetail;
 
-    Set<Guardian> guardians;
+    Set<Guardian> guardians_1;  //size 1
+    Set<Guardian> guardians_2;  //size 2
     Guardian testGuardian;
+    Guardian anotherTestGuardian;
     MockMvc mockMvc;
 
     @BeforeEach
@@ -56,15 +60,19 @@ class GuardianControllerTest {
         address = Address.builder().build();
         contactDetail = ContactDetail.builder().build();
         testGuardian = Guardian.builder().address(address).students(kids).contactDetail(contactDetail).firstName("Eric").id(1L).build();
-        guardians = new HashSet<>();
-        guardians.add(testGuardian);
+        anotherTestGuardian = Guardian.builder().address(address).students(kids).contactDetail(contactDetail).firstName("Joan").id(2L).build();
+        guardians_1 = new HashSet<>();
+        guardians_1.add(testGuardian);
+        guardians_2 = new HashSet<>();
+        guardians_2.add(testGuardian);
+        guardians_2.add(anotherTestGuardian);
         //provides each test method with a mock controller based on studentIndexController
         mockMvc = MockMvcBuilders.standaloneSetup(guardianController).build();
     }
 
     @Test
     void listGuardians() throws Exception {
-        when(guardianService.findAll()).thenReturn(guardians);
+        when(guardianService.findAll()).thenReturn(guardians_1);
 
         mockMvc.perform(get("/guardians"))
                 .andExpect(status().is(200))
@@ -75,7 +83,7 @@ class GuardianControllerTest {
 
     @Test
     void index() throws Exception {
-        when(guardianService.findAll()).thenReturn(guardians);
+        when(guardianService.findAll()).thenReturn(guardians_1);
 
         mockMvc.perform(get("/guardians/index"))
                 .andExpect(status().is(200))
@@ -86,7 +94,7 @@ class GuardianControllerTest {
 
     @Test
     void indexHTML() throws Exception {
-        when(guardianService.findAll()).thenReturn(guardians);
+        when(guardianService.findAll()).thenReturn(guardians_1);
 
         mockMvc.perform(get("/guardians/index.html"))
                 .andExpect(status().is(200))
@@ -172,4 +180,30 @@ class GuardianControllerTest {
 
         verify(guardianService).save(ArgumentMatchers.any());
     }
+
+    @Test
+    void initUpdateGuardianSetForm_emptyGuardianSet() throws Exception {
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().guardians(new HashSet<>()).build());
+
+        mockMvc.perform(get("/guardians/student/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/updateGuardianSet"))
+                .andExpect(model().attributeExists("guardian1"))
+                .andExpect(model().attributeExists("guardian2"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
+    void initUpdateGuardianSetForm_twoGuardianSet() throws Exception {
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().guardians(guardians_2).build());
+
+        mockMvc.perform(get("/guardians/student/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/updateGuardianSet"))
+                .andExpect(model().attributeExists("guardian1"))
+                .andExpect(model().attributeExists("guardian2"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    //no mock test for processStudentSetForm()
 }

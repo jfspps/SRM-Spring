@@ -160,23 +160,29 @@ public class GuardianController {
     public String initUpdateGuardianSetForm(@PathVariable Long studentId, ModelMap model) {
         Student student = studentService.findById(studentId);
         List<Guardian> guardians = new ArrayList<>(student.getGuardians());
-        if (guardians.size() == 1){
+        if (guardians.size() == 1) {
             model.addAttribute("student", student)
                     .addAttribute("guardian1", guardians.get(0))
                     .addAttribute("guardian2", Guardian.builder().build());
-        } else {
+        } else if (guardians.size() == 2) {
             model.addAttribute("student", student)
                     .addAttribute("guardian1", guardians.get(0))
                     .addAttribute("guardian2", guardians.get(1));
+        } else {
+            model.addAttribute("student", student)
+                    .addAttribute("guardian1", Guardian.builder().build())
+                    .addAttribute("guardian2", Guardian.builder().build());
         }
-        log.info(guardians.get(0).getFirstName() + ' ' + guardians.get(0).getFirstName());
+//        log.info(guardians.get(0).getFirstName() + ' ' + guardians.get(0).getLastName());
         return "/students/updateGuardianSet";
     }
 
     @PostMapping("/student/{studentId}/edit")
     public String processUpdateGuardianSetForm(@PathVariable Long studentId, @Valid Guardian guardian1) {
         //this is a hack (see SubjectController for more background)
-        log.info(guardian1.getFirstName() + ' ' + guardian1.getLastName());
+        // one can show that passing @Valid Guardian guardian2 as a parameter and logging as below results in an
+        // identical List structure, so for now I implement guardian1 as the sole list
+//        log.info(guardian1.getFirstName() + ' ' + guardian1.getLastName());
 
         //here is the hack to accommodate this for now:
         Student student = studentService.findById(studentId);
@@ -223,7 +229,7 @@ public class GuardianController {
                 }
             }
 
-            // from functional testing, the order that the guardians are listed seems to depend on the student ID
+            // from functional testing, the order that the guardians are listed seems to depend on the student ID???
 
 //            Guardian temp = savedGuardians.get(0);
 //            Guardian temp2 = savedGuardians.get(1);
