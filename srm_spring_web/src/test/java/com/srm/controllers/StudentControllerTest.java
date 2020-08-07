@@ -1,14 +1,13 @@
 package com.srm.controllers;
 
 import com.srm.model.people.*;
+import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import com.srm.services.peopleServices.TeacherService;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,12 +38,16 @@ class StudentControllerTest {
     @Mock
     TeacherService teacherService;
 
+    @Mock
+    GuardianService guardianService;
+
     @InjectMocks
     StudentController studentController;
 
     MockMvc mockMvc;
     //prepare DB entries
-    Set<Student> studentSet;
+    Set<Student> studentSet_1;
+    Set<Student> studentSet_2;
 
     Student testStudent;
     Teacher teacher1;
@@ -55,9 +58,11 @@ class StudentControllerTest {
 
     @BeforeEach
     void setUp() {
-        studentSet = new HashSet<>();
-        studentSet.add(Student.builder().id(1L).build());
-        studentSet.add(Student.builder().id(2L).build());
+        studentSet_2 = new HashSet<>(); //size 2
+        studentSet_1 = new HashSet<>(); //size 1
+        studentSet_2.add(Student.builder().id(1L).build());
+        studentSet_2.add(Student.builder().id(2L).build());
+        studentSet_1.add(Student.builder().build());
 
         teacher1Contact = ContactDetail.builder().email("teacher1@school.com").phoneNumber("9847324").build();
         teacher1 = Teacher.builder().firstName("Keith").lastName("Thomson").contactDetail(teacher1Contact).build();
@@ -86,7 +91,7 @@ class StudentControllerTest {
     @Test
     void listStudents() throws Exception {
         //direct any call to findAll() to use above studentSet instead
-        when(studentService.findAll()).thenReturn(studentSet);
+        when(studentService.findAll()).thenReturn(studentSet_2);
 
         mockMvc.perform(get("/students"))
                 .andExpect(status().is(200))
@@ -99,7 +104,7 @@ class StudentControllerTest {
     void listStudentsIndex() throws Exception {
         // direct any call to findAll() to use above studentSet instead
         // (there should be no calls to studentService, see below)
-        when(studentService.findAll()).thenReturn(studentSet);
+        when(studentService.findAll()).thenReturn(studentSet_2);
 
         mockMvc.perform(get("/students/index"))
                 .andExpect(status().is(200))
@@ -111,7 +116,7 @@ class StudentControllerTest {
     @Test
     void listStudentsIndexHTML() throws Exception {
         //direct any call to findAll() to use above studentSet instead
-        when(studentService.findAll()).thenReturn(studentSet);
+        when(studentService.findAll()).thenReturn(studentSet_2);
 
         mockMvc.perform(get("/students/index.html"))
                 .andExpect(status().is(200))
@@ -261,4 +266,42 @@ class StudentControllerTest {
         //teacherService does not always run if the teacher already exists on file
         verify(studentService).save(any());
     }
+
+    @Test
+    void initUpdateStudentSetForm_emptyStudentSet() throws Exception {
+        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().students(new HashSet<>()).build());
+
+        mockMvc.perform(get("/students/guardian/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/updateStudentSet"))
+                .andExpect(model().attributeExists("student1"))
+                .andExpect(model().attributeExists("student2"))
+                .andExpect(model().attributeExists("guardian"));
+    }
+
+    @Test
+    void initUpdateStudentSetForm_oneStudentSet() throws Exception {
+        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().students(studentSet_1).build());
+
+        mockMvc.perform(get("/students/guardian/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/updateStudentSet"))
+                .andExpect(model().attributeExists("student1"))
+                .andExpect(model().attributeExists("student2"))
+                .andExpect(model().attributeExists("guardian"));
+    }
+
+    @Test
+    void initUpdateStudentSetForm_twoStudentSet() throws Exception {
+        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().students(studentSet_2).build());
+
+        mockMvc.perform(get("/students/guardian/1/edit"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/updateStudentSet"))
+                .andExpect(model().attributeExists("student1"))
+                .andExpect(model().attributeExists("student2"))
+                .andExpect(model().attributeExists("guardian"));
+    }
+
+    //no mock test for processStudentSetForm()
 }
