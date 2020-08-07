@@ -160,8 +160,15 @@ public class TeacherController {
 
     @PostMapping("/{teacherId}/edit")
     public String processUpdateOwnerForm(@Valid Teacher teacher, @PathVariable Long teacherId) {
-        teacher.setId(teacherId);
-        Teacher savedTeacher = teacherService.save(teacher);
+        //todo check for other identical records before saving
+
+        //recall all other variables and pass to the DB
+        Teacher teacherOnFile = teacherService.findById(teacherId);
+        teacherOnFile.setFirstName(teacher.getFirstName());
+        teacherOnFile.setLastName(teacher.getLastName());
+        teacherOnFile.setDepartment(teacher.getDepartment());
+
+        Teacher savedTeacher = teacherService.save(teacherOnFile);
         return "redirect:/teachers/" + savedTeacher.getId();
     }
 }

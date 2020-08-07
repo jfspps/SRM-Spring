@@ -66,8 +66,7 @@
         </div>
     </div>
     <br/>
-    <form th:object="${guardian}" method="get"
-          th:action="@{/guardians/{id}/edit(id=${guardian.id})}">
+    <form th:object="${guardian}" method="get">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Guardian name</b></label>
@@ -170,8 +169,9 @@
         </div>
         <br/>
         <div class="row align-items-start">
-            <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Edit</button>
+            <div class="col-sm-10">
+                <a class="btn btn-outline-info" href="/guardians/search" role="button">New summary</a>
+                <a class="btn btn-outline-info" href="/guardians/" role="button">Guardian index</a>
             </div>
         </div>
     </form>

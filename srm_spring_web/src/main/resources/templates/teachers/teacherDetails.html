@@ -66,8 +66,7 @@
         </div>
     </div>
     <br/>
-    <form th:object="${teacher}" method="get"
-          th:action="@{/teachers/{id}/edit(id=${teacher.id})}">
+    <form th:object="${teacher}" method="get">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label" size="30"><b>Teacher first name</b></label>
@@ -143,8 +142,9 @@
         </div>
         <br/>
         <div class="row align-items-start">
-            <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Edit</button>
+            <div class="col-sm-10">
+                <a class="btn btn-outline-info" href="/teachers/search" role="button">New summary</a>
+                <a class="btn btn-outline-info" href="/teachers/" role="button">Teacher index</a>
             </div>
         </div>
     </form>

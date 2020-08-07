@@ -146,9 +146,9 @@ class GuardianControllerTest {
                 .andExpect(model().attributeExists("guardian"));
     }
 
-    @Test
-    void processCreationForm() throws Exception {
-        //todo re-test after form validation
+//    @Test
+//    void processCreationForm() throws Exception {
+//        //todo re-test after form validation
 //        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
 //
 //        mockMvc.perform(post("/guardians/new"))
@@ -157,11 +157,11 @@ class GuardianControllerTest {
 //                .andExpect(model().attributeExists("guardian"));
 //
 //        verify(guardianService).save(ArgumentMatchers.any());
-    }
+//    }
 
     @Test
     void initUpdateGuardianForm() throws Exception {
-        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().id(1l).build());
+        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().id(1L).build());
 
         mockMvc.perform(get("/guardians/1/edit"))
                 .andExpect(status().isOk())
@@ -171,7 +171,8 @@ class GuardianControllerTest {
 
     @Test
     void processUpdateGuardianForm() throws Exception {
-        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1l).build());
+        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
+        when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().id(1L).build());
 
         mockMvc.perform(post("/guardians/1/edit"))
                 .andExpect(status().is3xxRedirection())
@@ -179,6 +180,7 @@ class GuardianControllerTest {
                 .andExpect(model().attributeExists("guardian"));
 
         verify(guardianService).save(ArgumentMatchers.any());
+        verify(guardianService).findById(anyLong());
     }
 
     @Test

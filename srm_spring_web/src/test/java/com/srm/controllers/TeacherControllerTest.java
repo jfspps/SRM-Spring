@@ -119,8 +119,8 @@ class TeacherControllerTest {
                 .andExpect(model().attributeExists("teacher"));
     }
 
-    @Test
-    void processCreationForm() throws Exception {
+//    @Test
+//    void processCreationForm() throws Exception {
 //        //todo re-test after form validation
 //        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1L).build());
 //
@@ -130,7 +130,7 @@ class TeacherControllerTest {
 //                .andExpect(model().attributeExists("student"));
 //
 //        verify(studentService).save(ArgumentMatchers.any());
-    }
+//    }
 
     @Test
     void initUpdateTeacherForm() throws Exception {
@@ -147,6 +147,7 @@ class TeacherControllerTest {
     @Test
     void processUpdateTeacherForm() throws Exception {
         when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1L).build());
+        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().id(1L).build());
 
         mockMvc.perform(post("/teachers/1/edit"))
                 .andExpect(status().is3xxRedirection())
@@ -154,5 +155,6 @@ class TeacherControllerTest {
                 .andExpect(model().attributeExists("teacher"));
 
         verify(teacherService).save(ArgumentMatchers.any());
+        verify(teacherService).findById(anyLong());
     }
 }
