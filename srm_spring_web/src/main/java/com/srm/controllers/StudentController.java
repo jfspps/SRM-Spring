@@ -195,4 +195,7 @@ public class StudentController {
         Student savedStudent = studentService.save(student);
         return "redirect:/students/" + savedStudent.getId() + "/edit";
     }
+
+    //update of a guardian's student details
+
 }

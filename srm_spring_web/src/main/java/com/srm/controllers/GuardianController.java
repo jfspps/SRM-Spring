@@ -1,8 +1,10 @@
 package com.srm.controllers;
 
+import com.srm.model.academic.Subject;
 import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
+import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.AddressService;
 import com.srm.services.peopleServices.ContactDetailService;
 import com.srm.services.peopleServices.GuardianService;
@@ -10,6 +12,7 @@ import com.srm.services.peopleServices.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -149,5 +152,91 @@ public class GuardianController {
         guardian.setId(guardianId);
         Guardian savedGuardian = guardianService.save(guardian);
         return "redirect:/guardians/" + savedGuardian.getId();
+    }
+
+
+    // update of a student's guardian details
+    @GetMapping("/student/{studentId}/edit")
+    public String initUpdateGuardianSetForm(@PathVariable Long studentId, ModelMap model) {
+        Student student = studentService.findById(studentId);
+        List<Guardian> guardians = new ArrayList<>(student.getGuardians());
+        if (guardians.size() == 1){
+            model.addAttribute("student", student)
+                    .addAttribute("guardian1", guardians.get(0))
+                    .addAttribute("guardian2", Guardian.builder().build());
+        } else {
+            model.addAttribute("student", student)
+                    .addAttribute("guardian1", guardians.get(0))
+                    .addAttribute("guardian2", guardians.get(1));
+        }
+        log.info(guardians.get(0).getFirstName() + ' ' + guardians.get(0).getFirstName());
+        return "/students/updateGuardianSet";
+    }
+
+    @PostMapping("/student/{studentId}/edit")
+    public String processUpdateGuardianSetForm(@PathVariable Long studentId, @Valid Guardian guardian1) {
+        //this is a hack (see SubjectController for more background)
+        log.info(guardian1.getFirstName() + ' ' + guardian1.getLastName());
+
+        //here is the hack to accommodate this for now:
+        Student student = studentService.findById(studentId);
+        List<Guardian> savedGuardians = new ArrayList<>();
+        String[] guardiansFirstNames = guardian1.getFirstName().split(",");
+        String[] guardiansLastNames = guardian1.getLastName().split(",");
+
+        //registers student with found guardians
+        Set<Student> studentsRegistered = new HashSet<>();
+        studentsRegistered.add(student);
+
+        Guardian newGuardianOne;
+        Guardian newGuardianTwo;
+
+        if (!guardiansFirstNames[0].isBlank() || !guardiansFirstNames[0].equals("null")){
+            Guardian foundOne = guardianService.findByFirstAndLastName(guardiansFirstNames[0], guardiansLastNames[0]);
+            if (foundOne == null){
+                // not on the DB
+                newGuardianOne = Guardian.builder()
+                        .firstName(guardiansFirstNames[0])
+                        .lastName(guardiansLastNames[0])
+                        .students(studentsRegistered).build();
+
+                savedGuardians.add(guardianService.save(newGuardianOne));
+            } else {
+                foundOne.setStudents(studentsRegistered);
+                savedGuardians.add(foundOne);
+            }
+        }
+
+        if (guardiansFirstNames.length > 1){
+            if (!guardiansFirstNames[1].isBlank() || !guardiansFirstNames[1].equals("null")){
+                Guardian foundAnother = guardianService.findByFirstAndLastName(guardiansFirstNames[1], guardiansLastNames[1]);
+                if (foundAnother == null){
+                    // not on the DB
+                    newGuardianTwo = Guardian.builder()
+                            .firstName(guardiansFirstNames[1])
+                            .lastName(guardiansLastNames[1])
+                            .students(studentsRegistered).build();
+                    savedGuardians.add(guardianService.save(newGuardianTwo));
+                } else {
+                    foundAnother.setStudents(studentsRegistered);
+                    savedGuardians.add(foundAnother);
+                }
+            }
+
+            // from functional testing, the order that the guardians are listed seems to depend on the student ID
+
+//            Guardian temp = savedGuardians.get(0);
+//            Guardian temp2 = savedGuardians.get(1);
+//            savedGuardians.clear();
+//            savedGuardians.add(temp2);
+//            savedGuardians.add(temp);
+//            log.info("Saved guardians is now: " + savedGuardians.toString());
+        }
+
+        student.setGuardians(new HashSet<>(savedGuardians));
+        student.setId(studentId);
+        Student savedStudent = studentService.save(student);
+
+        return "redirect:/students/" + savedStudent.getId() + "/edit";
     }
 }
