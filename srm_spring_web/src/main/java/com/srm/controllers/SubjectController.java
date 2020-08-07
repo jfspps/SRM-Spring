@@ -83,9 +83,10 @@ public class SubjectController {
 
     @PostMapping("/{subjectId}/edit")
     public String processUpdateSubjectForm(@Valid Subject subject, @PathVariable Long subjectId) {
-        //ensures a new object is not created
-        subject.setId(subjectId);
-        subjectService.save(subject);
+        //todo check for other identical records before saving
+        Subject subjectOnFile = subjectService.findById(subjectId);
+        subjectOnFile.setSubjectName(subject.getSubjectName());
+        subjectService.save(subjectOnFile);
         return "redirect:/subjects/index";
     }
 

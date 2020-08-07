@@ -120,6 +120,7 @@ public class StudentController {
         }
         //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
         if (guardians.size() == 2){
+            guardian1Name = guardians.get(0).getFirstName() + " " + guardians.get(0).getLastName();
             guardian2Name = guardians.get(1).getFirstName() + " " + guardians.get(1).getLastName();
         }
         mav.addObject("guardian1Name", guardian1Name);
@@ -161,8 +162,14 @@ public class StudentController {
 
     @PostMapping("/{studentId}/edit")
     public String processUpdateOwnerForm(@Valid Student student, @PathVariable Long studentId) {
-        student.setId(studentId);
-        Student savedStudent = studentService.save(student);
+        //todo check for other identical records before saving
+
+        //recall all other variables and pass to the DB
+        Student studentOnFile = studentService.findById(studentId);
+        studentOnFile.setFirstName(student.getFirstName());
+        studentOnFile.setLastName(student.getLastName());
+
+        Student savedStudent = studentService.save(studentOnFile);
         return "redirect:/students/" + savedStudent.getId();
     }
 

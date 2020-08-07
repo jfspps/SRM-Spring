@@ -106,6 +106,7 @@ public class GuardianController {
             }
             //if above fails then subsequent Set (and List) entries are not defined either, hence outOfBounds exception
             if (students.size() == 2) {
+                student1Name = students.get(0).getFirstName() + " " + students.get(0).getLastName();
                 student2Name = students.get(1).getFirstName() + " " + students.get(1).getLastName();
             }
         }
@@ -149,8 +150,14 @@ public class GuardianController {
 
     @PostMapping("/{guardianId}/edit")
     public String processUpdateOwnerForm(@Valid Guardian guardian, @PathVariable Long guardianId) {
-        guardian.setId(guardianId);
-        Guardian savedGuardian = guardianService.save(guardian);
+        //todo check for other identical records before saving
+
+        //recall all other variables and pass to the DB
+        Guardian guardianOnFile = guardianService.findById(guardianId);
+        guardianOnFile.setFirstName(guardian.getFirstName());
+        guardianOnFile.setLastName(guardian.getLastName());
+
+        Guardian savedGuardian = guardianService.save(guardianOnFile);
         return "redirect:/guardians/" + savedGuardian.getId();
     }
 

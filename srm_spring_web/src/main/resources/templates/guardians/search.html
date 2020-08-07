@@ -89,13 +89,17 @@
                     <th class="px-3">ID</th>
                     <th class="px-3">First name</th>
                     <th class="px-3">Last name</th>
+                    <th class="px-3">Postcode</th>
+                    <th class="px-3"># students on file</th>
+                    <th class="px-3">Email</th>
+                    <th class="px-3">Phone number</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="found: ${guardiansFound}">
                     <!--/*@thymesVar id="found" type="com.srm.model.people.Guardian"*/-->
                     <span th:if="${found.firstName == null}">
-                        <td class="px-3">Enter first and last name</td>
+                        <td class="px-3">Enter both names</td>
                         <td class="px-3"></td>
                         <td class="px-3"></td>
                     </span>
@@ -103,17 +107,29 @@
                         <td class="px-3"><a th:href="@{/guardians/{id}(id=${found.id})}" th:text="${found.id}"></a></td>
                         <td class="px-3" th:text="${found.firstName}"></td>
                         <td class="px-3" th:text="${found.lastName}"></td>
+                        <td class="px-3" th:text="${found.address.postcode}"></td>
+                        <td class="px-3" th:text="${found.students.size()}"></td>
+                        <td class="px-3" th:text="${found.contactDetail.email}"></td>
+                        <td class="px-3" th:text="${found.contactDetail.phoneNumber}"></td>
                     </span>
                 </tr>
                 <tr th:remove="all">
                     <td class="px-3">1</td>
                     <td class="px-3">Jimmy</td>
                     <td class="px-3">White</td>
+                    <td class="px-3">p92hf2</td>
+                    <td class="px-3">1</td>
+                    <td class="px-3">address@email.com</td>
+                    <td class="px-3">094723047</td>
                 </tr>
                 <tr th:remove="all">
                     <td class="px-3">2</td>
                     <td class="px-3">John</td>
                     <td class="px-3">Smith</th>
+                    <td class="px-3">yeq9u43</td>
+                    <td class="px-3">2</td>
+                    <td class="px-3">address2@email.com</td>
+                    <td class="px-3">023523488234</td>
                 </tr>
                 </tbody>
             </table>

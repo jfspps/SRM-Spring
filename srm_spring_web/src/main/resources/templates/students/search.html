@@ -91,6 +91,10 @@
                     <th class="px-3">ID</th>
                     <th class="px-3">First name</th>
                     <th class="px-3">Last name</th>
+                    <th class="px-3">Personal tutor</th>
+                    <th class="px-3"># Guardians on file</th>
+                    <th class="px-3">Email</th>
+                    <th class="px-3">Phone no.</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -101,16 +105,28 @@
                     </th>
                     <td class="px-3" th:text="${found.firstName}"></td>
                     <td class="px-3" th:text="${found.lastName}"></td>
+                    <td class="px-3" th:text="${found.teacher.firstName + ' ' + found.teacher.lastName}"></td>
+                    <td class="px-3" th:text="${found.guardians.size()}"></td>
+                    <td class="px-3" th:text="${found.contactDetail.email}"></td>
+                    <td class="px-3" th:text="${found.contactDetail.phoneNumber}"></td>
                 </tr>
                 <tr th:remove="all">
                     <th class="px-3">1</th>
                     <th class="px-3">Jimmy</th>
                     <th class="px-3">White</th>
+                    <th class="px-3"></th>
+                    <th class="px-3">2</th>
+                    <th class="px-3">student@email.com</th>
+                    <th class="px-3">023742394327</th>
                 </tr>
                 <tr th:remove="all">
                     <th class="px-3">2</th>
                     <th class="px-3">John</th>
                     <th class="px-3">Smith</th>
+                    <th class="px-3">Alan Partridge</th>
+                    <th class="px-3">1</th>
+                    <th class="px-3">student2@email.com</th>
+                    <th class="px-3">234532434642</th>
                 </tr>
                 </tbody>
             </table>

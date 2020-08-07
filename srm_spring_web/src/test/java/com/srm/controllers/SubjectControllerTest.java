@@ -115,12 +115,25 @@ class SubjectControllerTest {
 
     @Test
     void initUpdateSubjectForm() throws Exception {
-        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1l).build());
+        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1L).build());
 
         mockMvc.perform(get("/subjects/1/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/subjects/updateSubject"))
                 .andExpect(model().attributeExists("updateSubject"));
+    }
+
+    @Test
+    void processUpdateSubjectForm() throws Exception {
+        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1L).build());
+        when(subjectService.save(any())).thenReturn(Subject.builder().build());
+
+        mockMvc.perform(post("/subjects/1/edit"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/subjects/index"));
+
+        verify(subjectService).save(any());
+        verify(subjectService).findById(anyLong());
     }
 
     @Test
@@ -135,9 +148,9 @@ class SubjectControllerTest {
                 .andExpect(model().attributeExists("teacher"));
     }
 
-    @Test
-    void processUpdateSubjectSetForm() throws Exception{
-
+//    @Test
+//    void processUpdateSubjectSetForm() throws Exception{
+//
 //        when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().subjects(subjects).build());
 //        when(teacherService.save(any())).thenReturn(Teacher.builder().subjects(subjects).build());
 //        when(subjectService.findBySubjectName(anyString())).thenReturn(subject1);
@@ -150,5 +163,5 @@ class SubjectControllerTest {
 //                .andExpect(view().name("redirect:/teachers/1/edit"));
 //
 //        verify(subjectService).save(any());
-    }
+//    }
 }

@@ -161,21 +161,21 @@ class StudentControllerTest {
     }
 
     @Test
-    void showStudentByIdCheckTeacherLastName() throws Exception{
+    void showStudentByIdCheckTeacherLastName(){
         when(studentService.findById(anyLong())).thenReturn(testStudent);
 
         assertEquals(teacher1.getLastName(), studentService.findById(23L).getTeacher().getLastName());
     }
 
     @Test
-    void showStudentByIdCheckFormGroupName() throws Exception{
+    void showStudentByIdCheckFormGroupName(){
         when(studentService.findById(anyLong())).thenReturn(testStudent);
 
         assertEquals(formGroupList1.getGroupName(), studentService.findById(23L).getFormGroupList().getGroupName());
     }
 
     @Test
-    void showStudentByIdCheckEmail() throws Exception{
+    void showStudentByIdCheckEmail(){
         when(studentService.findById(anyLong())).thenReturn(testStudent);
 
         assertEquals(teacher1Contact.getEmail(), studentService.findById(23L).getContactDetail().getEmail());
@@ -194,7 +194,7 @@ class StudentControllerTest {
     }
 
     @Test
-    void showStudentByIdCheckNumberOfGuardians() throws Exception{
+    void showStudentByIdCheckNumberOfGuardians(){
         when(studentService.findById(anyLong())).thenReturn(testStudent);
 
         assertEquals(1, studentService.findById(23L).getGuardians().size());
@@ -208,8 +208,8 @@ class StudentControllerTest {
                 .andExpect(model().attributeExists("student"));
     }
 
-    @Test
-    void processCreationForm() throws Exception {
+//    @Test
+//    void processCreationForm() throws Exception {
 //        //todo re-test after form validation
 //        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1L).build());
 //
@@ -219,11 +219,11 @@ class StudentControllerTest {
 //                .andExpect(model().attributeExists("student"));
 //
 //        verify(studentService).save(ArgumentMatchers.any());
-    }
+//    }
 
     @Test
     void initUpdateStudentForm() throws Exception {
-        when(studentService.findById(anyLong())).thenReturn(Student.builder().id(1l).build());
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().id(1L).build());
 
         mockMvc.perform(get("/students/1/edit"))
                 .andExpect(status().isOk())
@@ -233,7 +233,8 @@ class StudentControllerTest {
 
     @Test
     void processUpdateStudentForm() throws Exception {
-        when(studentService.save(any())).thenReturn(Student.builder().id(1l).build());
+        when(studentService.save(any())).thenReturn(Student.builder().id(1L).build());
+        when(studentService.findById(anyLong())).thenReturn(Student.builder().id(1L).build());
 
         mockMvc.perform(post("/students/1/edit"))
                 .andExpect(status().is3xxRedirection())
@@ -241,6 +242,7 @@ class StudentControllerTest {
                 .andExpect(model().attributeExists("student"));
 
         verify(studentService).save(any());
+        verify(studentService).findById(anyLong());
     }
 
     @Test
