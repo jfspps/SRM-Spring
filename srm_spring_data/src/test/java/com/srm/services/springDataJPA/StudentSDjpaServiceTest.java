@@ -179,7 +179,7 @@ class StudentSDjpaServiceTest {
         );
 
         // then
-        assertTrue(notFoundException.getMessage().contains("Student not found"));
+        assertTrue(notFoundException.getMessage().contains("Student not found with ID: 1"));
 
         verify(studentRepository).findById(anyLong());
     }

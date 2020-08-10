@@ -63,7 +63,7 @@ class TeacherMapServiceTest {
             teacherMapService.findById(8L);
         });
 
-        assertEquals("Teacher not found", exception.getMessage());
+        assertEquals("Teacher not found with ID: 8", exception.getMessage());
     }
 
     @Test

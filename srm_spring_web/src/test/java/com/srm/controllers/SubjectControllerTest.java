@@ -88,7 +88,9 @@ class SubjectControllerTest {
         when(subjectService.findById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/subjects/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"))
+                .andExpect(model().attributeExists("exception"));
     }
 
     @Test

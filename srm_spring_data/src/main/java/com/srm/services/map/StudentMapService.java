@@ -39,7 +39,7 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
     public Student findById(Long id) {
         Optional<Student> optional = Optional.ofNullable(super.findById(id));
         if (optional.isEmpty()){
-            throw new NotFoundException("Student not found");
+            throw new NotFoundException("Student not found with ID: " + id);
         }
         return optional.get();
     }

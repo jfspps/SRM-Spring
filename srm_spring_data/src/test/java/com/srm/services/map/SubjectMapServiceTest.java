@@ -66,7 +66,7 @@ class SubjectMapServiceTest {
             subjectMapService.findById(8L);
         });
 
-        assertEquals("Subject not found", exception.getMessage());
+        assertEquals("Subject not found with ID: 8", exception.getMessage());
     }
 
     @Test

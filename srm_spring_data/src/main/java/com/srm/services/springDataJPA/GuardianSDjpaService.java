@@ -55,7 +55,7 @@ public class GuardianSDjpaService implements GuardianService {
     public Guardian findById(Long aLong) {
         Optional<Guardian> optional = guardianRepository.findById(aLong);
         if (optional.isEmpty()){
-            throw new NotFoundException("Guardian not found");
+            throw new NotFoundException("Guardian not found with ID: " + aLong);
         }
         return optional.get();
     }

@@ -132,7 +132,9 @@ class StudentControllerTest {
         when(studentService.findById(anyLong())).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/students/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"))
+                .andExpect(model().attributeExists("exception"));
     }
 
     @Test

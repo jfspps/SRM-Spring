@@ -65,7 +65,7 @@ public class StudentSDjpaService implements StudentService {
         //if none found with given aLong then return null
         Optional<Student> optional = studentRepository.findById(aLong);
         if (optional.isEmpty()){
-            throw new NotFoundException("Student not found");
+            throw new NotFoundException("Student not found with ID: " + aLong);
         }
         return optional.get();
     }

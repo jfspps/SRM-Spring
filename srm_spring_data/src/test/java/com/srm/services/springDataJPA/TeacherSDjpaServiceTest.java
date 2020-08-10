@@ -126,7 +126,7 @@ class TeacherSDjpaServiceTest {
         );
 
         // then
-        assertTrue(notFoundException.getMessage().contains("Teacher not found"));
+        assertTrue(notFoundException.getMessage().contains("Teacher not found with ID: 1"));
 
         verify(teacherRepository).findById(anyLong());
     }

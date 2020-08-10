@@ -119,7 +119,7 @@ class GuardianSDjpaServiceTest {
         );
 
         // then
-        assertTrue(notFoundException.getMessage().contains("Guardian not found"));
+        assertTrue(notFoundException.getMessage().contains("Guardian not found with ID: 1"));
 
         verify(guardianRepository).findById(anyLong());
     }

@@ -40,7 +40,7 @@ public class GuardianMapService extends AbstractMapService<Guardian, Long> imple
     public Guardian findById(Long id) {
         Optional<Guardian> optional = Optional.ofNullable(super.findById(id));
         if (optional.isEmpty()){
-            throw new NotFoundException("Guardian not found");
+            throw new NotFoundException("Guardian not found with ID: " + id);
         }
         return optional.get();
     }

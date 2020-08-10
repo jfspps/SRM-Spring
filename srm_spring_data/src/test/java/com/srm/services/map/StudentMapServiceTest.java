@@ -169,6 +169,6 @@ class StudentMapServiceTest {
             studentMapService.findById(8L);
         });
 
-        assertEquals("Student not found", exception.getMessage());
+        assertEquals("Student not found with ID: 8", exception.getMessage());
     }
 }

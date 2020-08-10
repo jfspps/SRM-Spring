@@ -60,7 +60,7 @@ public class TeacherSDjpaService implements TeacherService {
     public Teacher findById(Long aLong) {
         Optional<Teacher> optional = teacherRepository.findById(aLong);
         if (optional.isEmpty()){
-            throw new NotFoundException("Teacher not found");
+            throw new NotFoundException("Teacher not found with ID: " + aLong);
         }
         return optional.get();
     }

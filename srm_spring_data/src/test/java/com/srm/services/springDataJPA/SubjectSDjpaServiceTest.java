@@ -92,7 +92,7 @@ class SubjectSDjpaServiceTest {
         );
 
         // then
-        assertTrue(notFoundException.getMessage().contains("Subject not found"));
+        assertTrue(notFoundException.getMessage().contains("Subject not found with ID: 1"));
 
         verify(subjectRepository).findById(anyLong());
     }

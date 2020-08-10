@@ -1,10 +1,12 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -152,5 +154,20 @@ public class SubjectController {
         Teacher savedTeacher = teacherService.save(teacher);
 
         return "redirect:/teachers/" + savedTeacher.getId() + "/edit";
+    }
+
+    //note that the ResponseStatus annotation is repeated here since 'local' annotations take precedence, all other
+    //class level annotations are ignored
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception){
+
+        log.error("Handling 'not found' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
     }
 }

@@ -83,7 +83,7 @@ class GuardianMapServiceTest {
             guardianMapService.findById(8L);
         });
 
-        assertEquals("Guardian not found", exception.getMessage());
+        assertEquals("Guardian not found with ID: 8", exception.getMessage());
     }
 
     @Test

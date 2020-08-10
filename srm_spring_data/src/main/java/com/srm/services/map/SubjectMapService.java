@@ -40,7 +40,7 @@ public class SubjectMapService extends AbstractMapService<Subject, Long> impleme
     public Subject findById(Long id) {
         Optional<Subject> optional = Optional.ofNullable(super.findById(id));
         if (optional.isEmpty()){
-            throw new NotFoundException("Subject not found");
+            throw new NotFoundException("Subject not found with ID: " + id);
         }
         return optional.get();
     }

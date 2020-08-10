@@ -39,7 +39,7 @@ public class SubjectSDjpaService implements SubjectService {
     public Subject findById(Long aLong) {
         Optional<Subject> optional = subjectRepository.findById(aLong);
         if (optional.isEmpty()){
-            throw new NotFoundException("Subject not found");
+            throw new NotFoundException("Subject not found with ID: " + aLong);
         }
         return optional.get();
     }
