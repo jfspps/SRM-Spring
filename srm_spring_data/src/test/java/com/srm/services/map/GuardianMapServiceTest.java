@@ -1,5 +1,6 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
@@ -9,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GuardianMapServiceTest {
 
@@ -75,6 +75,15 @@ class GuardianMapServiceTest {
     void findById() {
         Guardian guardianWithAddress = guardianMapService.findById(id);
         assertEquals(id, guardianWithAddress.getId());
+    }
+
+    @Test
+    void notFoundGuardianByIdTest(){
+        Throwable exception = assertThrows(NotFoundException.class, () -> {
+            guardianMapService.findById(8L);
+        });
+
+        assertEquals("Guardian not found", exception.getMessage());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
@@ -79,6 +80,15 @@ class SubjectControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/subjects/index"))
                 .andExpect(model().attribute("subjects", hasSize(2)));  //two records in findAll() Set
+    }
+
+    @Test
+    public void testGetSubjectNotFound() throws Exception {
+
+        when(subjectService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/subjects/1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

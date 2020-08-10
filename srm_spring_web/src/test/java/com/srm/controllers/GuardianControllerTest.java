@@ -1,5 +1,6 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Address;
 import com.srm.model.people.ContactDetail;
 import com.srm.model.people.Guardian;
@@ -101,6 +102,15 @@ class GuardianControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("guardians/index"))
                 .andExpect(model().attribute("guardians", hasSize(1)));
+    }
+
+    @Test
+    public void testGetGuardianNotFound() throws Exception {
+
+        when(guardianService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/guardians/1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

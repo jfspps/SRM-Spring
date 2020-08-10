@@ -1,17 +1,21 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;

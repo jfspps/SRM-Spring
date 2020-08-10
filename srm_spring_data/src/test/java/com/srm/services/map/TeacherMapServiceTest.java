@@ -1,5 +1,6 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +55,15 @@ class TeacherMapServiceTest {
     void findById() {
         Teacher found = teacherMapService.findById(id);
         assertEquals(id, found.getId());
+    }
+
+    @Test
+    void notFoundTeacherByIdTest(){
+        Throwable exception = assertThrows(NotFoundException.class, () -> {
+            teacherMapService.findById(8L);
+        });
+
+        assertEquals("Teacher not found", exception.getMessage());
     }
 
     @Test

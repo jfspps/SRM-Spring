@@ -1,14 +1,18 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 class StudentMapServiceTest {
 
@@ -157,5 +161,14 @@ class StudentMapServiceTest {
         List<Student> testList = studentMapService.findAllByFirstNameLikeAndLastNameLike("", "pps");
         assertEquals(firstName, testList.get(0).getFirstName());
         assertEquals(lastName, testList.get(0).getLastName());
+    }
+
+    @Test
+    void notFoundStudentByIdTest(){
+        Throwable exception = assertThrows(NotFoundException.class, () -> {
+            studentMapService.findById(8L);
+        });
+
+        assertEquals("Student not found", exception.getMessage());
     }
 }
