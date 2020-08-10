@@ -68,7 +68,8 @@ class SubjectControllerTest {
         String[] strings = new String[5];
 
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(subjectController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(subjectController)
+                .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
     @Test

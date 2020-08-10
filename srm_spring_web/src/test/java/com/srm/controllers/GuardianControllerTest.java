@@ -68,7 +68,8 @@ class GuardianControllerTest {
         guardians_2.add(testGuardian);
         guardians_2.add(anotherTestGuardian);
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(guardianController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(guardianController)
+                .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
     @Test

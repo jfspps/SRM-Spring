@@ -53,7 +53,8 @@ class TeacherControllerTest {
         teacherSet.add(testTeacher);
 
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(teacherController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(teacherController)
+                .setControllerAdvice(new ControllerExceptionHandler()).build();
         }
 
     @Test
