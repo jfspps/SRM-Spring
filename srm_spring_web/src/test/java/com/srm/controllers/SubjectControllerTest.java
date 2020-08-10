@@ -94,6 +94,14 @@ class SubjectControllerTest {
     }
 
     @Test
+    void numberFormatSubjectFindByIdTest() throws Exception{
+        mockMvc.perform(get("/subjects/XYxyXYxy"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"))
+                .andExpect(model().attributeExists("exception"));
+    }
+
+    @Test
     void showSubject() throws Exception {
         when(subjectService.findById(anyLong())).thenReturn(subject1);
 

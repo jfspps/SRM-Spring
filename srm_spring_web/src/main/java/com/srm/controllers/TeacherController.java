@@ -84,9 +84,9 @@ public class TeacherController {
 
     //get to a subject's details by ID
     @GetMapping("/{teacherId}")
-    public ModelAndView showTeacher(@PathVariable Long teacherId) {
+    public ModelAndView showTeacher(@PathVariable String teacherId) {
         ModelAndView mav = new ModelAndView("/teachers/teacherDetails");
-        Teacher teacher = teacherService.findById(teacherId);
+        Teacher teacher = teacherService.findById(Long.valueOf(teacherId));
 
         //assume for now that there are only up to two guardians registered per student
         List<Subject> subjectsTaught = new ArrayList<>(teacher.getSubjects());
@@ -135,8 +135,8 @@ public class TeacherController {
     }
 
     @GetMapping("/{teacherId}/edit")
-    public String initUpdateForm(@PathVariable Long teacherId, Model model) {
-        Teacher teacherFound = teacherService.findById(teacherId);
+    public String initUpdateForm(@PathVariable String teacherId, Model model) {
+        Teacher teacherFound = teacherService.findById(Long.valueOf(teacherId));
 
         // assume for now that there are only up to two subjects registered per teacher
         // and subject1 is always assigned before subject2
@@ -161,11 +161,11 @@ public class TeacherController {
     }
 
     @PostMapping("/{teacherId}/edit")
-    public String processUpdateOwnerForm(@Valid Teacher teacher, @PathVariable Long teacherId) {
+    public String processUpdateOwnerForm(@Valid Teacher teacher, @PathVariable String teacherId) {
         //todo check for other identical records before saving
 
         //recall all other variables and pass to the DB
-        Teacher teacherOnFile = teacherService.findById(teacherId);
+        Teacher teacherOnFile = teacherService.findById(Long.valueOf(teacherId));
         teacherOnFile.setFirstName(teacher.getFirstName());
         teacherOnFile.setLastName(teacher.getLastName());
         teacherOnFile.setDepartment(teacher.getDepartment());
@@ -185,6 +185,19 @@ public class TeacherController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception exception){
+
+        log.error("Handling 'number format' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("400error");
         modelAndView.addObject("exception", exception);
         return modelAndView;
     }

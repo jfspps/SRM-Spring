@@ -116,6 +116,14 @@ class GuardianControllerTest {
     }
 
     @Test
+    void numberFormatTeacherFindByIdTest() throws Exception{
+        mockMvc.perform(get("/guardians/oorroorrjfjjf"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"))
+                .andExpect(model().attributeExists("exception"));
+    }
+
+    @Test
     void showGuardianById() throws Exception {
         when(guardianService.findById(anyLong())).thenReturn(testGuardian);
 

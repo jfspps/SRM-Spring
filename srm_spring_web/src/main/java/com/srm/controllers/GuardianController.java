@@ -93,9 +93,9 @@ public class GuardianController {
 
     //get to a subject's details by ID
     @GetMapping("/{guardianId}")
-    public ModelAndView showGuardian(@PathVariable Long guardianId) {
+    public ModelAndView showGuardian(@PathVariable String guardianId) {
         ModelAndView mav = new ModelAndView("/guardians/guardianDetails");
-        Guardian guardian = guardianService.findById(guardianId);
+        Guardian guardian = guardianService.findById(Long.valueOf(guardianId));
 
         //assume for now that there are only up to two students registered per guardian
         List<Student> students = new ArrayList<>(guardian.getStudents());
@@ -144,18 +144,18 @@ public class GuardianController {
     }
 
     @GetMapping("/{guardianId}/edit")
-    public String initUpdateForm(@PathVariable Long guardianId, Model model) {
-        Guardian guardianFound = guardianService.findById(guardianId);
+    public String initUpdateForm(@PathVariable String guardianId, Model model) {
+        Guardian guardianFound = guardianService.findById(Long.valueOf(guardianId));
         model.addAttribute("guardian", guardianFound);
         return "/guardians/updateGuardian";
     }
 
     @PostMapping("/{guardianId}/edit")
-    public String processUpdateOwnerForm(@Valid Guardian guardian, @PathVariable Long guardianId) {
+    public String processUpdateOwnerForm(@Valid Guardian guardian, @PathVariable String guardianId) {
         //todo check for other identical records before saving
 
         //recall all other variables and pass to the DB
-        Guardian guardianOnFile = guardianService.findById(guardianId);
+        Guardian guardianOnFile = guardianService.findById(Long.valueOf(guardianId));
         guardianOnFile.setFirstName(guardian.getFirstName());
         guardianOnFile.setLastName(guardian.getLastName());
 
@@ -166,8 +166,8 @@ public class GuardianController {
 
     // update of a student's guardian details
     @GetMapping("/student/{studentId}/edit")
-    public String initUpdateGuardianSetForm(@PathVariable Long studentId, ModelMap model) {
-        Student student = studentService.findById(studentId);
+    public String initUpdateGuardianSetForm(@PathVariable String studentId, ModelMap model) {
+        Student student = studentService.findById(Long.valueOf(studentId));
         List<Guardian> guardians = new ArrayList<>(student.getGuardians());
         if (guardians.size() == 1) {
             model.addAttribute("student", student)
@@ -187,14 +187,14 @@ public class GuardianController {
     }
 
     @PostMapping("/student/{studentId}/edit")
-    public String processUpdateGuardianSetForm(@PathVariable Long studentId, @Valid Guardian guardian1) {
+    public String processUpdateGuardianSetForm(@PathVariable String studentId, @Valid Guardian guardian1) {
         //this is a hack (see SubjectController for more background)
         // one can show that passing @Valid Guardian guardian2 as a parameter and logging as below results in an
         // identical List structure, so for now I implement guardian1 as the sole list
 //        log.info(guardian1.getFirstName() + ' ' + guardian1.getLastName());
 
         //here is the hack to accommodate this for now:
-        Student student = studentService.findById(studentId);
+        Student student = studentService.findById(Long.valueOf(studentId));
         List<Guardian> savedGuardians = new ArrayList<>();
         String[] guardiansFirstNames = guardian1.getFirstName().split(",");
         String[] guardiansLastNames = guardian1.getLastName().split(",");
@@ -249,7 +249,7 @@ public class GuardianController {
         }
 
         student.setGuardians(new HashSet<>(savedGuardians));
-        student.setId(studentId);
+        student.setId(Long.valueOf(studentId));
         Student savedStudent = studentService.save(student);
 
         return "redirect:/students/" + savedStudent.getId() + "/edit";
@@ -266,6 +266,19 @@ public class GuardianController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception exception){
+
+        log.error("Handling 'number format' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("400error");
         modelAndView.addObject("exception", exception);
         return modelAndView;
     }

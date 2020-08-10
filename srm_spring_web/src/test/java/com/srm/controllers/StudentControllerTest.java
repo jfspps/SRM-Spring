@@ -138,6 +138,14 @@ class StudentControllerTest {
     }
 
     @Test
+    void numberFormatStudentFindByIdTest() throws Exception{
+        mockMvc.perform(get("/students/ITitURREhcjc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"))
+                .andExpect(model().attributeExists("exception"));
+    }
+
+    @Test
     void showStudentById() throws Exception{
         when(studentService.findById(anyLong())).thenReturn(testStudent);
 

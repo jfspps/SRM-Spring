@@ -79,6 +79,14 @@ class TeacherControllerTest {
     }
 
     @Test
+    void numberFormatTeacherFindByIdTest() throws Exception{
+        mockMvc.perform(get("/teachers/ojlsjdsa"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"))
+                .andExpect(model().attributeExists("exception"));
+    }
+
+    @Test
     void index() throws Exception{
         when(teacherService.findAll()).thenReturn(teacherSet);
 
