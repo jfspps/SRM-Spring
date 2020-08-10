@@ -1,6 +1,8 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Guardian;
+import com.srm.model.people.Teacher;
 import com.srm.repositories.peopleRepos.GuardianRepository;
 import com.srm.services.peopleServices.GuardianService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 //see StudentSDjpaService for commentary
@@ -50,7 +53,11 @@ public class GuardianSDjpaService implements GuardianService {
 
     @Override
     public Guardian findById(Long aLong) {
-        return guardianRepository.findById(aLong).orElse(null);
+        Optional<Guardian> optional = guardianRepository.findById(aLong);
+        if (optional.isEmpty()){
+            throw new NotFoundException("Guardian not found with ID: " + aLong);
+        }
+        return optional.get();
     }
 
     @Override

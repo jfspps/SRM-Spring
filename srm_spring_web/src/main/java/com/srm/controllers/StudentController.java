@@ -1,17 +1,21 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -105,9 +109,9 @@ public class StudentController {
 
     //get to a subject's details by ID
     @GetMapping("/{studentId}")
-    public ModelAndView showStudent(@PathVariable Long studentId) {
+    public ModelAndView showStudent(@PathVariable String studentId) {
         ModelAndView mav = new ModelAndView("/students/studentDetails");
-        Student student = studentService.findById(studentId);
+        Student student = studentService.findById(Long.valueOf(studentId));
 
         //assume for now that there are only up to two guardians registered per student
         List<Guardian> guardians = new ArrayList<>(student.getGuardians());
@@ -154,18 +158,18 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/edit")
-    public String initUpdateForm(@PathVariable Long studentId, Model model) {
-        Student studentFound = studentService.findById(studentId);
+    public String initUpdateForm(@PathVariable String studentId, Model model) {
+        Student studentFound = studentService.findById(Long.valueOf(studentId));
         model.addAttribute("student", studentFound);
         return "/students/updateStudent";
     }
 
     @PostMapping("/{studentId}/edit")
-    public String processUpdateOwnerForm(@Valid Student student, @PathVariable Long studentId) {
+    public String processUpdateOwnerForm(@Valid Student student, @PathVariable String studentId) {
         //todo check for other identical records before saving
 
         //recall all other variables and pass to the DB
-        Student studentOnFile = studentService.findById(studentId);
+        Student studentOnFile = studentService.findById(Long.valueOf(studentId));
         studentOnFile.setFirstName(student.getFirstName());
         studentOnFile.setLastName(student.getLastName());
 
@@ -174,8 +178,8 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/tutor/edit")
-    public String initUpdateTutorForm(@PathVariable Long studentId, Model model){
-        Student student = studentService.findById(studentId);
+    public String initUpdateTutorForm(@PathVariable String studentId, Model model){
+        Student student = studentService.findById(Long.valueOf(studentId));
         if (student.getTeacher() == null){
             model.addAttribute("teacher", Teacher.builder().build());
         } else {
@@ -185,9 +189,9 @@ public class StudentController {
     }
 
     @PostMapping("/{studentId}/tutor/edit")
-    public String processUpdateTutorForm(@Valid Teacher teacher, @PathVariable Long studentId){
+    public String processUpdateTutorForm(@Valid Teacher teacher, @PathVariable String studentId){
         //todo form validation
-        Student student = studentService.findById(studentId);
+        Student student = studentService.findById(Long.valueOf(studentId));
         //user must fill in all fields (query is case insensitive)
         Teacher found = teacherService.findByFirstNameAndLastNameAndDepartment(
                 teacher.getFirstName(), teacher.getLastName(), teacher.getDepartment());
@@ -199,15 +203,15 @@ public class StudentController {
             Teacher savedTeacher = teacherService.save(teacher);
             student.setTeacher(savedTeacher);
         }
-        student.setId(studentId);
+        student.setId(Long.valueOf(studentId));
         Student savedStudent = studentService.save(student);
         return "redirect:/students/" + savedStudent.getId() + "/edit";
     }
 
     //update of a guardian's student (set) details
     @GetMapping("/guardian/{guardianId}/edit")
-    public String initUpdateStudentSetForm(@PathVariable Long guardianId, ModelMap model) {
-        Guardian guardian = guardianService.findById(guardianId);
+    public String initUpdateStudentSetForm(@PathVariable String guardianId, ModelMap model) {
+        Guardian guardian = guardianService.findById(Long.valueOf(guardianId));
         List<Student> students = new ArrayList<>(guardian.getStudents());
         if (students.size() == 1){
             model.addAttribute("guardian", guardian)
@@ -227,12 +231,12 @@ public class StudentController {
     }
 
     @PostMapping("/guardian/{guardianId}/edit")
-    public String processUpdateStudentSetForm(@PathVariable Long guardianId, @Valid Student student1) {
+    public String processUpdateStudentSetForm(@PathVariable String guardianId, @Valid Student student1) {
         //this is a hack (see SubjectController and GuardianController for more background)
 //        log.info(student1.getFirstName() + ' ' + student1.getLastName());
 
         //here is the hack to accommodate this for now:
-        Guardian guardian = guardianService.findById(guardianId);
+        Guardian guardian = guardianService.findById(Long.valueOf(guardianId));
         List<Student> savedStudents = new ArrayList<>();
         String[] studentsFirstNames = student1.getFirstName().split(",");
         String[] studentsLastNames = student1.getLastName().split(",");
@@ -287,9 +291,37 @@ public class StudentController {
         }
 
         guardian.setStudents(new HashSet<>(savedStudents));
-        guardian.setId(guardianId);
+        guardian.setId(Long.valueOf(guardianId));
         Guardian savedGuardian = guardianService.save(guardian);
 
         return "redirect:/guardians/" + savedGuardian.getId() + "/edit";
+    }
+
+    //note that the ResponseStatus annotation is repeated here since 'local' annotations take precedence, all other
+    //class level annotations are ignored
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception){
+
+        log.error("Handling 'not found' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception exception){
+
+        log.error("Handling 'number format' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("400error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
     }
 }

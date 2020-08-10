@@ -1,5 +1,6 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Student;
 import com.srm.services.peopleServices.StudentService;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,11 @@ public class StudentMapService extends AbstractMapService<Student, Long> impleme
 
     @Override
     public Student findById(Long id) {
-        return super.findById(id);
+        Optional<Student> optional = Optional.ofNullable(super.findById(id));
+        if (optional.isEmpty()){
+            throw new NotFoundException("Student not found with ID: " + id);
+        }
+        return optional.get();
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
+import com.srm.model.people.Student;
 import com.srm.services.academicServices.SubjectService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,7 +38,11 @@ public class SubjectMapService extends AbstractMapService<Subject, Long> impleme
 
     @Override
     public Subject findById(Long id) {
-        return super.findById(id);
+        Optional<Subject> optional = Optional.ofNullable(super.findById(id));
+        if (optional.isEmpty()){
+            throw new NotFoundException("Subject not found with ID: " + id);
+        }
+        return optional.get();
     }
 
     @Override

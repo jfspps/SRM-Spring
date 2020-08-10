@@ -1,10 +1,12 @@
 package com.srm.controllers;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -51,9 +53,9 @@ public class SubjectController {
 
     //get to a subject's details by ID
     @GetMapping("/{subjectId}")
-    public ModelAndView showSubject(@PathVariable Long subjectId) {
+    public ModelAndView showSubject(@PathVariable String subjectId) {
         ModelAndView mav = new ModelAndView("/subjects/subjectDetails");
-        mav.addObject("subject", subjectService.findById(subjectId));
+        mav.addObject("subject", subjectService.findById(Long.valueOf(subjectId)));
         return mav;
     }
 
@@ -76,23 +78,23 @@ public class SubjectController {
     }
 
     @GetMapping("/{subjectId}/edit")
-    public String initUpdateSubjectForm(@PathVariable Long subjectId, Model model) {
-        model.addAttribute("updateSubject", subjectService.findById(subjectId));
+    public String initUpdateSubjectForm(@PathVariable String subjectId, Model model) {
+        model.addAttribute("updateSubject", subjectService.findById(Long.valueOf(subjectId)));
         return "/subjects/updateSubject";
     }
 
     @PostMapping("/{subjectId}/edit")
-    public String processUpdateSubjectForm(@Valid Subject subject, @PathVariable Long subjectId) {
+    public String processUpdateSubjectForm(@Valid Subject subject, @PathVariable String subjectId) {
         //todo check for other identical records before saving
-        Subject subjectOnFile = subjectService.findById(subjectId);
+        Subject subjectOnFile = subjectService.findById(Long.valueOf(subjectId));
         subjectOnFile.setSubjectName(subject.getSubjectName());
         subjectService.save(subjectOnFile);
         return "redirect:/subjects/index";
     }
 
     @GetMapping("/teacher/{teacherId}/edit")
-    public String initUpdateSubjectSetForm(@PathVariable Long teacherId, ModelMap model) {
-        Teacher teacher = teacherService.findById(teacherId);
+    public String initUpdateSubjectSetForm(@PathVariable String teacherId, ModelMap model) {
+        Teacher teacher = teacherService.findById(Long.valueOf(teacherId));
         List<Subject> subjects = new ArrayList<>(teacher.getSubjects());
         if (subjects.size() == 1){
             model.addAttribute("teacher", teacher)
@@ -108,12 +110,12 @@ public class SubjectController {
     }
 
     @PostMapping("/teacher/{teacherId}/edit")
-    public String processUpdateSubjectSetForm(@PathVariable Long teacherId, @Valid Subject subject1) {
+    public String processUpdateSubjectSetForm(@PathVariable String teacherId, @Valid Subject subject1) {
         //this is a hack: it seems subject1 is actually a comma-separated List<Subject> (getSubjectName uses default toString()?)
         log.info(subject1.getSubjectName());
 
         //here is the hack to accommodate this for now:
-        Teacher teacher = teacherService.findById(teacherId);
+        Teacher teacher = teacherService.findById(Long.valueOf(teacherId));
         List<Subject> savedSubjects = new ArrayList<>();
         String[] subjects = subject1.getSubjectName().split(",");
 
@@ -148,9 +150,37 @@ public class SubjectController {
         }
 
         teacher.setSubjects(new HashSet<>(savedSubjects));
-        teacher.setId(teacherId);
+        teacher.setId(Long.valueOf(teacherId));
         Teacher savedTeacher = teacherService.save(teacher);
 
         return "redirect:/teachers/" + savedTeacher.getId() + "/edit";
+    }
+
+    //note that the ResponseStatus annotation is repeated here since 'local' annotations take precedence, all other
+    //class level annotations are ignored
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception){
+
+        log.error("Handling 'not found' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormat(Exception exception){
+
+        log.error("Handling 'number format' exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("400error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
     }
 }

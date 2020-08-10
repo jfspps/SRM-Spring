@@ -1,5 +1,6 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,6 +58,15 @@ class SubjectMapServiceTest {
     void findById() {
         Subject output = subjectMapService.findById(id);
         assertEquals(id, output.getId());
+    }
+
+    @Test
+    void notFoundSubjectByIdTest(){
+        Throwable exception = assertThrows(NotFoundException.class, () -> {
+            subjectMapService.findById(8L);
+        });
+
+        assertEquals("Subject not found with ID: 8", exception.getMessage());
     }
 
     @Test

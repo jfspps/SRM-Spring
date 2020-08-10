@@ -1,6 +1,8 @@
 package com.srm.services.map;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Guardian;
+import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.GuardianService;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +38,11 @@ public class GuardianMapService extends AbstractMapService<Guardian, Long> imple
 
     @Override
     public Guardian findById(Long id) {
-        return super.findById(id);
+        Optional<Guardian> optional = Optional.ofNullable(super.findById(id));
+        if (optional.isEmpty()){
+            throw new NotFoundException("Guardian not found with ID: " + id);
+        }
+        return optional.get();
     }
 
     @Override
