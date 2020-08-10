@@ -1,5 +1,6 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
@@ -15,8 +16,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -106,6 +107,21 @@ class GuardianSDjpaServiceTest {
         Guardian guardianFound = guardianSDjpaService.findById(4L);
         assertEquals(id, guardianFound.getId());
         verify(guardianRepository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    void findByIdNotFound() {
+        when(guardianRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        NotFoundException notFoundException = assertThrows(
+                NotFoundException.class, () -> guardianSDjpaService.findById(1L),
+                "Expected exception to throw an error. But it didn't"
+        );
+
+        // then
+        assertTrue(notFoundException.getMessage().contains("Guardian not found"));
+
+        verify(guardianRepository).findById(anyLong());
     }
 
     @Test

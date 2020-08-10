@@ -1,5 +1,7 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
+import com.srm.model.people.Student;
 import com.srm.model.people.Teacher;
 import com.srm.repositories.peopleRepos.TeacherRepository;
 import com.srm.services.peopleServices.TeacherService;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 //see StudentSDjpaService for commentary
@@ -55,7 +58,11 @@ public class TeacherSDjpaService implements TeacherService {
 
     @Override
     public Teacher findById(Long aLong) {
-        return teacherRepository.findById(aLong).orElse(null);
+        Optional<Teacher> optional = teacherRepository.findById(aLong);
+        if (optional.isEmpty()){
+            throw new NotFoundException("Teacher not found");
+        }
+        return optional.get();
     }
 
     @Override

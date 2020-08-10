@@ -1,5 +1,6 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Student;
 import com.srm.repositories.peopleRepos.StudentRepository;
 import com.srm.services.peopleServices.StudentService;
@@ -12,8 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -165,6 +165,21 @@ class StudentSDjpaServiceTest {
         Student studentFound = studentSDjpaService.findById(4L);
 
         assertNotNull(studentFound);
+
+        verify(studentRepository).findById(anyLong());
+    }
+
+    @Test
+    void findByIdNotFound() {
+        when(studentRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        NotFoundException notFoundException = assertThrows(
+                NotFoundException.class, () -> studentSDjpaService.findById(1L),
+                "Expected exception to throw an error. But it didn't"
+        );
+
+        // then
+        assertTrue(notFoundException.getMessage().contains("Student not found"));
 
         verify(studentRepository).findById(anyLong());
     }

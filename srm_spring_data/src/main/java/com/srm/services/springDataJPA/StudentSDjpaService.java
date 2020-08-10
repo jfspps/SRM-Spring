@@ -1,5 +1,6 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Student;
 import com.srm.repositories.peopleRepos.StudentRepository;
 import com.srm.services.peopleServices.StudentService;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 // both StudentSDjpaService and StudentServiceMap are implementations of StudentService, so set a profile to
@@ -61,7 +63,11 @@ public class StudentSDjpaService implements StudentService {
     public Student findById(Long aLong) {
         //findById returns an Optional<> which is never null (aLong can be null)
         //if none found with given aLong then return null
-        return studentRepository.findById(aLong).orElse(null);
+        Optional<Student> optional = studentRepository.findById(aLong);
+        if (optional.isEmpty()){
+            throw new NotFoundException("Student not found");
+        }
+        return optional.get();
     }
 
     //passing a JPA iterable<T> to a HashSet<T>

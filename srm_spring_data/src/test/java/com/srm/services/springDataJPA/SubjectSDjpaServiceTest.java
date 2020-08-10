@@ -1,5 +1,6 @@
 package com.srm.services.springDataJPA;
 
+import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.repositories.academicRepos.SubjectRepository;
@@ -79,6 +80,21 @@ class SubjectSDjpaServiceTest {
         Subject subjectFound = subjectSDjpaService.findById(id);
         assertNotNull(subjectFound);
         verify(subjectRepository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    void findByIdNotFound() {
+        when(subjectRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        NotFoundException notFoundException = assertThrows(
+                NotFoundException.class, () -> subjectSDjpaService.findById(1L),
+                "Expected exception to throw an error. But it didn't"
+        );
+
+        // then
+        assertTrue(notFoundException.getMessage().contains("Subject not found"));
+
+        verify(subjectRepository).findById(anyLong());
     }
 
     @Test
