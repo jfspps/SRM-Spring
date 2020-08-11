@@ -86,7 +86,8 @@ class StudentControllerTest {
         studentgroup1.add(testStudent);
 
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(studentController)
+                .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
     @Test

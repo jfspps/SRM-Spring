@@ -12,6 +12,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -19,10 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -68,7 +67,8 @@ class SubjectControllerTest {
         String[] strings = new String[5];
 
         //provides each test method with a mock controller based on studentIndexController
-        mockMvc = MockMvcBuilders.standaloneSetup(subjectController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(subjectController)
+                .setControllerAdvice(new ControllerExceptionHandler()).build();
     }
 
     @Test
@@ -125,13 +125,27 @@ class SubjectControllerTest {
     void processCreationForm() throws Exception {
         when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1L).build());
 
-        mockMvc.perform(post("/subjects/new"))
+        mockMvc.perform(post("/subjects/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "1")
+                .param("subjectName", "some name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/subjects/index"))
-                .andExpect(model().attributeExists("subject"));
+                .andExpect(model().attributeExists("newSubject"));
 
         verify(subjectService).save(ArgumentMatchers.any());
     }
+
+    @Test
+    void processCreationFormValidationFail() throws Exception {
+        mockMvc.perform(post("/subjects/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("newSubject"))
+                .andExpect(view().name("/subjects/newSubject"));
+    }
+
 
     @Test
     void initUpdateSubjectForm() throws Exception {
@@ -148,7 +162,10 @@ class SubjectControllerTest {
         when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1L).build());
         when(subjectService.save(any())).thenReturn(Subject.builder().build());
 
-        mockMvc.perform(post("/subjects/1/edit"))
+        mockMvc.perform(post("/subjects/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "1")
+                .param("subjectName", "some name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/subjects/index"));
 
