@@ -1,22 +1,22 @@
 package com.srm.controllers;
 
-import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
 import com.srm.model.people.Teacher;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 //all routings below proceed /subjects, not the root (see indexController)
 @Slf4j
@@ -67,7 +67,14 @@ public class SubjectController {
     }
 
     @PostMapping("/new")
-    public String processCreationForm(@Valid Subject subject) {
+    public String processCreationForm(@Valid @ModelAttribute("newSubject") Subject subject, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "/subjects/newSubject";
+        }
+
         if (subject.isNew()) {
             subjectService.save(subject);
             return "redirect:/subjects/index";
@@ -84,8 +91,16 @@ public class SubjectController {
     }
 
     @PostMapping("/{subjectId}/edit")
-    public String processUpdateSubjectForm(@Valid Subject subject, @PathVariable String subjectId) {
-        //todo check for other identical records before saving
+    public String processUpdateSubjectForm(@Valid @ModelAttribute("updateSubject") Subject subject, @PathVariable String subjectId,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "/subjects/updateSubject";
+        }
+
         Subject subjectOnFile = subjectService.findById(Long.valueOf(subjectId));
         subjectOnFile.setSubjectName(subject.getSubjectName());
         subjectService.save(subjectOnFile);

@@ -66,13 +66,19 @@
     <br/>
     <!--the following is for IntelliJ-->
     <!--/*@thymesVar id="newSubject" type="com.srm.model.academic.Subject"*/-->
-    <form th:object="${newSubject}" th:action="@{/subjects/new}" method="post" class="form-horizontal" id="add-subject-form">
+    <form th:object="${newSubject}" th:action="@{/subjects/new}" method="post" class="form-horizontal"
+          id="add-subject-form">
         <div class="row align-items-start">
             <div class="col-sm-2">
                 <label class="control-label">Subject title</label>
             </div>
             <div class="col-sm-8">
-                <input size="50" th:field="${newSubject.subjectName}"/>
+                <input size="50" th:field="*{subjectName}"/>
+                <span class="help-inline">
+                    <div th:if="${#fields.hasAnyErrors()}">
+                        <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                    </div>
+                </span>
             </div>
         </div>
         <br/>
@@ -87,11 +93,11 @@
         <br/>
         <div class="row">
             <div class="col-sm-10">
-                    <button class="btn btn-info" type="submit">Add subject</button>
+                <button class="btn btn-info" type="submit">Add subject</button>
             </div>
         </div>
     </form>
-    <br />
+    <br/>
 </div>
 
 

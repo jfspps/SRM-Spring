@@ -74,7 +74,12 @@
                         <label class="control-label">Subject title</label>
                     </div>
                     <div class="col-sm-8">
-                        <input size="50" th:field="${updateSubject.subjectName}"/>
+                        <input size="50" th:field="*{subjectName}"/>
+                        <span class="help-inline">
+                            <div th:if="${#fields.hasAnyErrors()}">
+                                <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                            </div>
+                        </span>
                     </div>
                 </div>
                 <br/>

@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -30,6 +33,8 @@ public class Subject extends BaseEntity {
         }
     }
 
+    @Size(min = 2, max = 255)
+    @NotBlank
     @Column(name = "subject_name")
     private String subjectName;
 
