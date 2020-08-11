@@ -68,18 +68,15 @@
         <div class="col">
             <!--the following is for IntelliJ-->
             <!--/*@thymesVar id="updateSubject" type="com.srm.model.academic.Subject"*/-->
-            <form th:object="${updateSubject}" th:action="@{/subjects/{id}/edit(id=${updateSubject.id})}" method="post">
+            <form th:object="${updateSubject}" th:action="@{/subjects/{id}/edit(id=${updateSubject.id})}" method="post"
+                  class="form-horizontal">
                 <div class="row align-items-start">
+
                     <div class="col-sm-2">
                         <label class="control-label">Subject title</label>
                     </div>
                     <div class="col-sm-8">
-                        <input size="50" th:field="*{subjectName}"/>
-                        <span class="help-inline">
-                            <div th:if="${#fields.hasAnyErrors()}">
-                                <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
-                            </div>
-                        </span>
+                        <label size="50" class="control-label" th:text="${updateSubject.getSubjectName()}">Subject name</label>
                     </div>
                 </div>
                 <br/>

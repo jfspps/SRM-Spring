@@ -66,11 +66,15 @@ public class SubjectController {
         return "/subjects/newSubject";
     }
 
+    //newSubject template model is bound to 'subject', which is handled in this method;
+    //BindResult and @Valid work to validate form data and return error messages to the user
+    //it seems BindingResult must immediately follow the bound (model) object...
     @PostMapping("/new")
     public String processCreationForm(@Valid @ModelAttribute("newSubject") Subject subject, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
+//                log.info(objectError.toString());
             });
             return "/subjects/newSubject";
         }
@@ -91,19 +95,13 @@ public class SubjectController {
     }
 
     @PostMapping("/{subjectId}/edit")
-    public String processUpdateSubjectForm(@Valid @ModelAttribute("updateSubject") Subject subject, @PathVariable String subjectId,
-            BindingResult bindingResult) {
+    public String processUpdateSubjectForm(Subject subject, @PathVariable String subjectId) {
+        //currently not permitted to change subject names (user must enter a new Subject)
+        //leave this for possible future use
 
-        if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
-            return "/subjects/updateSubject";
-        }
-
-        Subject subjectOnFile = subjectService.findById(Long.valueOf(subjectId));
-        subjectOnFile.setSubjectName(subject.getSubjectName());
-        subjectService.save(subjectOnFile);
+//        Subject subjectOnFile = subjectService.findById(Long.valueOf(subjectId));
+//        subjectOnFile.setSubjectName(subject.getSubjectName());
+//        subjectService.save(subjectOnFile);
         return "redirect:/subjects/index";
     }
 

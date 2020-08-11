@@ -21,8 +21,8 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -125,9 +125,10 @@ class SubjectControllerTest {
     void processCreationForm() throws Exception {
         when(subjectService.save(ArgumentMatchers.any())).thenReturn(Subject.builder().id(1L).build());
 
+        //run POST request with subjectName filled in, then check status as subjectService.save() is executed
         mockMvc.perform(post("/subjects/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "1")
+//                .param("id", "1")
                 .param("subjectName", "some name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/subjects/index"))
@@ -138,9 +139,11 @@ class SubjectControllerTest {
 
     @Test
     void processCreationFormValidationFail() throws Exception {
+
+        //run POST request without filling in the form (w/o submitting subjectName) and check validation response
         mockMvc.perform(post("/subjects/new")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "1"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+//                .param("id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("newSubject"))
                 .andExpect(view().name("/subjects/newSubject"));
@@ -159,18 +162,29 @@ class SubjectControllerTest {
 
     @Test
     void processUpdateSubjectForm() throws Exception {
-        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1L).build());
-        when(subjectService.save(any())).thenReturn(Subject.builder().build());
+//        when(subjectService.findById(anyLong())).thenReturn(Subject.builder().id(1L).build());
+//        when(subjectService.save(any())).thenReturn(Subject.builder().build());
 
         mockMvc.perform(post("/subjects/1/edit")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", "1")
-                .param("subjectName", "some name"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+//                .param("id", "1")
+//                .param("subjectName", "some name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/subjects/index"));
 
-        verify(subjectService).save(any());
-        verify(subjectService).findById(anyLong());
+//        verify(subjectService).save(any());
+//        verify(subjectService).findById(anyLong());
+    }
+
+    @Test
+    void processUpdateSubjectFormFailedValidation() throws Exception {
+
+        mockMvc.perform(post("/subjects/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+//                .param("id", "1"))
+                .andExpect(status().is3xxRedirection())
+//                .andExpect(model().attributeExists("updateSubject"))
+                .andExpect(view().name("redirect:/subjects/index"));
     }
 
     @Test
