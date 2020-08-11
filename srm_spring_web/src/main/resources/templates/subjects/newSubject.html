@@ -69,14 +69,21 @@
     <form th:object="${newSubject}" th:action="@{/subjects/new}" method="post" class="form-horizontal"
           id="add-subject-form">
         <div class="row align-items-start">
+
+            <div th:if="${#fields.hasErrors('*')}" class="col-sm-12 alert alert-danger" role="alert">
+                <p>Errors with form data listed below</p>
+            </div>
+
             <div class="col-sm-2">
                 <label class="control-label">Subject title</label>
             </div>
-            <div class="col-sm-8">
-                <input size="50" th:field="*{subjectName}"/>
+            <div class="col-sm-8" th:class="${#fields.hasErrors('subjectName')} ? 'col-sm-8 has-error' : 'col-sm-8'">
+                <input size="50" class="form-control" th:field="*{subjectName}" th:errorclass="has-error"/>
                 <span class="help-inline">
                     <div th:if="${#fields.hasAnyErrors()}">
-                        <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
+                        <ul>
+                            <li th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</li>
+                        </ul>
                     </div>
                 </span>
             </div>
