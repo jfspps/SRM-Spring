@@ -3,7 +3,6 @@ package com.srm.services.springDataJPA;
 import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Student;
 import com.srm.repositories.peopleRepos.StudentRepository;
-import com.srm.services.peopleServices.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -234,4 +233,5 @@ class StudentSDjpaServiceTest {
         assertEquals(0, studentSDjpaService.findAll().size());
         verify(studentRepository).deleteById(anyLong());
     }
+
 }

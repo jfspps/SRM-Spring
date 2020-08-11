@@ -5,14 +5,10 @@ import com.srm.model.people.Student;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 
 class StudentMapServiceTest {
 
@@ -71,6 +67,18 @@ class StudentMapServiceTest {
     void deleteById() {
         studentMapService.deleteById(id);
         assertEquals(0, studentMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithWrongId() {
+        studentMapService.deleteById(3L);
+        assertEquals(1, studentMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithNull() {
+        studentMapService.deleteById(null);
+        assertEquals(1, studentMapService.findAll().size());
     }
 
     @Test

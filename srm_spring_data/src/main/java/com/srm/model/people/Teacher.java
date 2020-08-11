@@ -1,5 +1,6 @@
 package com.srm.model.people;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.srm.model.academic.Subject;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +29,9 @@ public class Teacher extends Person {
         }
     }
 
+    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
+    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+    @JsonIgnore
     @JoinTable(name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @ManyToMany

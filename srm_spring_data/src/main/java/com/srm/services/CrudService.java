@@ -9,7 +9,7 @@ public interface CrudService<T, ID> {
 
     // CrudService and all other interfaces which extend it are "injection agnostic"
     // In SRM there are two implementations of CrudService which defines the CRUD methods:
-    // 1. HashSet based mapping, found under com.srm.services.map (see AbstractMapService)
+    // 1. HashMap based mapping, found under com.srm.services.map (see AbstractMapService)
     // 2. Spring Data JPA mapping, found under /services/springDataJPA (methods defined by JPA as Repositories,
     // located in com.srm.repositories)
 

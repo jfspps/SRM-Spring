@@ -105,6 +105,18 @@ class GuardianMapServiceTest {
     }
 
     @Test
+    void deleteWithWrongId() {
+        guardianMapService.deleteById(3L);
+        assertEquals(1, guardianMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithNull() {
+        guardianMapService.deleteById(null);
+        assertEquals(1, guardianMapService.findAll().size());
+    }
+
+    @Test
     void findByLastName() {
         Guardian guardianWithName = guardianMapService.findByLastName(lastName);
         assertEquals(lastName, guardianWithName.getLastName());
