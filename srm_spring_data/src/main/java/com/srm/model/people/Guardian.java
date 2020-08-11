@@ -1,5 +1,6 @@
 package com.srm.model.people;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +29,15 @@ public class Guardian extends Person {
         }
     }
 
+    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
+    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+    @JsonIgnore
     @ManyToOne
     private Address address;
 
+    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
+    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+    @JsonIgnore
     //"guardians" refers to the Set<Guardian> fro Student
     @ManyToMany(mappedBy = "guardians")
     private Set<Student> students = new HashSet<>();

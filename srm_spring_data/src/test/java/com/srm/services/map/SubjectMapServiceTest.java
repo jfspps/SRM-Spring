@@ -86,4 +86,16 @@ class SubjectMapServiceTest {
         subjectMapService.deleteById(id);
         assertEquals(0, subjectMapService.findAll().size());
     }
+
+    @Test
+    void deleteWithWrongId() {
+        subjectMapService.deleteById(3L);
+        assertEquals(1, subjectMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithNull() {
+        subjectMapService.deleteById(null);
+        assertEquals(1, subjectMapService.findAll().size());
+    }
 }

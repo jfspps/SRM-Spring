@@ -85,6 +85,18 @@ class TeacherMapServiceTest {
     }
 
     @Test
+    void deleteWithWrongId() {
+        teacherMapService.deleteById(3L);
+        assertEquals(1, teacherMapService.findAll().size());
+    }
+
+    @Test
+    void deleteWithNull() {
+        teacherMapService.deleteById(null);
+        assertEquals(1, teacherMapService.findAll().size());
+    }
+
+    @Test
     void findByLastName() {
         Teacher found = teacherMapService.findByLastName(lastName);
         assertEquals(lastName, found.getLastName());

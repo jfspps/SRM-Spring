@@ -1,5 +1,6 @@
 package com.srm.model.academic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.srm.model.BaseEntity;
 import com.srm.model.people.Teacher;
 import lombok.Builder;
@@ -7,13 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +33,7 @@ public class Subject extends BaseEntity {
         }
     }
 
+
     @Size(min = 2, max = 255)
     @NotBlank
     @Column(name = "subject_name")
@@ -40,5 +41,8 @@ public class Subject extends BaseEntity {
 
     //"subjects" refers to Teacher.subjects local variable (Set)
     @ManyToMany(mappedBy = "subjects")
+    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
+    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+    @JsonIgnore
     private Set<Teacher> teachers = new HashSet<>();
 }

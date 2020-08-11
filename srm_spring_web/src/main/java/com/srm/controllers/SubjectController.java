@@ -73,8 +73,8 @@ public class SubjectController {
     public String processCreationForm(@Valid @ModelAttribute("newSubject") Subject subject, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-//                log.info(objectError.toString());
+//                log.debug(objectError.toString());
+                log.info(objectError.toString());
             });
             return "/subjects/newSubject";
         }
