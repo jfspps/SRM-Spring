@@ -15,6 +15,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -167,18 +168,40 @@ class GuardianControllerTest {
                 .andExpect(model().attributeExists("guardian"));
     }
 
-//    @Test
-//    void processCreationForm() throws Exception {
-//        //todo re-test after form validation
-//        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
-//
-//        mockMvc.perform(post("/guardians/new"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/guardians/1"))
-//                .andExpect(model().attributeExists("guardian"));
-//
-//        verify(guardianService).save(ArgumentMatchers.any());
-//    }
+    @Test
+    void processCreationForm() throws Exception {
+        when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
+
+        mockMvc.perform(post("/guardians/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/guardians/1/edit"))
+                .andExpect(model().attributeExists("guardian"));
+
+        verify(guardianService).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void processCreationFormBlankFirstName() throws Exception {
+        mockMvc.perform(post("/guardians/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("lastName", "some other name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/newGuardian"))
+                .andExpect(model().attributeExists("guardian"));
+    }
+
+    @Test
+    void processCreationFormBlankLastName() throws Exception {
+        mockMvc.perform(post("/guardians/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/newGuardian"))
+                .andExpect(model().attributeExists("guardian"));
+    }
 
     @Test
     void initUpdateGuardianForm() throws Exception {
@@ -195,7 +218,10 @@ class GuardianControllerTest {
         when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
         when(guardianService.findById(anyLong())).thenReturn(Guardian.builder().id(1L).build());
 
-        mockMvc.perform(post("/guardians/1/edit"))
+        mockMvc.perform(post("/guardians/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/guardians/1"))
                 .andExpect(model().attributeExists("guardian"));

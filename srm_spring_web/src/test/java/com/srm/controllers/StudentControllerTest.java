@@ -12,13 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -229,18 +229,41 @@ class StudentControllerTest {
                 .andExpect(model().attributeExists("student"));
     }
 
-//    @Test
-//    void processCreationForm() throws Exception {
-//        //todo re-test after form validation
-//        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1L).build());
-//
-//        mockMvc.perform(post("/students/new"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/students/1"))
-//                .andExpect(model().attributeExists("student"));
-//
-//        verify(studentService).save(ArgumentMatchers.any());
-//    }
+    @Test
+    void processCreationForm() throws Exception {
+        testStudent.setId(1L);
+        when(studentService.save(any())).thenReturn(testStudent);
+
+        mockMvc.perform(post("/students/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/students/1/edit"))
+                .andExpect(model().attributeExists("student"));
+
+        verify(studentService).save(any());
+    }
+
+    @Test
+    void processCreationFormBlankFirstName() throws Exception {
+        mockMvc.perform(post("/students/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("lastName", "some other name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/newStudent"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
+    void processCreationFormBlankLastName() throws Exception {
+        mockMvc.perform(post("/students/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some other name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/newStudent"))
+                .andExpect(model().attributeExists("student"));
+    }
 
     @Test
     void initUpdateStudentForm() throws Exception {
@@ -257,7 +280,10 @@ class StudentControllerTest {
         when(studentService.save(any())).thenReturn(Student.builder().id(1L).build());
         when(studentService.findById(anyLong())).thenReturn(Student.builder().id(1L).build());
 
-        mockMvc.perform(post("/students/1/edit"))
+        mockMvc.perform(post("/students/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/students/1"))
                 .andExpect(model().attributeExists("student"));
@@ -282,7 +308,11 @@ class StudentControllerTest {
         when(studentService.save(any())).thenReturn(Student.builder().id(3L).build());
         when(teacherService.save(any())).thenReturn(Teacher.builder().build());
 
-        mockMvc.perform(post("/students/3/tutor/edit"))
+        mockMvc.perform(post("/students/3/tutor/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name")
+                .param("department", "some department"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/students/3/edit"));
 

@@ -61,6 +61,7 @@ com/srm/services/springDataJPA/FormGroupListSDjpaService.class
 com/srm/repositories/academicRepos/ReportRepository.class
 com/srm/model/people/Teacher$TeacherBuilder.class
 com/srm/model/academic/ThresholdList$ThresholdListBuilder.class
+com/srm/exceptions/NotFoundException.class
 com/srm/model/academic/StudentResult.class
 com/srm/services/springDataJPA/TeacherSDjpaService.class
 com/srm/model/people/StudentList.class

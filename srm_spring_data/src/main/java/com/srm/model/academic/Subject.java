@@ -33,7 +33,6 @@ public class Subject extends BaseEntity {
         }
     }
 
-
     @Size(min = 2, max = 255)
     @NotBlank
     @Column(name = "subject_name")

@@ -68,12 +68,27 @@
     <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
     <form th:object="${teacher}" method="post" class="form-horizontal" id="add-subject-form">
         <div class="row align-items-start">
+
+            <div th:if="${#fields.hasErrors('*')}" class="col-sm-12 alert alert-danger" role="alert">
+                <p>Errors with form data listed below</p>
+            </div>
+
             <div class="col-sm-2">
                 <label class="control-label">Teacher name</label>
             </div>
-            <div class="col-sm-8">
-                <input size="50" placeholder="First name" th:field="*{firstName}"/>
-                <input size="50" placeholder="Last name" th:field="*{lastName}"/>
+            <div class="col-sm-8" th:class="${#fields.hasErrors('*')} ? 'col-sm-8 has-error' : 'col-sm-8'">
+                <input size="50" placeholder="First name" th:field="*{firstName}" th:errorclass="has-error"/>
+                <span class="help-block" th:if="${#fields.hasErrors('firstName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Error</li>
+                    </ul>
+                </span>
+                <input size="50" placeholder="Last name" th:field="*{lastName}" th:errorclass="has-error"/>
+                <span class="help-block" th:if="${#fields.hasErrors('lastName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">Error</li>
+                    </ul>
+                </span>
             </div>
         </div>
         <br/>
@@ -81,8 +96,13 @@
             <div class="col-sm-2">
                 <label class="control-label">Department</label>
             </div>
-            <div class="col-sm-8">
-                <input size="50" placeholder="Department name" th:field="*{department}"/>
+            <div class="col-sm-8"  th:class="${#fields.hasErrors('department')} ? 'col-sm-8 has-error' : 'col-sm-8'">
+                <input size="50" placeholder="Department name" th:field="*{department}" th:errorclass="has-error"/>
+                <span class="help-block" th:if="${#fields.hasErrors('department')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('department')}" th:text="${err}">Error</li>
+                    </ul>
+                </span>
             </div>
         </div>
         <br/>
