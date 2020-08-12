@@ -1,17 +1,12 @@
 package com.srm.controllers;
 
-import com.srm.exceptions.NotFoundException;
-import com.srm.model.academic.Subject;
-import com.srm.model.people.Address;
 import com.srm.model.people.Guardian;
 import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.AddressService;
 import com.srm.services.peopleServices.ContactDetailService;
 import com.srm.services.peopleServices.GuardianService;
 import com.srm.services.peopleServices.StudentService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -127,12 +122,15 @@ public class GuardianController {
 
     // also note that guardian.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid Guardian guardian) {
-        if (guardian.getLastName().isBlank() || guardian.getFirstName().isBlank()) {
-            //todo: impl form validation
-            log.info("Enter both names");
-            return "redirect:/guardians/new/";
+    public String processCreationForm(@Valid @ModelAttribute("guardian") Guardian guardian, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+//                log.debug(objectError.toString());
+                log.info(objectError.toString());
+            });
+            return "/guardians/newGuardian";
         }
+
         // save() handles the id allocation (no further intervention needed for new saves)
         if (guardian.isNew()) {
             Guardian savedGuardian = guardianService.save(guardian);

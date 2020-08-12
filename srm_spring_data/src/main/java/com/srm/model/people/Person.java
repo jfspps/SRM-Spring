@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @Setter
@@ -18,10 +20,15 @@ import javax.persistence.OneToOne;
 @MappedSuperclass
 public class Person extends BaseEntity {
 
+    //@NotBlank for form validation
+    @NotBlank
+    @Size(min = 1, max = 255)
     //Hibernate uses snake case by default so the name argument is somewhat redundant here
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank
+    @Size(min = 1, max = 255)
     @Column(name = "last_name")
     private String lastName;
 

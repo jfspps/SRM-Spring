@@ -12,6 +12,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -140,18 +141,55 @@ class TeacherControllerTest {
                 .andExpect(model().attributeExists("teacher"));
     }
 
-//    @Test
-//    void processCreationForm() throws Exception {
-//        //todo re-test after form validation
-//        when(studentService.save(ArgumentMatchers.any())).thenReturn(Student.builder().id(1L).build());
-//
-//        mockMvc.perform(post("/students/new"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/students/1"))
-//                .andExpect(model().attributeExists("student"));
-//
-//        verify(studentService).save(ArgumentMatchers.any());
-//    }
+    @Test
+    void processCreationForm() throws Exception {
+
+        when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1L).build());
+
+        mockMvc.perform(post("/teachers/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name")
+                .param("department", "some department"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/teachers/1/edit"))
+                .andExpect(model().attributeExists("teacher"));
+
+        verify(teacherService).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void processCreationFormBlankFirstName() throws Exception {
+        mockMvc.perform(post("/teachers/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("lastName", "some other name")
+                .param("department", "some department"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processCreationFormBlankLastName() throws Exception {
+        mockMvc.perform(post("/teachers/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some other name")
+                .param("department", "some department"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processCreationFormBlankDepartment() throws Exception {
+        mockMvc.perform(post("/teachers/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some other name")
+                .param("lastName", "some last name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"))
+                .andExpect(model().attributeExists("teacher"));
+    }
 
     @Test
     void initUpdateTeacherForm() throws Exception {
@@ -170,7 +208,11 @@ class TeacherControllerTest {
         when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1L).build());
         when(teacherService.findById(anyLong())).thenReturn(Teacher.builder().id(1L).build());
 
-        mockMvc.perform(post("/teachers/1/edit"))
+        mockMvc.perform(post("/teachers/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name")
+                .param("department", "some department"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/teachers/1"))
                 .andExpect(model().attributeExists("teacher"));

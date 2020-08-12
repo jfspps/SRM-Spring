@@ -64,6 +64,7 @@
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/repositories/peopleRepos/StudentRepository.java
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/services/academicServices/SubjectService.java
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/AddressSDjpaService.java
+/home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/exceptions/NotFoundException.java
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/ThresholdRepository.java
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/repositories/academicRepos/ThresholdListRepository.java
 /home/james/Dev/SRM-Spring/srm_spring_data/src/main/java/com/srm/services/springDataJPA/GuardianSDjpaService.java

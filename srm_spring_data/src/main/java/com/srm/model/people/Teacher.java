@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,5 +39,7 @@ public class Teacher extends Person {
     @ManyToMany
     private Set<Subject> subjects = new HashSet<>();
 
+    @NotBlank
+    @Size(min=1, max = 255)
     private String department;
 }

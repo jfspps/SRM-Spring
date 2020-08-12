@@ -45,16 +45,14 @@ public class Student extends Person {
     @OneToOne
     private Teacher teacher;
 
-    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
-    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+
     @JsonIgnore
     @JoinTable(name = "student_subjectlist",
             joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subjectclasslist_id"))
     @ManyToMany
     private Set<SubjectClassList> subjectClassLists = new HashSet<>();
 
-    //the @JsonIgnore added to prevent Spring from creating infinitely long JSONs
-    //(https://stackoverflow.com/questions/20813496/tomcat-exception-cannot-call-senderror-after-the-response-has-been-committed)
+
     @JsonIgnore
     @ManyToOne
     private FormGroupList formGroupList;

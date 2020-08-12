@@ -140,12 +140,15 @@ public class StudentController {
 
     // also note that student.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid Student student) {
-        if (student.getLastName().isBlank() || student.getFirstName().isBlank()){
-            //todo: impl form validation
-            log.info("Enter both names");
-            return "redirect:/students/new/";
+    public String processCreationForm(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+//                log.debug(objectError.toString());
+                log.info(objectError.toString());
+            });
+            return "/students/newStudent";
         }
+
         // save() handles the id allocation (no further intervention needed for new saves)
         if (student.isNew()) {
             Student savedStudent = studentService.save(student);

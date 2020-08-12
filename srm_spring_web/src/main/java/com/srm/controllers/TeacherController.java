@@ -1,11 +1,9 @@
 package com.srm.controllers;
 
-import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
-import com.srm.model.people.*;
+import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.TeacherService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //all routings below proceed /teachers, not the root (see indexController)
 @RequestMapping({"/teachers"})
@@ -118,11 +119,13 @@ public class TeacherController {
 
     // also note that teacher.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid Teacher teacher) {
-        if (teacher.getLastName().isBlank() || teacher.getFirstName().isBlank()) {
-            //todo: impl form validation
-            log.info("Enter both names");
-            return "redirect:/teachers/new/";
+    public String processCreationForm(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+//                log.debug(objectError.toString());
+                log.info(objectError.toString());
+            });
+            return "/teachers/newTeacher";
         }
         // save() handles the id allocation (no further intervention needed for new saves)
         if (teacher.isNew()) {
