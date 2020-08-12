@@ -60,7 +60,7 @@ public class SubjectController {
     }
 
     @GetMapping("/new")
-    public String initCreationForm(Model model) {
+    public String initSubjectCreationForm(Model model) {
         //avoid passing null composite objects (teachers)
         model.addAttribute("newSubject", Subject.builder().teachers(new HashSet<>()).build());
         return "/subjects/newSubject";
@@ -70,11 +70,11 @@ public class SubjectController {
     //BindResult and @Valid work to validate form data and return error messages to the user
     //it seems BindingResult must immediately follow the bound (model) object...
     @PostMapping("/new")
-    public String processCreationForm(@Valid @ModelAttribute("newSubject") Subject subject, BindingResult bindingResult) {
+    public String processSubjectCreationForm(@Valid @ModelAttribute("newSubject") Subject subject, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
-//                log.debug(objectError.toString());
-                log.info(objectError.toString());
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
             });
             return "/subjects/newSubject";
         }
@@ -113,19 +113,22 @@ public class SubjectController {
             model.addAttribute("teacher", teacher)
                     .addAttribute("subject1", subjects.get(0))
                     .addAttribute("subject2", Subject.builder().build());
-        } else {
+        } else if (subjects.size() == 2){
             model.addAttribute("teacher", teacher)
                     .addAttribute("subject1", subjects.get(0))
                     .addAttribute("subject2", subjects.get(1));
+        } else {
+            model.addAttribute("teacher", teacher)
+                    .addAttribute("subject1", Subject.builder().build())
+                    .addAttribute("subject2", Subject.builder().build());
         }
-        log.info(subjects.get(0).getSubjectName());
         return "/subjects/updateSubjectSet";
     }
 
     @PostMapping("/teacher/{teacherId}/edit")
     public String processUpdateSubjectSetForm(@PathVariable String teacherId, @Valid Subject subject1) {
         //this is a hack: it seems subject1 is actually a comma-separated List<Subject> (getSubjectName uses default toString()?)
-        log.info(subject1.getSubjectName());
+//        log.info(subject1.getSubjectName());
 
         //here is the hack to accommodate this for now:
         Teacher teacher = teacherService.findById(Long.valueOf(teacherId));

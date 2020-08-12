@@ -73,24 +73,24 @@
         <!--the following is for IntelliJ-->
         <!--/*@thymesVar id="subject" type="com.srm.model.academic.Subject"*/-->
         <tr th:each="subject: ${subjects}">
-            <th class="px-3"><a th:href="@{/subjects/{id}/edit(id=${subject.id})}" th:text="${subject.getId()}"></a></th>
-            <th class="px-3" th:text="${subject.getSubjectName()}"></th>
-            <th class="px-3" th:text="${subject.getTeachers().size()}"></th>
+            <td class="px-3"><a th:href="@{/subjects/{id}/edit(id=${subject.id})}" th:text="${subject.getId()}"></a></td>
+            <td class="px-3" th:text="${subject.getSubjectName()}"></td>
+            <td class="px-3" th:text="${subject.getTeachers().size()}"></td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">1</th>
-            <th class="px-3">Science</th>
-            <th class="px-3">13</th>
+            <td class="px-3">1</td>
+            <td class="px-3">Science</th>
+            <td class="px-3">13</td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">2</th>
-            <th class="px-3">English</th>
-            <th class="px-3">15</th>
+            <td class="px-3">2</td>
+            <td class="px-3">English</td>
+            <td class="px-3">15</td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">3</th>
-            <th class="px-3">Mathematics</th>
-            <th class="px-3">14</th>
+            <td class="px-3">3</td>
+            <td class="px-3">Mathematics</td>
+            <td class="px-3">14</td>
         </tr>
         </tbody>
     </table>

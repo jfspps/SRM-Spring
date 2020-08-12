@@ -22,14 +22,14 @@ import java.util.Set;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class APIController {
+public class RESTapiController {
 
     private final StudentService studentService;
     private final GuardianService guardianService;
     private final TeacherService teacherService;
     private final SubjectService subjectService;
 
-    public APIController(StudentService studentService, GuardianService guardianService, TeacherService teacherService, SubjectService subjectService) {
+    public RESTapiController(StudentService studentService, GuardianService guardianService, TeacherService teacherService, SubjectService subjectService) {
         this.studentService = studentService;
         this.guardianService = guardianService;
         this.teacherService = teacherService;

@@ -72,9 +72,19 @@
             <div class="col-sm-2">
                 <label class="control-label">Guardian name</label>
             </div>
-            <div class="col-sm-8">
-                <input size="50" placeholder="First name" th:field="*{firstName}"/>
-                <input size="50" placeholder="Last name" th:field="*{lastName}"/>
+            <div class="col-sm-8" th:class="${#fields.hasErrors('*')} ? 'col-sm-8 has-error' : 'col-sm-8'">
+                <input size="50" placeholder="First name" th:field="*{firstName}" th:errorclass="has-error"/>
+                <span class="help-block" th:if="${#fields.hasErrors('firstName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">Error</li>
+                    </ul>
+                </span>
+                <input size="50" placeholder="Last name" th:field="*{lastName}" th:errorclass="has-error"/>
+                <span class="help-block" th:if="${#fields.hasErrors('lastName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">Error</li>
+                    </ul>
+                </span>
             </div>
         </div>
         <br/>
@@ -87,7 +97,9 @@
                         <label size="50" th:text="'No students on file'">Number of students</label><br/>
                         <a th:href="@{/students/guardian/{guardianId}/edit(guardianId=${guardian.id})}" class="btn btn-sm btn-outline-info">Add student</a></span>
                 <span th:unless="${guardian.getStudents() == null}">
-                        <label size="50" th:text="${guardian.getStudents().size()} + ' student(s) on file'">Number of students</label><br/>
+                    <div th:each="student: ${guardian.getStudents()}">
+                        <label th:text="${student.firstName} + ' ' + ${student.lastName}"></label>
+                    </div>
                         <a th:href="@{/students/guardian/{guardianId}/edit(guardianId=${guardian.id})}" class="btn btn-sm btn-outline-info">Edit student(s)</a></span>
             </div>
         </div>

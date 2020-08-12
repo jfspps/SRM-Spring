@@ -134,7 +134,7 @@ class TeacherControllerTest {
     }
 
     @Test
-    void initCreationForm() throws Exception {
+    void initTeacherCreationForm() throws Exception {
         mockMvc.perform(get("/teachers/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/teachers/newTeacher"))
@@ -142,7 +142,7 @@ class TeacherControllerTest {
     }
 
     @Test
-    void processCreationForm() throws Exception {
+    void processTeacherCreationForm() throws Exception {
 
         when(teacherService.save(ArgumentMatchers.any())).thenReturn(Teacher.builder().id(1L).build());
 
@@ -159,7 +159,7 @@ class TeacherControllerTest {
     }
 
     @Test
-    void processCreationFormBlankFirstName() throws Exception {
+    void processTeacherCreationFormBlankFirstName() throws Exception {
         mockMvc.perform(post("/teachers/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("lastName", "some other name")
@@ -170,7 +170,7 @@ class TeacherControllerTest {
     }
 
     @Test
-    void processCreationFormBlankLastName() throws Exception {
+    void processTeacherCreationFormBlankLastName() throws Exception {
         mockMvc.perform(post("/teachers/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("firstName", "some other name")
@@ -181,7 +181,7 @@ class TeacherControllerTest {
     }
 
     @Test
-    void processCreationFormBlankDepartment() throws Exception {
+    void processTeacherCreationFormBlankDepartment() throws Exception {
         mockMvc.perform(post("/teachers/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("firstName", "some other name")
@@ -219,5 +219,26 @@ class TeacherControllerTest {
 
         verify(teacherService).save(ArgumentMatchers.any());
         verify(teacherService).findById(anyLong());
+    }
+
+    @Test
+    void processUpdateTeacherFormBlankFirstLastName() throws Exception { ;
+        mockMvc.perform(post("/teachers/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("department", "some department"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/updateTeacher"))
+                .andExpect(model().attributeExists("teacher"));
+    }
+
+    @Test
+    void processUpdateTeacherFormBlankDepartment() throws Exception { ;
+        mockMvc.perform(post("/teachers/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/updateTeacher"))
+                .andExpect(model().attributeExists("teacher"));
     }
 }

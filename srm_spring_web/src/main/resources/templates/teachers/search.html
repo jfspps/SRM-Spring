@@ -100,22 +100,22 @@
                 <tbody>
                 <!--/*@thymesVar id="found" type="com.srm.model.people.Teacher"*/-->
                 <tr th:each="found: ${teachersFound}">
-                    <th class="px-3"><a th:href="@{/teachers/{id}(id=${found.id})}" th:text="${found.id}"></a></th>
-                    <th class="px-3" th:text="${found.firstName}"></th>
-                    <th class="px-3" th:text="${found.lastName}"></th>
-                    <th class="px-3" th:text="${found.department}"></th>
+                    <td class="px-3"><a th:href="@{/teachers/{id}(id=${found.id})}" th:text="${found.id}"></a></td>
+                    <td class="px-3" th:text="${found.firstName}"></td>
+                    <td class="px-3" th:text="${found.lastName}"></td>
+                    <td class="px-3" th:text="${found.department}"></td>
                 </tr>
                 <tr th:remove="all">
-                    <th class="px-3">1</th>
-                    <th class="px-3">Jimmy</th>
-                    <th class="px-3">White</th>
-                    <th class="px-3">Department of </th>
+                    <td class="px-3">1</td>
+                    <td class="px-3">Jimmy</td>
+                    <td class="px-3">White</td>
+                    <td class="px-3">Department of </td>
                 </tr>
                 <tr th:remove="all">
-                    <th class="px-3">2</th>
-                    <th class="px-3">John</th>
-                    <th class="px-3">Smith</th>
-                    <th class="px-3">Department of </th>
+                    <td class="px-3">2</td>
+                    <td class="px-3">John</td>
+                    <td class="px-3">Smith</td>
+                    <td class="px-3">Department of </td>
                 </tr>
                 </tbody>
             </table>
