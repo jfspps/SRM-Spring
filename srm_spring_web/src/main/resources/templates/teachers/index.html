@@ -79,22 +79,22 @@
         </thead>
         <tbody>
         <tr th:each="teacher: ${teachers}">
-            <th class="px-3"><a th:href="@{/teachers/{id}/edit(id=${teacher.id})}" th:text="${teacher.id}"></a></th>
-            <th class="px-3" th:text="${teacher.firstName}"></th>
-            <th class="px-3" th:text="${teacher.lastName}"></th>
-            <th class="px-3" th:text="${teacher.department}"></th>
+            <td class="px-3"><a th:href="@{/teachers/{id}/edit(id=${teacher.id})}" th:text="${teacher.id}"></a></td>
+            <td class="px-3" th:text="${teacher.firstName}"></td>
+            <td class="px-3" th:text="${teacher.lastName}"></td>
+            <td class="px-3" th:text="${teacher.department}"></td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">1</th>
-            <th class="px-3">Jimmy</th>
-            <th class="px-3">White</th>
-            <th class="px-3">Science</th>
+            <td class="px-3">1</td>
+            <td class="px-3">Jimmy</td>
+            <td class="px-3">White</td>
+            <td class="px-3">Science</td>
         </tr>
         <tr th:remove="all">
-            <th class="px-3">2</th>
-            <th class="px-3">John</th>
-            <th class="px-3">Smith</th>
-            <th class="px-3">Humanities</th>
+            <td class="px-3">2</td>
+            <td class="px-3">John</td>
+            <td class="px-3">Smith</td>
+            <td class="px-3">Humanities</td>
         </tr>
         </tbody>
     </table>

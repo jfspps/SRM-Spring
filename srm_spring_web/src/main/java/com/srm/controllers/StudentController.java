@@ -54,11 +54,6 @@ public class StudentController {
         return student.getGuardians();
     }
 
-//    @ModelAttribute("teacher")
-//    public Teacher populatePersonalTutor(Student student){
-//        return student.getTeacher();
-//    }
-
     @ModelAttribute("contactDetails")
     public ContactDetail populateContactDetails(Student student){
         return student.getContactDetail();
@@ -133,18 +128,18 @@ public class StudentController {
     }
 
     @GetMapping("/new")
-    public String initCreationForm(Model model) {
+    public String initStudentCreationForm(Model model) {
         model.addAttribute("student", Student.builder().build());
         return "/students/newStudent";
     }
 
     // also note that student.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) {
+    public String processStudentCreationForm(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
-//                log.debug(objectError.toString());
-                log.info(objectError.toString());
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
             });
             return "/students/newStudent";
         }
@@ -160,15 +155,22 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/edit")
-    public String initUpdateForm(@PathVariable String studentId, Model model) {
+    public String initStudentUpdateForm(@PathVariable String studentId, Model model) {
         Student studentFound = studentService.findById(Long.valueOf(studentId));
         model.addAttribute("student", studentFound);
         return "/students/updateStudent";
     }
 
     @PostMapping("/{studentId}/edit")
-    public String processUpdateOwnerForm(@Valid Student student, @PathVariable String studentId) {
-        //todo check for other identical records before saving
+    public String processStudentUpdateForm(@Valid @ModelAttribute("student") Student student,
+                                           BindingResult bindingResult, @PathVariable String studentId, Model model) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
+            });
+            return "/students/updateStudent";
+        }
 
         //recall all other variables and pass to the DB
         Student studentOnFile = studentService.findById(Long.valueOf(studentId));
@@ -191,8 +193,16 @@ public class StudentController {
     }
 
     @PostMapping("/{studentId}/tutor/edit")
-    public String processUpdateTutorForm(@Valid Teacher teacher, @PathVariable String studentId){
-        //todo form validation
+    public String processUpdateTutorForm(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult,
+                                         @PathVariable String studentId){
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
+            });
+            return "/teachers/newTeacher";
+        }
+
         Student student = studentService.findById(Long.valueOf(studentId));
         //user must fill in all fields (query is case insensitive)
         Teacher found = teacherService.findByFirstNameAndLastNameAndDepartment(

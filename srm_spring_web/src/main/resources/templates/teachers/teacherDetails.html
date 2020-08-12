@@ -145,6 +145,7 @@
             <div class="col-sm-10">
                 <a class="btn btn-outline-info" href="/teachers/search" role="button">New summary</a>
                 <a class="btn btn-outline-info" href="/teachers/" role="button">Teacher index</a>
+                <a class="btn btn-outline-warning" th:href="@{/teachers/{teacherId}/edit(teacherId=${teacher.id})}" role="button">Edit record</a>
             </div>
         </div>
     </form>

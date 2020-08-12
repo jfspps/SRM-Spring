@@ -115,14 +115,14 @@ public class GuardianController {
     }
 
     @GetMapping("/new")
-    public String initCreationForm(Model model) {
+    public String initGuardianCreationForm(Model model) {
         model.addAttribute("guardian", Guardian.builder().build());
         return "/guardians/newGuardian";
     }
 
     // also note that guardian.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid @ModelAttribute("guardian") Guardian guardian, BindingResult bindingResult) {
+    public String processGuardianCreationForm(@Valid @ModelAttribute("guardian") Guardian guardian, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
 //                log.debug(objectError.toString());
@@ -142,15 +142,22 @@ public class GuardianController {
     }
 
     @GetMapping("/{guardianId}/edit")
-    public String initUpdateForm(@PathVariable String guardianId, Model model) {
+    public String initGuardianUpdateForm(@PathVariable String guardianId, Model model) {
         Guardian guardianFound = guardianService.findById(Long.valueOf(guardianId));
         model.addAttribute("guardian", guardianFound);
         return "/guardians/updateGuardian";
     }
 
     @PostMapping("/{guardianId}/edit")
-    public String processUpdateOwnerForm(@Valid Guardian guardian, @PathVariable String guardianId) {
-        //todo check for other identical records before saving
+    public String processGuardianUpdateForm(@Valid @ModelAttribute("guardian") Guardian guardian, BindingResult bindingResult,
+                                            @PathVariable String guardianId) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
+            });
+            return "/guardians/updateGuardian";
+        }
 
         //recall all other variables and pass to the DB
         Guardian guardianOnFile = guardianService.findById(Long.valueOf(guardianId));

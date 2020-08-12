@@ -111,7 +111,7 @@ public class TeacherController {
     }
 
     @GetMapping("/new")
-    public String initCreationForm(Model model) {
+    public String initTeacherCreationForm(Model model) {
         //avoid rendering null subjectSets in the future
         model.addAttribute("teacher", Teacher.builder().subjects(new HashSet<>()).build());
         return "/teachers/newTeacher";
@@ -119,7 +119,7 @@ public class TeacherController {
 
     // also note that teacher.id is effectively null at this point because the template is not allowed to set id
     @PostMapping("/new")
-    public String processCreationForm(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult) {
+    public String processTeacherCreationForm(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             bindingResult.getAllErrors().forEach(objectError -> {
 //                log.debug(objectError.toString());
@@ -138,7 +138,7 @@ public class TeacherController {
     }
 
     @GetMapping("/{teacherId}/edit")
-    public String initUpdateForm(@PathVariable String teacherId, Model model) {
+    public String initUpdateTeacherForm(@PathVariable String teacherId, Model model) {
         Teacher teacherFound = teacherService.findById(Long.valueOf(teacherId));
 
         // assume for now that there are only up to two subjects registered per teacher
@@ -164,8 +164,16 @@ public class TeacherController {
     }
 
     @PostMapping("/{teacherId}/edit")
-    public String processUpdateOwnerForm(@Valid Teacher teacher, @PathVariable String teacherId) {
-        //todo check for other identical records before saving
+    public String processUpdateTeacherForm(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult,
+                                           @ModelAttribute("subject1") Subject subject1,
+                                           @ModelAttribute("subject2") Subject subject2, @PathVariable String teacherId) {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+//                log.info(objectError.toString());
+            });
+            return "/teachers/updateTeacher";
+        }
 
         //recall all other variables and pass to the DB
         Teacher teacherOnFile = teacherService.findById(Long.valueOf(teacherId));

@@ -161,7 +161,7 @@ class GuardianControllerTest {
     }
 
     @Test
-    void initCreationForm() throws Exception {
+    void initGuardianCreationForm() throws Exception {
         mockMvc.perform(get("/guardians/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/guardians/newGuardian"))
@@ -169,7 +169,7 @@ class GuardianControllerTest {
     }
 
     @Test
-    void processCreationForm() throws Exception {
+    void processGuardianCreationForm() throws Exception {
         when(guardianService.save(ArgumentMatchers.any())).thenReturn(Guardian.builder().id(1L).build());
 
         mockMvc.perform(post("/guardians/new")
@@ -184,7 +184,7 @@ class GuardianControllerTest {
     }
 
     @Test
-    void processCreationFormBlankFirstName() throws Exception {
+    void processGuardianCreationFormBlankFirstName() throws Exception {
         mockMvc.perform(post("/guardians/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("lastName", "some other name"))
@@ -194,7 +194,7 @@ class GuardianControllerTest {
     }
 
     @Test
-    void processCreationFormBlankLastName() throws Exception {
+    void processGuardianCreationFormBlankLastName() throws Exception {
         mockMvc.perform(post("/guardians/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("firstName", "some name"))
@@ -228,6 +228,16 @@ class GuardianControllerTest {
 
         verify(guardianService).save(ArgumentMatchers.any());
         verify(guardianService).findById(anyLong());
+    }
+
+    @Test
+    void processUpdateGuardianFormBlankLastName() throws Exception {
+        mockMvc.perform(post("/guardians/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/guardians/updateGuardian"))
+                .andExpect(model().attributeExists("guardian"));
     }
 
     @Test

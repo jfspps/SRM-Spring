@@ -222,7 +222,7 @@ class StudentControllerTest {
     }
 
     @Test
-    void initCreationForm() throws Exception {
+    void initStudentCreationForm() throws Exception {
         mockMvc.perform(get("/students/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/students/newStudent"))
@@ -230,7 +230,7 @@ class StudentControllerTest {
     }
 
     @Test
-    void processCreationForm() throws Exception {
+    void processStudentCreationForm() throws Exception {
         testStudent.setId(1L);
         when(studentService.save(any())).thenReturn(testStudent);
 
@@ -246,7 +246,7 @@ class StudentControllerTest {
     }
 
     @Test
-    void processCreationFormBlankFirstName() throws Exception {
+    void processStudentCreationFormBlankFirstName() throws Exception {
         mockMvc.perform(post("/students/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("lastName", "some other name"))
@@ -256,7 +256,7 @@ class StudentControllerTest {
     }
 
     @Test
-    void processCreationFormBlankLastName() throws Exception {
+    void processStudentCreationFormBlankLastName() throws Exception {
         mockMvc.perform(post("/students/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("firstName", "some other name"))
@@ -293,6 +293,15 @@ class StudentControllerTest {
     }
 
     @Test
+    void processUpdateStudentFormBlankNames() throws Exception {
+        mockMvc.perform(post("/students/1/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/students/updateStudent"))
+                .andExpect(model().attributeExists("student"));
+    }
+
+    @Test
     void initUpdateTutorForm() throws Exception{
         when(studentService.findById(anyLong())).thenReturn(Student.builder().build());
 
@@ -318,6 +327,25 @@ class StudentControllerTest {
 
         //teacherService does not always run if the teacher already exists on file
         verify(studentService).save(any());
+    }
+
+    @Test
+    void processUpdateTutorFormBlankNames() throws Exception{
+        mockMvc.perform(post("/students/3/tutor/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("department", "some department"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"));
+    }
+
+    @Test
+    void processUpdateTutorFormBlankDepartment() throws Exception{
+        mockMvc.perform(post("/students/3/tutor/edit")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstName", "some name")
+                .param("lastName", "some other name"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/teachers/newTeacher"));
     }
 
     @Test
