@@ -142,11 +142,14 @@
                         <a th:href="@{/guardians/{id1}/contacts/{id2}/edit(id1=${guardian.id},id2=${guardian.contactDetail.id})}" class="btn btn-sm btn-outline-info">Edit contact details</a></span>
                 </div>
             </div>
-            <br/>
         </div>
+        <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Update guardian</button>
+                <button class="btn btn-info" type="submit">Save changes</button>
+            </div>
+            <div class="col-sm-8">
+                <a class="btn btn-outline-primary" th:href="@{/guardians/{guardianId}(guardianId=${guardian.id})}" role="button">View summary</a>
             </div>
         </div>
     </form>

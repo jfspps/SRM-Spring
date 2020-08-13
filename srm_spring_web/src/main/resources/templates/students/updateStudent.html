@@ -140,7 +140,10 @@
         <br/>
         <div class="row align-items-start">
             <div class="col-sm-2">
-                <button class="btn btn-info" type="submit">Update student</button>
+                <button class="btn btn-info" type="submit">Save changes</button>
+            </div>
+            <div class="col-sm-8">
+                <a class="btn btn-outline-primary" th:href="@{/students/{studentId}(studentId=${student.id})}" role="button">View summary</a>
             </div>
         </div>
     </form>

@@ -79,7 +79,7 @@
         </thead>
         <tbody>
         <tr th:each="teacher: ${teachers}">
-            <td class="px-3"><a th:href="@{/teachers/{id}/edit(id=${teacher.id})}" th:text="${teacher.id}"></a></td>
+            <th class="px-3"><a th:href="@{/teachers/{id}/edit(id=${teacher.id})}" th:text="${teacher.id}"></a></th>
             <td class="px-3" th:text="${teacher.firstName}"></td>
             <td class="px-3" th:text="${teacher.lastName}"></td>
             <td class="px-3" th:text="${teacher.department}"></td>

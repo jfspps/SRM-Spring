@@ -71,6 +71,7 @@
             <th class="px-3">ID</th>
             <th class="px-3">First name</th>
             <th class="px-3">Last name</th>
+            <th class="px-3">Phone number</th>
             <th class="px-3">Tutor's name</th>
         </tr>
         </thead>
@@ -88,6 +89,14 @@
                 <td class="px-3" th:text="${student.firstName}"></td>
                 <td class="px-3" th:text="${student.lastName}"></td>
             </span>
+
+            <span th:if="${student.contactDetail == null}">
+                <td class="px-3">No phone number on record</td>
+            </span>
+            <span th:unless="${student.contactDetail == null}">
+                <td class="px-3" th:text="${student.contactDetail.phoneNumber}"></td>
+            </span>
+
             <span th:if="${student.teacher == null}">
                 <td class="px-3">Not assigned a tutor</td>
             </span>

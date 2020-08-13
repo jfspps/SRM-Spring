@@ -82,6 +82,15 @@
                 <br/>
                 <div class="row">
                     <div class="col-sm-2">
+                        <label class="control-label">Teachers on record</label>
+                    </div>
+                    <!--/*@thymesVar id="teacher" type="com.srm.model.people.Teacher"*/-->
+                    <div class="col-sm-8" th:each="teacher: ${updateSubject.getTeachers()}">
+                        <label class="control-label" th:text="${teacher.firstName + ' ' + teacher.lastName}">Teacher name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
                         <label class="control-label">Some other variable</label>
                     </div>
                     <div class="col-sm-8">
