@@ -7,6 +7,8 @@ This project was initially developed with [NodeJS and MySQL](https://github.com/
 
 The SQL schema (/dbSchema), admin login (previously NodeJS scripts, /dbscripts) and SRS documents (/docs) have been transferred across from the NodeJS repo for reference.
 
+__After building and running the app, enter `localhost:8080` from any browser to execute SRM.__
+
 __Frameworks and tools: Java 11 and Spring 5__
 
 ## Development stages ##
