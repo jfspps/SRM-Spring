@@ -2,8 +2,6 @@ package com.srm.services.map;
 
 import com.srm.exceptions.NotFoundException;
 import com.srm.model.people.Guardian;
-import com.srm.model.people.Student;
-import com.srm.model.people.Teacher;
 import com.srm.services.peopleServices.GuardianService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -19,8 +17,7 @@ import java.util.stream.Collectors;
 //done through the map service
 @Service
 @NoArgsConstructor
-//this service-map is also the default
-@Profile(value = {"default", "map"})
+@Profile("map")
 public class GuardianMapService extends AbstractMapService<Guardian, Long> implements GuardianService {
 
     //map service which links the BaseService CRUD ops (via GuardianService) with AbstractMapService

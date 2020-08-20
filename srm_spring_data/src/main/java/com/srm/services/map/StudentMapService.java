@@ -19,8 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @NoArgsConstructor
-//this service-map is also the default
-@Profile(value = {"default", "map"})
+@Profile("map")
 public class StudentMapService extends AbstractMapService<Student, Long> implements StudentService {
 
     //map service which links the BaseService CRUD ops (via StudentService) with AbstractMapService

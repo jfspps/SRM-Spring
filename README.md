@@ -192,3 +192,17 @@ For demo purposes, the users `SRM_dev_user` and `SRM_prod_user` both have the pa
 
 Once established, set up shortcuts to MySQL workbench (remember the port is 3307 not 3306) or via the console with
  `mysql -u SRM_dev_user -p` and enter `admin` when asked. Same applies for the production version, `SRM_prod`.
+ 
+### Building the schema ###
+ 
+A copy of the MySQL schema is found [here](./srm_spring_data/src/main/scripts). If a new schema is needed then uncomment lines 15-22 in application-dev.yml and ensure that the 'dev' profile is selected (through the IDE or application.yml) and run SRM.
+
+The printed script's lines may need terminating with a semi-colon, and then add a first line `use SRM_dev;` or `use SRM_prod;`. Place a copy of the script in MySQL workbench (under either or both dev and/or prod DBs, as desired) and execute. It is assumed the current dev or prod DB will be empty.
+
+### Running with MySQL ###
+
+Ensure that 'dev' and 'springDataJPA' are selected from the application.yml file (and the DB initialisation is commented out) and then run as usual.
+
+### Running without MySQL ###
+
+To initialise via h2 database, set the profile to 'map' instead of 'springDataJPA', and remove profiles 'dev'/'prod'

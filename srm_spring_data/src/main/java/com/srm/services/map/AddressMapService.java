@@ -10,8 +10,7 @@ import java.util.Set;
 
 @Service
 @NoArgsConstructor
-//this service-map is also the default
-@Profile(value = {"default", "map"})
+@Profile("map")
 public class AddressMapService extends AbstractMapService<Address, Long> implements AddressService {
 
     @Override
