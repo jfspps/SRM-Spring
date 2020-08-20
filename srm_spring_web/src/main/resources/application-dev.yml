@@ -3,9 +3,21 @@ spring:
     url: jdbc:mysql://localhost:3307/SRM_dev
     username: SRM_dev_user
     password: admin
+    platform: mysql
   jpa:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: mysql
     show-sql: true
+# Note the following prints out the MySQL schema and appends it to whatever is in the script
+# It is not necessary to run this again unless the database schema (i.e. model) has changed
+# Use the generated script to build both dev and prod db's in MySQL workbench (or some suitable client)
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: SRM_schema.sql

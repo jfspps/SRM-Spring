@@ -4,15 +4,19 @@ import com.srm.model.academic.Subject;
 import com.srm.model.people.*;
 import com.srm.services.academicServices.SubjectService;
 import com.srm.services.peopleServices.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
 //set as a Spring Bean with @Component, and run run()
+@Slf4j
+@Profile(value = {"dev", "prod"})
 @Component
-public class DataLoader implements CommandLineRunner {
+public class DataLoader_MySQL implements CommandLineRunner {
 
     //this block and the constructor below ensure that the services persist
     private final GuardianService guardianService;
@@ -24,8 +28,8 @@ public class DataLoader implements CommandLineRunner {
     private final FormGroupListService formGroupListService;
 
     //implement dependency inversion (@Autowired annotation not required) offered since each service is annotated
-    public DataLoader(GuardianService guardianService, StudentService studentService, TeacherService teacherService,
-                      SubjectService subjectService, AddressService addressService, ContactDetailService contactDetailService, FormGroupListService formGroupListService) {
+    public DataLoader_MySQL(GuardianService guardianService, StudentService studentService, TeacherService teacherService,
+                            SubjectService subjectService, AddressService addressService, ContactDetailService contactDetailService, FormGroupListService formGroupListService) {
         this.guardianService = guardianService;
         this.studentService = studentService;
         this.teacherService = teacherService;
@@ -37,11 +41,14 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //check if there is anything on the DB before reloading (teacherService seems a good candidate...)
+        //check if there is anything on the DB before reloading (the last one to be saved is studentService so check that)
 
-        if (teacherService.findAll().size() == 0) {
+        log.debug("Starting MySQL initialisation");
+        if (studentService.findAll().size() == 0) {
             loadData();
-        }
+            log.debug("Loaded SRM bootstrap data");
+        } else
+            log.debug("Database already populated with test data");
     }
 
     private void loadData() {
@@ -58,12 +65,14 @@ public class DataLoader implements CommandLineRunner {
         contactDetailService.save(guardianContactDetail1);
         ContactDetail guardianContactDetail2 = ContactDetail.builder().phoneNumber("02374320427").email("guardian2@email.com").build();
         contactDetailService.save(guardianContactDetail2);
+        System.out.println("Contact details loaded to DB");
 
         //addresses
         Address address1 = Address.builder().firstLine("88 Penine Way").secondLine("Farnborough").postcode("CHG9475JF").build();
         addressService.save(address1);
         Address address2 = Address.builder().firstLine("7B Gossfer Drive").secondLine("Racoon City").postcode("ZJGKF97657DD").build();
         addressService.save(address2);
+        System.out.println("Addresses loaded to DB");
 
         Student student1 = Student.builder().firstName("John").lastName("Smith").build();
         Student student2 = Student.builder().firstName("Elizabeth").lastName("Jones").build();
@@ -107,7 +116,7 @@ public class DataLoader implements CommandLineRunner {
 
         guardianService.save(guardian1);
         guardianService.save(guardian2);
-        System.out.println("Guardians loaded to DB...");
+        System.out.println("Guardians loaded to DB");
 
         //Pastoral (form) groups
         Set<Student> studentGroup1 = new HashSet<>();
@@ -120,8 +129,6 @@ public class DataLoader implements CommandLineRunner {
         student1.setFormGroupList(formGroupList1);
         student2.setFormGroupList(formGroupList2);
         student3.setFormGroupList(formGroupList2);
-        formGroupListService.save(formGroupList1);
-        formGroupListService.save(formGroupList2);
 
         //academic details
         Subject subject1 = Subject.builder().subjectName("Math").build();
@@ -144,17 +151,21 @@ public class DataLoader implements CommandLineRunner {
 
         subjectService.save(subject1);
         subjectService.save(subject2);
-        System.out.println("Subjects loaded to DB...");
+        System.out.println("Subjects loaded to DB");
 
         teacherService.save(teacher1);
         teacherService.save(teacher2);
-        System.out.println("Teachers loaded to DB...");
+        System.out.println("Teachers loaded to DB");
+
+        formGroupListService.save(formGroupList1);
+        formGroupListService.save(formGroupList2);
+        System.out.println("FormGroupList loaded to DB");
 
         studentService.save(student1);
         studentService.save(student2);
         studentService.save(student3);
-        System.out.println("Students loaded to DB...");
+        System.out.println("Students loaded to DB");
 
-        System.out.println("Finished uploading to DB");
+        System.out.println("================ Finished uploading to DB ============");
     }
 }

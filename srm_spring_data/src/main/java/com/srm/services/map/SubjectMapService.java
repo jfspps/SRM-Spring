@@ -2,7 +2,6 @@ package com.srm.services.map;
 
 import com.srm.exceptions.NotFoundException;
 import com.srm.model.academic.Subject;
-import com.srm.model.people.Student;
 import com.srm.services.academicServices.SubjectService;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -13,8 +12,7 @@ import java.util.Set;
 
 @Service
 @NoArgsConstructor
-//this service-map is also the default
-@Profile(value = {"default", "map"})
+@Profile("map")
 public class SubjectMapService extends AbstractMapService<Subject, Long> implements SubjectService {
 
     @Override
