@@ -12,13 +12,13 @@
 # MySQL connections are established when profile is set to 'dev' or 'prod', and 'springDataJPA'
 # Running from a non-SQL non-persistent DB (h2) is set using 'h2' and 'map'
 
-spring:
-  profiles:
-    active: EN, springDataJPA, dev
-
 #spring:
 #  profiles:
-#    active: EN, map, h2
+#    active: EN, springDataJPA, dev
+
+spring:
+  profiles:
+    active: EN, map, h2
 
 # equivalent to srmdatabase.customMessage=All credentials successfully loaded (this is the default if profiles
 # are commented out)
