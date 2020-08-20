@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav th:fragment="nav" class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+        <a class="navbar-brand">SRM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Database</a>
+                    <div class="dropdown-menu" aria-labelledby="dbDropdown">
+                        <div class="dropdown-header">List database entries</div>
+                        <a class="dropdown-item" href="/students/">Student list</a>
+                        <a class="dropdown-item" href="/guardians/">Guardian list</a>
+                        <a class="dropdown-item" href="/teachers/">Teacher list</a>
+                        <a class="dropdown-item" href="/subjects/">Subject list</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-header">Display summaries</div>
+                        <a class="dropdown-item" href="/students/search">Student</a>
+                        <a class="dropdown-item" href="/guardians/search">Guardian</a>
+                        <a class="dropdown-item" href="/teachers/search">Teacher</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">User options</a>
+                    <div class="dropdown-menu" aria-labelledby="dbDropdown">
+                        <a class="dropdown-item" href="#">LOGOUT</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>
