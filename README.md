@@ -133,3 +133,62 @@ When the pastoral and academic plans are entered, teachers can then begin enteri
 4. Assignments_info
 5. (In no particular order) Assignments_teacher_info, Grade_thresholds, Letter_grade_chars and  Student_Assignments
 6. Grading Groups
+
+## Running Docker containers ##
+
+Docker is not a requirement to run SRM with MySQL but is presented here for those who want to run MySQL from a
+ container instead of from a local installation.
+
+### Installing Docker ###
+
+Installing Docker on Linux Mint 20 (Ulyana) is done by running the following commands either individually or as a shell script.
+
+```shell script
+sudo apt-get update
+     
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+     
+curl -fsSL https://download.docker.com/linux/ubu... | sudo apt-key add -
+     
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(. /etc/os-release; echo "$UBUNTU_CODENAME") stable"
+     
+sudo apt-get update
+     
+sudo apt-get -y  install docker-ce
+```
+
+To persist data to a local directory, new directories for the MySQL container will need to be created. In my example
+, I used `/home/james/Dev/mySQLContainer`. Docker containers to Docker images are very much like Java classes are to
+ objects. Docker containers are run with the `run` command and then listed in `docker ps`. If the image is not stored
+  on the local disk then it will be automatically downloaded from the Docker Hub.
+  
+If you already have MySQL community installed, then you will need to use a localhost port other than 3306. In this example, I used localhost 3307 to map to the MySQL container's 3306.
+   
+Both shared volume -v and port -p parameters follow the sequence: localVolume:containerVolume or localPort:containerPort.
+```shell script
+docker run --name mySQLContainer -v /home/james/Dev/mySQLContainer:/var/lib/mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3307:3306 -d mysql
+```
+      
+This also sets the environment variable (-e) with null password. The parameter -d sets mysql to run as a daemon.
+   
+MySQL 8 requires password protecting. Run `docker exec -it <container_id> bash` (the container id is found by running `docker ps`) and after execute this `mysql -u root`. At the MySQL console, run:
+
+```shell script
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';use mysql;UPDATE mysql.user SET host='%' WHERE user='root';
+```
+   
+Type Ctrl+D and restart mysql with the following command: `mysqld restart` (credits to https://stackoverflow.com/a/53063112). One can then access MySQL through MySQL Workbench, port 3307 to access the container’s (in future, clients) MySQL daemon, independent of any local copy of MySQL.
+   
+__Running MySQL after setup__
+
+Run the container with `docker exec -it <container_id> bash` and then enter `mysql -u root`.
+   
+### Initialising non-root users ###
+
+Setup two databases `SRM_dev` and `SRM_prod`, one for development and one for production, each with their own user
+ account (Database Manipulation Language access only). The SQL script is located [here](./srm_spring_data/src/main/scripts).
+
+For demo purposes, the users `SRM_dev_user` and `SRM_prod_user` both have the password: `admin`.
+
+Once established, set up shortcuts to MySQL workbench (remember the port is 3307 not 3306) or via the console with
+ `mysql -u SRM_dev_user -p` and enter `admin` when asked. Same applies for the production version, `SRM_prod`.
