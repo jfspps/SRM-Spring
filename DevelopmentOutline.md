@@ -3,8 +3,8 @@
 The development of SRM will focus initially on the NodeJS Parents' Portal (details [here](https://github.com/jfspps/SRM_Node)).
 
 ## Models and CRUD services ##
-1. Design the models, grouped under [academic](./srm_spring_data/src/main/java/com/srm/model/academic/) and [people](./srm_spring_data/src/main/java/com/srm/model/people/). All models aer serialisable and derived from [BaseEntity](./com/srm/model/BaseEntity.java).
-2. Implement the [HashMap](./srm_spring_data/src/main/java/com/srm/services/map/) and [Spring Data JPA](./srm_spring_data/src/main/java/com/srm/services/springDataJPA/) services. Provide the interfaces (located in [people](./srm_spring_data/src/main/java/com/srm/services/peopleServices/) and [academic](./srm_spring_data/src/main/java/com/srm/services/academicServices/)) which define both services. All interfaces are derived from [CrudService](./com/srm/services/CrudService.java).
+1. Design the models, grouped under [academic](./srm_spring_data/src/main/java/com/srm/model/academic/) and [people](./srm_spring_data/src/main/java/com/srm/model/people/). All models aer serialisable and derived from [BaseEntity](./com/srm/model/).
+2. Implement the [HashMap](./srm_spring_data/src/main/java/com/srm/services/map/) and [Spring Data JPA](./srm_spring_data/src/main/java/com/srm/services/springDataJPA/) services. Provide the interfaces (located in [people](./srm_spring_data/src/main/java/com/srm/services/peopleServices/) and [academic](./srm_spring_data/src/main/java/com/srm/services/academicServices/)) which define both services. All interfaces are derived from [CrudService](./com/srm/services/).
 
 ## Controllers and viewers ##
 1. Implement [controllers](./srm_spring_web/src/main/java/com/srm/controllers/) for people and subject related models.
