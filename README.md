@@ -5,7 +5,7 @@ SRM (student record management) stores and processes academic data.
 
 This project was initially developed with [NodeJS and MySQL](https://github.com/jfspps/SRM_Node) and then moved across here as a Spring 5 based project. The port is intended to showcase my learning of the Spring framework.
 
-__After building and running the app, enter `localhost:8080` from any browser to execute SRM.__
+After building and running the app, enter `localhost:8080` from any browser to execute SRM (without data persistence). Guidelines are provided below explaining how to run SRM with MySQL.
 
 __Frameworks and tools:__ 
 + Java 11
