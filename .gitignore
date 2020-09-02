@@ -127,6 +127,11 @@ hs_err_pid*
 .gradle
 build/
 
+# Maven
+target/
+srm_spring_data/target/
+srm_spring_web/target/
+
 # Ignore Gradle GUI config
 gradle-app.setting
 

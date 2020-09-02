@@ -1,9 +1,0 @@
-com/srm/converters/SubjectToSubjectPropertiesTest.class
-com/srm/controllers/ContactDetailsControllerTest.class
-com/srm/SrmSpringApplicationTests.class
-com/srm/controllers/GuardianControllerTest.class
-com/srm/controllers/AddressControllerTest.class
-com/srm/controllers/TeacherControllerTest.class
-com/srm/controllers/SubjectControllerTest.class
-com/srm/converters/SubjectPropertiesToSubjectTest.class
-com/srm/controllers/StudentControllerTest.class
